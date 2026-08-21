@@ -357,3 +357,70 @@ footer {
 .footer-links a:hover {
   color: var(--green);
 }
+
+.readme-body h1, .readme-body h2, .readme-body h3, .readme-body h4 {
+  color: var(--text);
+  font-family: var(--font-display);
+  margin: 1.2rem 0 0.6rem;
+  border-bottom: 1px solid var(--line-soft);
+  padding-bottom: 0.3rem;
+}
+
+.readme-body p {
+  color: var(--text-dim);
+  margin-bottom: 0.8rem;
+  line-height: 1.6;
+}
+
+.readme-body ul, .readme-body ol {
+  margin-left: 1.4rem;
+  margin-bottom: 0.8rem;
+  color: var(--text-dim);
+}
+
+.readme-body li {
+  margin-bottom: 0.3rem;
+}
+
+.readme-body code {
+  background: var(--bg-alt);
+  color: var(--green);
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  border: 1px solid var(--line);
+}
+
+.readme-body pre {
+  background: var(--bg-alt);
+  padding: 1rem;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  overflow-x: auto;
+  margin-bottom: 0.8rem;
+}
+
+.readme-body pre code {
+  background: transparent;
+  padding: 0;
+  border: none;
+  color: var(--text);
+}
+
+.readme-body a {
+  color: var(--green);
+  text-decoration: underline;
+}
+
+.btn-readme:hover {
+  border-color: var(--green) !important;
+  color: var(--green) !important;
+}
+
+.btn-readme.active {
+  background-color: var(--panel-hi) !important;
+  border-color: var(--green) !important;
+  color: var(--green) !important;
+  box-shadow: 0 0 12px rgba(0, 208, 132, 0.25);
+}

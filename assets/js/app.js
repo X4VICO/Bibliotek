@@ -1,22 +1,67 @@
+let isReadmeOpen = false;
+
+window.toggleReadme = async function() {
+  const readmeCard = document.getElementById('readmeCard');
+  const readmeContent = document.getElementById('readmeContent');
+  const readmeBtn = document.getElementById('readmeBtn');
+
+  if (!readmeCard || !readmeContent || !readmeBtn) return;
+
+  if (isReadmeOpen) {
+    readmeCard.style.display = 'none';
+    readmeBtn.innerHTML = '📖 Ver README';
+    readmeBtn.classList.remove('active'); // 👈 Quita el estilo activo
+    isReadmeOpen = false;
+    return;
+  }
+
+  readmeCard.style.display = 'block';
+  readmeBtn.innerHTML = '❌ Ocultar README';
+  readmeBtn.classList.add('active'); // 👈 Activa el borde verde al desplegar
+  readmeContent.innerHTML = '<p>⏳ Cargando README.md...</p>';
+  isReadmeOpen = true;
+
+  readmeCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+  try {
+    const res = await fetch('./README.md');
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    
+    const text = await res.text();
+    
+    if (typeof marked !== 'undefined') {
+      readmeContent.innerHTML = marked.parse(text);
+    } else {
+      readmeContent.innerHTML = `<pre style="white-space: pre-wrap;">${text}</pre>`;
+    }
+  } catch (err) {
+    console.error('Error al cargar README.md:', err);
+    readmeContent.innerHTML = `
+      <div style="color: #f87171; border: 1px dashed #f87171; padding: 1rem; border-radius: 8px;">
+        ⚠️ <strong>No se pudo cargar el README.md automáticamente.</strong><br>
+        <small>${err.message}</small>
+      </div>`;
+  }
+};
+
+window.copyCloneCmd = function(cmd) {
+  navigator.clipboard.writeText(cmd);
+  alert('Comando copiado al portapapeles: ' + cmd);
+};
+
 document.addEventListener('DOMContentLoaded', () => {
   const grid = document.getElementById('toolsGrid');
   const searchInput = document.getElementById('searchInput');
-  const filterPills = document.querySelectorAll('.pill');
+  const filterPills = document.querySelectorAll('.filter-pills .pill');
 
   let currentCategory = 'all';
   let registryData = [];
 
-  if (!grid) {
-    console.error("Error: No se encontró el elemento con id 'toolsGrid' en index.html");
-    return;
-  }
+  if (!grid) return;
 
-  // Cargar datos dinámicamente desde registry.json
   fetch('./assets/data/registry.json')
     .then(response => {
-      if (!response.ok) {
-        throw new Error(`HTTP error! Estado: ${response.status} - No se pudo encontrar registry.json`);
-      }
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
       return response.json();
     })
     .then(data => {
@@ -24,12 +69,9 @@ document.addEventListener('DOMContentLoaded', () => {
       renderCards(registryData);
     })
     .catch(err => {
-      console.error('Error al cargar el registro:', err);
       grid.innerHTML = `
         <div class="empty-state" style="color: #f87171; border: 1px dashed #f87171; padding: 1.5rem; border-radius: 0.5rem;">
-          ⚠️ <strong>Error al cargar las herramientas:</strong><br>
-          ${err.message}<br><br>
-          <small>Si estás abriendo el archivo directamente con doble clic (protocolo file://), necesitas usar un servidor local como Live Server en VS Code o subirlo a GitHub Pages.</small>
+          ⚠️ <strong>Error al cargar las herramientas:</strong><br>${err.message}
         </div>
       `;
     });
@@ -87,11 +129,6 @@ document.addEventListener('DOMContentLoaded', () => {
       grid.appendChild(card);
     });
   }
-
-  window.copyCloneCmd = function(cmd) {
-    navigator.clipboard.writeText(cmd);
-    alert('Comando copiado al portapapeles: ' + cmd);
-  };
 
   if (searchInput) {
     searchInput.addEventListener('input', () => renderCards(registryData));

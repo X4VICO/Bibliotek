@@ -6,15 +6,40 @@
   <title>Bibliotek</title>
   <link rel="stylesheet" href="./assets/css/main.css">
   <link rel="icon" type="image/png" href="assets/img/bibliotek.png" />
+  <!-- Librería para renderizar el formato Markdown -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body>
 
   <div class="container">
-    <header>
-      <h1>BIBLIOTEK</h1>
-      <p>Colección personal de herramientas web, minijuegos y utilidades de automatización.</p>
+    <!-- Encabezado centrado -->
+    <header style="text-align: center; margin-bottom: 2.5rem;">
+      <div style="display: flex; align-items: center; justify-content: center; gap: 0.75rem; margin-bottom: 0.5rem;">
+        <img src="assets/img/bibliotek.png" alt="Logo Bibliotek" style="height: 2.8rem; width: auto; object-fit: contain;">
+        <h1 style="margin: 0; font-family: var(--font-display, sans-serif);">BIBLIOTEK</h1>
+      </div>
+
+      <p style="margin: 0.5rem 0 1rem; color: var(--text-dim, #92a1bd);">
+        Colección personal de herramientas web, minijuegos y utilidades de automatización.
+      </p>
+      
+      <button id="readmeBtn" onclick="toggleReadme()" class="btn-readme" style="cursor: pointer; padding: 8px 18px; font-size: 13px; background: var(--panel, #141e30); color: var(--text-dim, #92a1bd); border: 1px solid var(--line, #263450); border-radius: 999px; font-family: var(--font-mono, monospace); transition: all 0.2s ease;">
+        📖 Ver README
+      </button>
     </header>
 
+    <!-- Tarjeta desplegable del README sin botón de cerrar duplicado -->
+    <div id="readmeCard" class="card" style="display: none; margin-bottom: 2.5rem; border-color: var(--green, #00d084); width: 100%;">
+      <div class="card-header" style="border-bottom: 1px solid var(--line, #263450); padding-bottom: 12px; margin-bottom: 16px;">
+        <h2 class="card-title" style="color: var(--green, #00d084); margin: 0; font-size: 1.2rem;">📖 README.md</h2>
+      </div>
+      <!-- Div adaptativo para HTML renderizado -->
+      <div id="readmeContent" class="readme-body" style="color: var(--text, #e7edf7); max-height: 520px; overflow-y: auto; padding-right: 10px;">
+        ⏳ Cargando contenido...
+      </div>
+    </div>
+
+    <!-- Buscador y Filtros -->
     <div class="controls">
       <div class="search-box">
         <input type="text" id="searchInput" placeholder="🔍 Buscar por nombre...">
@@ -27,6 +52,7 @@
       </div>
     </div>
 
+    <!-- Grid de herramientas -->
     <div class="grid" id="toolsGrid"></div>
   </div>
 
