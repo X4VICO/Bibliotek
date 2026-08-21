@@ -16,13 +16,25 @@ document.addEventListener("DOMContentLoaded", () => {
   const globalConfig = getGlobalConfig();
 
   // --- REGISTRO DE HISTORIAL LOCAL ---
-  function logToHistory(commandText) {
+  function logToHistory(commandText, moduleName = null) {
     if (!commandText) return;
     const cleanCmd = commandText.trim();
     if (cleanCmd.startsWith("Completa") || cleanCmd.startsWith("Esperando")) return;
 
+    // Detectar módulo automáticamente según el título si no se especifica
+    if (!moduleName) {
+      const pageTitle = document.title || '';
+      if (pageTitle.includes('Nmap')) moduleName = 'Nmap';
+      else if (pageTitle.includes('Reverse')) moduleName = 'Reverse Shell';
+      else if (pageTitle.includes('TTY')) moduleName = 'TTY Assistant';
+      else if (pageTitle.includes('Discovery')) moduleName = 'Discovery';
+      else if (pageTitle.includes('PEASS')) moduleName = 'PEASS-ng';
+      else moduleName = 'General';
+    }
+
     let history = JSON.parse(localStorage.getItem('0xflag_history')) || [];
     const newEntry = {
+      module: moduleName,
       command: cleanCmd,
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
       date: new Date().toLocaleDateString()
@@ -48,14 +60,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
     try {
       document.execCommand("copy");
-      const originalHtml = btnElement.innerHTML;
-      btnElement.classList.add("copiado");
-      btnElement.innerHTML = '✓';
+      if (btnElement) {
+        const originalHtml = btnElement.innerHTML;
+        btnElement.classList.add("copiado");
+        btnElement.innerHTML = '✓';
 
-      setTimeout(() => {
-        btnElement.classList.remove("copiado");
-        btnElement.innerHTML = originalHtml;
-      }, 1500);
+        setTimeout(() => {
+          btnElement.classList.remove("copiado");
+          btnElement.innerHTML = originalHtml;
+        }, 1500);
+      }
     } catch (err) {
       console.error("Error al copiar", err);
     }
@@ -78,6 +92,71 @@ document.addEventListener("DOMContentLoaded", () => {
       logToHistory(textToCopy);
     });
   });
+
+  // --- RENDERIZADO Y LIMPIEZA DEL HISTORIAL (history.html) ---
+  const historyTableBody = document.getElementById('history-table-body');
+  const btnClearHistory = document.getElementById('btn-clear-history');
+
+  if (historyTableBody) {
+    function renderHistoryTable() {
+      let history = JSON.parse(localStorage.getItem('0xflag_history')) || [];
+      historyTableBody.innerHTML = '';
+
+      if (history.length === 0) {
+        historyTableBody.innerHTML = `
+          <tr>
+            <td colspan="4" class="text-center py-4 text-white-50">No hay comandos registrados aún.</td>
+          </tr>`;
+        return;
+      }
+
+      const fragment = document.createDocumentFragment();
+
+      history.forEach((item) => {
+        const tr = document.createElement('tr');
+
+        const tdTime = document.createElement('td');
+        tdTime.className = 'text-white-50';
+        tdTime.innerText = item.timestamp || '--:--';
+
+        const tdModule = document.createElement('td');
+        tdModule.innerHTML = `<span class="badge bg-dark text-success border border-success">${item.module || 'General'}</span>`;
+
+        const tdCommand = document.createElement('td');
+        tdCommand.className = 'text-break font-monospace';
+        tdCommand.innerText = item.command;
+
+        const tdAction = document.createElement('td');
+        tdAction.className = 'text-end';
+
+        const copyBtn = document.createElement('button');
+        copyBtn.className = 'btn btn-sm btn-outline-success';
+        copyBtn.innerHTML = '<i class="bi bi-clipboard"></i>';
+        copyBtn.title = 'Copiar comando';
+        copyBtn.onclick = () => copyText(item.command, copyBtn);
+
+        tdAction.appendChild(copyBtn);
+
+        tr.appendChild(tdTime);
+        tr.appendChild(tdModule);
+        tr.appendChild(tdCommand);
+        tr.appendChild(tdAction);
+
+        fragment.appendChild(tr);
+      });
+
+      historyTableBody.appendChild(fragment);
+    }
+
+    if (btnClearHistory) {
+      btnClearHistory.addEventListener('click', () => {
+        localStorage.removeItem('0xflag_history');
+        renderHistoryTable();
+      });
+    }
+
+    renderHistoryTable();
+  }
 
   // --- LÓGICA DE SETTINGS (CONFIGURACIÓN GLOBAL) ---
   const settingsForm = document.getElementById('settings-form');
@@ -273,7 +352,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
           btn.onclick = () => {
             copyText(cmd, btn);
-            logToHistory(cmd);
+            logToHistory(cmd, 'TTY Assistant');
           };
 
           row.appendChild(num);

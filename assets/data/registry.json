@@ -37,5 +37,15 @@
     "path": "./tools/0xflag/index.html",
     "github": "https://github.com/X4VICO/0xFlag",
     "tags": ["Ciberseguridad", "CTF", "Web"]
+  },
+  {
+    "id": "examhub",
+    "title": "ExamHub",
+    "category": "herramientas",
+    "type": "web",
+    "description": "Generador de exámenes interactivos tipo test y redacción organizados por asignatura y tema.",
+    "path": "./tools/examhub/index.html",
+    "github": "https://github.com/X4VICO/ExamHub",
+    "tags": ["Web", "Estudio", "Exámenes"]
   }
 ]

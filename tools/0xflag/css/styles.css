@@ -1,19 +1,66 @@
-/* 1. Definición de la Paleta Oficial 0xFlag */
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+/* 1. Definición de la Paleta Oficial 0xFlag + Sistema de Diseño */
 :root {
   --bg-main: #050423;
-  --bg-card: #0A0928;
-  --cyber-green: #59F894;
-  --cyber-blue: #21D8F8;
-  --cyber-lila: #A432E2;
+  --bg-alt: #07062d;
+  --bg-card: #0a0928;
+  --panel-hi: #12103d;
+  
+  --cyber-green: #59f894;
+  --cyber-green-dim: rgba(89, 248, 148, 0.15);
+  --cyber-blue: #21d8f8;
+  --cyber-blue-dim: rgba(33, 216, 248, 0.15);
+  --cyber-lila: #a432e2;
+  --cyber-lila-dim: rgba(164, 50, 226, 0.2);
+
+  --text: #f0f4fd;
+  --text-dim: #9aa8cd;
+  --text-faint: #5d6c96;
+
+  --line: rgba(33, 216, 248, 0.18);
+  --line-bright: rgba(33, 216, 248, 0.4);
+
+  --font-display: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+  --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+  --radius: 12px;
 }
 
-/* 2. Sobrescritura del tema global (Bootstrap overrides) */
+/* 2. Globales y Sobrescritura de Tema (Bootstrap Overrides) */
+* {
+  box-sizing: border-box;
+}
+
+::selection {
+  background: var(--cyber-lila);
+  color: #ffffff;
+}
+
 body, 
 .bg-dark {
   background-color: var(--bg-main) !important;
+  background-image:
+    radial-gradient(ellipse 1100px 600px at 10% -10%, rgba(164, 50, 226, 0.14), transparent 60%),
+    radial-gradient(ellipse 900px 500px at 90% 15%, rgba(33, 216, 248, 0.10), transparent 60%),
+    radial-gradient(circle 600px at 50% 100%, rgba(89, 248, 148, 0.05), transparent 70%);
+  background-attachment: fixed;
+  color: var(--text);
+  font-family: var(--font-body);
 }
 
-/* Textos con acentos de la paleta */
+/* Tipografías Cyber */
+h1, h2, h3, h4, h5, h6, 
+.h1, .h2, .h3, .h4, .h5, .h6 {
+  font-family: var(--font-display);
+  letter-spacing: -0.01em;
+}
+
+code, pre, .font-monospace {
+  font-family: var(--font-mono) !important;
+}
+
+/* Textos Acentuados */
 .text-success {
   color: var(--cyber-green) !important;
 }
@@ -23,55 +70,147 @@ body,
   color: var(--cyber-blue) !important;
 }
 
-/* Botones y bordes personalizados */
+.text-lila {
+  color: var(--cyber-lila) !important;
+}
+
+.text-muted {
+  color: var(--text-dim) !important;
+}
+
+/* 3. Botones Cyberpunk */
+.btn {
+  font-family: var(--font-body);
+  font-weight: 600;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
 .btn-outline-success {
   color: var(--cyber-green);
   border-color: var(--cyber-green);
+  background-color: transparent;
+  box-shadow: 0 0 10px rgba(89, 248, 148, 0.05);
 }
 
-.btn-outline-success:hover {
-  background-color: var(--cyber-green);
-  color: var(--bg-main);
-  border-color: var(--cyber-green);
+.btn-outline-success:hover,
+.btn-outline-success:focus,
+.btn-outline-success:active {
+  background-color: var(--cyber-green) !important;
+  color: var(--bg-main) !important;
+  border-color: var(--cyber-green) !important;
+  box-shadow: 0 0 20px rgba(89, 248, 148, 0.4);
+  transform: translateY(-1px);
 }
 
+.btn-primary, 
+.btn-cyber {
+  background: linear-gradient(135deg, var(--cyber-blue) 0%, #1593ab 100%);
+  color: #031219;
+  border: none;
+  box-shadow: 0 4px 15px rgba(33, 216, 248, 0.3);
+}
+
+.btn-primary:hover,
+.btn-cyber:hover {
+  background: linear-gradient(135deg, #42e0fa 0%, var(--cyber-blue) 100%);
+  color: #031219;
+  box-shadow: 0 6px 20px rgba(33, 216, 248, 0.5);
+  transform: translateY(-1px);
+}
+
+/* Divisiones y Bordes */
 .border-secondary {
-  border-color: rgba(33, 216, 248, 0.2) !important; /* Azul suave para divisiones */
+  border-color: var(--line) !important;
 }
 
-/* 3. Componentes Específicos de 0xFlag */
+/* 4. Componentes Específicos de 0xFlag */
 
-/* Separador Lila */
+/* Separador Lila con resplandor neón */
 .separator-lila {
   border-bottom: 2px solid var(--cyber-lila);
+  box-shadow: 0 2px 12px rgba(164, 50, 226, 0.35);
 }
 
-/* Menús despegables Ciberseguridad */
+/* Menús desplegables Ciberseguridad */
 .cyber-dropdown {
   background-color: var(--bg-card) !important;
-  border: 1px solid var(--cyber-green);
-  box-shadow: 0 4px 15px rgba(89, 248, 148, 0.15);
+  border: 1px solid var(--cyber-green) !important;
+  box-shadow: 0 8px 25px rgba(89, 248, 148, 0.2), 0 0 2px rgba(89, 248, 148, 0.5);
+  border-radius: var(--radius);
+  padding: 0.5rem;
+  backdrop-filter: blur(12px);
+}
+
+.cyber-dropdown .dropdown-item {
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 0.88rem;
+  border-radius: 6px;
+  padding: 0.5rem 0.85rem;
+  transition: all 0.15s ease;
 }
 
 .cyber-dropdown .dropdown-item:hover {
-  background-color: var(--cyber-lila);
-  color: #ffffff;
+  background: linear-gradient(90deg, var(--cyber-lila) 0%, rgba(164, 50, 226, 0.7) 100%) !important;
+  color: #ffffff !important;
+  box-shadow: 0 2px 10px rgba(164, 50, 226, 0.3);
 }
 
 /* Tarjetas de Módulos (Nmap, Discovery, etc.) */
 .nmap-card {
-  background-color: var(--bg-card) !important;
-  border: 1px solid rgba(164, 50, 226, 0.3) !important;
-  transition: all 0.25s ease-in-out;
+  background: linear-gradient(160deg, var(--bg-card) 0%, var(--bg-alt) 100%) !important;
+  border: 1px solid rgba(164, 50, 226, 0.35) !important;
+  border-radius: var(--radius) !important;
+  padding: 1.5rem;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.nmap-card::after {
+  content: "";
+  position: absolute;
+  right: -50px;
+  top: -50px;
+  width: 150px;
+  height: 150px;
+  background: radial-gradient(circle, rgba(33, 216, 248, 0.12), transparent 70%);
+  pointer-events: none;
+  transition: opacity 0.25s ease;
 }
 
 .nmap-card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-4px);
   border-color: var(--cyber-blue) !important;
-  box-shadow: 0 8px 20px rgba(33, 216, 248, 0.2);
+  box-shadow: 0 12px 30px rgba(33, 216, 248, 0.22), 0 0 1px var(--cyber-blue) !important;
+}
+
+.nmap-card:hover::after {
+  background: radial-gradient(circle, rgba(89, 248, 148, 0.18), transparent 70%);
 }
 
 /* Contenedores de iconos dentro de las tarjetas */
 .nmap-card .feature {
-  background: linear-gradient(135deg, var(--cyber-lila), var(--cyber-blue)) !important;
+  background: linear-gradient(135deg, var(--cyber-lila) 0%, var(--cyber-blue) 100%) !important;
+  color: #ffffff;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 15px rgba(164, 50, 226, 0.4);
+}
+
+/* Inputs y Formularios */
+.form-control, .form-select {
+  background-color: var(--bg-card) !important;
+  border: 1px solid var(--line) !important;
+  color: var(--text) !important;
+  border-radius: 8px;
+  font-family: var(--font-body);
+}
+
+.form-control:focus, .form-select:focus {
+  border-color: var(--cyber-blue) !important;
+  box-shadow: 0 0 0 3px var(--cyber-blue-dim) !important;
 }
