@@ -1,0 +1,5 @@
+# Dependencias solo necesarias para cifrar/descifrar asignaturas con contraseña
+# (scripts/encrypt_subject.py y scripts/decrypt_subject.py).
+# El resto del proyecto (examen.py, build_manifest.py, convert_legacy_py.py,
+# y toda la web) no necesita nada fuera de la librería estándar de Python.
+cryptography>=42.0

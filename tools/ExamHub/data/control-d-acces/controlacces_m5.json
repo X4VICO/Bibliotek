@@ -1,0 +1,471 @@
+{
+  "asignatura": "Control d'Accés",
+  "asignatura_slug": "control-d-acces",
+  "tema": "Auditoría y Monitoreo de Control de Accesos",
+  "tema_id": "controlacces_m5",
+  "orden": 14,
+  "test": [
+    {
+      "enunciado": "¿Cuál de los siguientes es un principio fundamental de la auditoría de Control de Accesos?",
+      "opciones": [
+        {
+          "texto": "Maximizar el número de alertas generadas para no perder ningún evento",
+          "correcta": false
+        },
+        {
+          "texto": "Evaluar la conformidad de los controles con las políticas internas y las regulaciones externas",
+          "correcta": true
+        },
+        {
+          "texto": "Limitar la auditoría a los sistemas con datos financieros únicamente",
+          "correcta": false
+        },
+        {
+          "texto": "Realizar auditorías solo cuando se detecte un incidente de seguridad",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Qué herramienta SIEM está entre las más utilizadas en el sector para recopilación y análisis de eventos de seguridad?",
+      "opciones": [
+        {
+          "texto": "Wireshark y Nagios",
+          "correcta": false
+        },
+        {
+          "texto": "Okta y SailPoint",
+          "correcta": false
+        },
+        {
+          "texto": "Splunk, IBM QRadar o LogRhythm",
+          "correcta": true
+        },
+        {
+          "texto": "Nessus y Metasploit",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Qué función realiza la normalización de logs en un sistema de gestión centralizado?",
+      "opciones": [
+        {
+          "texto": "Eliminar los logs que no contienen información relevante para reducir el almacenamiento",
+          "correcta": false
+        },
+        {
+          "texto": "Convertir los logs de diferentes sistemas y formatos a un formato común que facilite su análisis y correlación",
+          "correcta": true
+        },
+        {
+          "texto": "Aumentar la velocidad de generación de logs en los sistemas monitorizados",
+          "correcta": false
+        },
+        {
+          "texto": "Cifrar los logs para protegerlos de accesos no autorizados",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Cuál es el objetivo de la correlación de eventos en un SIEM?",
+      "opciones": [
+        {
+          "texto": "Reducir el número de logs generados por los sistemas",
+          "correcta": false
+        },
+        {
+          "texto": "Combinar y analizar datos de diferentes fuentes para identificar patrones de ataque que individualmente parecerían inocentes",
+          "correcta": true
+        },
+        {
+          "texto": "Almacenar los logs de forma más eficiente en bases de datos relacionales",
+          "correcta": false
+        },
+        {
+          "texto": "Reemplazar la necesidad de auditorías manuales periódicas",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "En el análisis de logs, el análisis estadístico se usa principalmente para:",
+      "opciones": [
+        {
+          "texto": "Buscar firmas de malware conocidas en los registros de eventos",
+          "correcta": false
+        },
+        {
+          "texto": "Comparar logs de diferentes años para detectar tendencias históricas",
+          "correcta": false
+        },
+        {
+          "texto": "Identificar desviaciones de los patrones normales de comportamiento y detectar outliers",
+          "correcta": true
+        },
+        {
+          "texto": "Generar automáticamente reglas de firewall basadas en el tráfico registrado",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Qué ventaja específica aporta el Machine Learning en el análisis de eventos de seguridad?",
+      "opciones": [
+        {
+          "texto": "Elimina completamente los falsos positivos en los sistemas SIEM",
+          "correcta": false
+        },
+        {
+          "texto": "Puede identificar y clasificar patrones complejos y sospechosos sin necesidad de reglas predefinidas",
+          "correcta": true
+        },
+        {
+          "texto": "Garantiza el 100% de detección de amenazas desconocidas",
+          "correcta": false
+        },
+        {
+          "texto": "Reduce el coste de las licencias de los sistemas SIEM",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "En la auditoría de servicios en el Cloud, ¿qué implica el 'modelo de responsabilidad compartida'?",
+      "opciones": [
+        {
+          "texto": "El proveedor de Cloud es responsable de toda la seguridad de los datos del cliente",
+          "correcta": false
+        },
+        {
+          "texto": "La seguridad es responsabilidad exclusiva del cliente que contrata el servicio",
+          "correcta": false
+        },
+        {
+          "texto": "La seguridad se divide entre el proveedor (infraestructura) y el cliente (datos, configuraciones, accesos)",
+          "correcta": true
+        },
+        {
+          "texto": "Ambas partes comparten las credenciales de administración del entorno Cloud",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Cuál es el principal riesgo que aborda la auditoría de configuraciones de seguridad en sistemas operativos?",
+      "opciones": [
+        {
+          "texto": "La posible incompatibilidad entre versiones de software instalado",
+          "correcta": false
+        },
+        {
+          "texto": "Que los sistemas tengan configuraciones incorrectas o políticas de contraseñas débiles que faciliten accesos no autorizados",
+          "correcta": true
+        },
+        {
+          "texto": "El uso excesivo de recursos de CPU por parte de los procesos del sistema",
+          "correcta": false
+        },
+        {
+          "texto": "La obsolescencia del hardware de los servidores auditados",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Qué normativa exige la implementación de procedimientos para la revisión y monitoreo de logs relacionados con la Información de Salud Protegida (PHI)?",
+      "opciones": [
+        {
+          "texto": "GDPR",
+          "correcta": false
+        },
+        {
+          "texto": "PCI DSS",
+          "correcta": false
+        },
+        {
+          "texto": "HIPAA",
+          "correcta": true
+        },
+        {
+          "texto": "FERPA",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Cuál de los siguientes patrones en los logs es un indicador típico de un ataque de fuerza bruta?",
+      "opciones": [
+        {
+          "texto": "Un único intento de inicio de sesión fallido seguido de uno exitoso",
+          "correcta": false
+        },
+        {
+          "texto": "Múltiples intentos fallidos de inicio de sesión desde una misma IP en un corto período de tiempo",
+          "correcta": true
+        },
+        {
+          "texto": "Un usuario que inicia sesión siempre desde la misma dirección IP",
+          "correcta": false
+        },
+        {
+          "texto": "Accesos a archivos de configuración durante el horario de trabajo habitual",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Cuánto tiempo deben conservarse los logs según la normativa de una organización?",
+      "opciones": [
+        {
+          "texto": "Siempre 90 días, que es el estándar internacional",
+          "correcta": false
+        },
+        {
+          "texto": "Indefinidamente para garantizar la disponibilidad de evidencias",
+          "correcta": false
+        },
+        {
+          "texto": "El tiempo que determinen los requisitos legales, normativos y de seguridad específicos de la organización",
+          "correcta": true
+        },
+        {
+          "texto": "Solo hasta que el sistema de almacenamiento esté al 80% de capacidad",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Qué es el análisis de causa raíz (root cause analysis) en el contexto de la gestión de incidentes?",
+      "opciones": [
+        {
+          "texto": "Identificar qué sistema fue el primero en fallar durante un ataque",
+          "correcta": false
+        },
+        {
+          "texto": "Analizar los eventos que precedieron al incidente para determinar cómo accedió el atacante y qué técnicas usó",
+          "correcta": true
+        },
+        {
+          "texto": "Calcular el coste económico total de un incidente de seguridad",
+          "correcta": false
+        },
+        {
+          "texto": "Determinar qué empleado cometió el error que permitió el incidente",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Cuál de las siguientes herramientas IAM es un sistema en la nube ampliamente usado para gestión de identidades y accesos?",
+      "opciones": [
+        {
+          "texto": "Splunk Enterprise",
+          "correcta": false
+        },
+        {
+          "texto": "Okta o Microsoft Azure Active Directory",
+          "correcta": true
+        },
+        {
+          "texto": "Wireshark Professional",
+          "correcta": false
+        },
+        {
+          "texto": "IBM QRadar",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Qué debe incluir un informe de auditoría de Control de Accesos?",
+      "opciones": [
+        {
+          "texto": "Solo las vulnerabilidades encontradas, sin necesidad de evidencias",
+          "correcta": false
+        },
+        {
+          "texto": "Metodología usada, deficiencias encontradas con evidencias, evaluación del impacto potencial y recomendaciones priorizadas",
+          "correcta": true
+        },
+        {
+          "texto": "Solo las recomendaciones positivas para no generar alarma en la organización",
+          "correcta": false
+        },
+        {
+          "texto": "Únicamente los accesos realizados durante el período auditado",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Qué establece el ISO/IEC 27001 en relación con las auditorías?",
+      "opciones": [
+        {
+          "texto": "Que las auditorías deben realizarse exclusivamente por consultores externos certificados",
+          "correcta": false
+        },
+        {
+          "texto": "Que las auditorías internas y externas son herramientas fundamentales para la mejora continua del Sistema de Gestión de Seguridad de la Información (SGSI)",
+          "correcta": true
+        },
+        {
+          "texto": "Que solo los sistemas financieros necesitan pasar auditorías bajo este estándar",
+          "correcta": false
+        },
+        {
+          "texto": "Que la frecuencia de auditorías mínima es una vez cada cinco años",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "En la auditoría de aplicaciones, ¿qué aspecto concreto debe verificarse sobre la gestión de sesiones?",
+      "opciones": [
+        {
+          "texto": "Que las sesiones no expiren nunca para mejorar la experiencia del usuario",
+          "correcta": false
+        },
+        {
+          "texto": "Que los tokens de sesión y cookies se gestionen de forma que minimicen el riesgo de interceptación y reutilización",
+          "correcta": true
+        },
+        {
+          "texto": "Que cada usuario solo pueda tener una sesión activa en toda la organización",
+          "correcta": false
+        },
+        {
+          "texto": "Que las sesiones se compartan entre usuarios del mismo departamento",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Cuál es la ventaja principal de centralizar los logs de múltiples sistemas en un único repositorio?",
+      "opciones": [
+        {
+          "texto": "Reduce el coste de los sistemas de almacenamiento individuales",
+          "correcta": false
+        },
+        {
+          "texto": "Facilita el análisis, la correlación entre sistemas y mejora la respuesta a incidentes al tener todo accesible desde un punto",
+          "correcta": true
+        },
+        {
+          "texto": "Garantiza que los logs no puedan ser modificados por los administradores del sistema",
+          "correcta": false
+        },
+        {
+          "texto": "Elimina la necesidad de implementar alertas automáticas",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Qué técnica de auditoría permite identificar vulnerabilidades en los controles de acceso simulando un ataque real?",
+      "opciones": [
+        {
+          "texto": "Revisión de políticas y procedimientos",
+          "correcta": false
+        },
+        {
+          "texto": "Entrevistas al personal de seguridad",
+          "correcta": false
+        },
+        {
+          "texto": "Pruebas de penetración (pentest)",
+          "correcta": true
+        },
+        {
+          "texto": "Análisis de la documentación del sistema",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Por qué es importante integrar las herramientas de monitoreo con los procesos de respuesta a incidentes?",
+      "opciones": [
+        {
+          "texto": "Para reducir el número de logs generados por los sistemas de seguridad",
+          "correcta": false
+        },
+        {
+          "texto": "Para permitir una reacción rápida y efectiva cuando el monitoreo detecta una actividad sospechosa o un incidente",
+          "correcta": true
+        },
+        {
+          "texto": "Para evitar que el equipo de seguridad tenga que revisar manualmente los logs",
+          "correcta": false
+        },
+        {
+          "texto": "Para compartir automáticamente los incidentes detectados con autoridades externas",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "En el contexto de la auditoría del GDPR, ¿cuál es uno de los requisitos más importantes relacionados con el Control de Accesos?",
+      "opciones": [
+        {
+          "texto": "Publicar un listado de todos los usuarios que acceden a datos personales",
+          "correcta": false
+        },
+        {
+          "texto": "Implementar medidas técnicas adecuadas para proteger los datos personales, con auditorías y monitoreo regular de los controles de acceso para prevenir brechas",
+          "correcta": true
+        },
+        {
+          "texto": "Permitir a cualquier ciudadano europeo auditar los sistemas de la organización",
+          "correcta": false
+        },
+        {
+          "texto": "Almacenar todos los datos personales exclusivamente en servidores europeos",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    }
+  ],
+  "redaccion": [
+    {
+      "titulo": "El SIEM como núcleo del monitoreo de seguridad",
+      "enunciado": "Explica qué es un SIEM, cuáles son sus componentes principales y qué proceso sigue desde la recolección hasta la generación de alertas (pipeline del SIEM). ¿Cuáles son sus ventajas respecto al monitoreo manual? Describe tres tipos de ataques o incidentes que un SIEM bien configurado podría detectar y que serían difíciles de identificar sin él.",
+      "puntos": 15
+    },
+    {
+      "titulo": "Metodología de auditoría de Control de Accesos",
+      "enunciado": "Describe el proceso completo de una auditoría de Control de Accesos: qué principios la guían, qué métodos y técnicas se utilizan y cómo se estructura el informe final. ¿Qué diferencias existen entre auditar entornos Cloud, sistemas operativos y aplicaciones? ¿Qué papel juega el principio de mejora continua tras una auditoría?",
+      "puntos": 15
+    },
+    {
+      "titulo": "Normativas y su impacto en el CA",
+      "enunciado": "Selecciona tres normativas de las estudiadas (GDPR, PCI DSS, HIPAA, ISO 27001, CCPA u otras) y describe qué requisitos específicos imponen sobre el Control de Accesos y la auditoría. ¿Qué tienen en común estas normativas? ¿Cuáles son las consecuencias para una organización que no cumple con ellas?",
+      "puntos": 15
+    },
+    {
+      "titulo": "Gestión de incidentes con datos de auditoría",
+      "enunciado": "Describe cómo los datos de auditoría y los logs pueden usarse para detectar, investigar y responder a un incidente de seguridad de Control de Accesos. Explica el proceso de análisis de causa raíz. ¿Cómo se usa esa información para mejorar los controles y prevenir incidentes futuros? Pon un ejemplo concreto de un incidente y cómo se identificaría con los logs.",
+      "puntos": 15
+    }
+  ]
+}

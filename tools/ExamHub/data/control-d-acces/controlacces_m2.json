@@ -1,0 +1,471 @@
+{
+  "asignatura": "Control d'Accés",
+  "asignatura_slug": "control-d-acces",
+  "tema": "Modelos de Control de Acceso (DAC, MAC, RBAC, ABAC)",
+  "tema_id": "controlacces_m2",
+  "orden": 11,
+  "test": [
+    {
+      "enunciado": "En el modelo DAC (Control de Acceso Discrecional), ¿quién decide los permisos de acceso a un recurso?",
+      "opciones": [
+        {
+          "texto": "La administración central del sistema mediante políticas predefinidas",
+          "correcta": false
+        },
+        {
+          "texto": "El propietario o creador del recurso",
+          "correcta": true
+        },
+        {
+          "texto": "El departamento de seguridad de la organización",
+          "correcta": false
+        },
+        {
+          "texto": "El sistema operativo en función de las etiquetas asignadas",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Cuál es la principal desventaja del modelo DAC en organizaciones grandes?",
+      "opciones": [
+        {
+          "texto": "No permite asignar permisos granulares a los usuarios",
+          "correcta": false
+        },
+        {
+          "texto": "No se puede implementar en entornos Windows ni Linux",
+          "correcta": false
+        },
+        {
+          "texto": "Depende del criterio individual de cada propietario de recurso, lo que dificulta la gestión y auditoría a escala",
+          "correcta": true
+        },
+        {
+          "texto": "Requiere etiquetas de seguridad para cada recurso, lo que lo hace muy complejo",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿En qué tipo de entorno es más adecuado el modelo MAC (Control de Acceso Obligatorio)?",
+      "opciones": [
+        {
+          "texto": "Pequeñas empresas con pocos usuarios",
+          "correcta": false
+        },
+        {
+          "texto": "Instalaciones militares, gubernamentales y organizaciones con información altamente sensible",
+          "correcta": true
+        },
+        {
+          "texto": "Startups tecnológicas que necesitan flexibilidad para compartir recursos",
+          "correcta": false
+        },
+        {
+          "texto": "Plataformas de comercio electrónico con millones de usuarios",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "En el modelo MAC, ¿qué mecanismo controla si un sujeto puede acceder a un objeto?",
+      "opciones": [
+        {
+          "texto": "El propio sujeto establece sus permisos de acceso",
+          "correcta": false
+        },
+        {
+          "texto": "El administrador del objeto decide caso por caso quién puede acceder",
+          "correcta": false
+        },
+        {
+          "texto": "Las etiquetas de seguridad asignadas a sujetos y objetos, comparadas con las políticas centralizadas",
+          "correcta": true
+        },
+        {
+          "texto": "La hora del día y la ubicación geográfica del sujeto",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "En el modelo RBAC, ¿cómo obtiene un usuario sus permisos de acceso?",
+      "opciones": [
+        {
+          "texto": "Se le asignan directamente permisos individuales por el administrador",
+          "correcta": false
+        },
+        {
+          "texto": "Los hereda al ser asignado a uno o más roles que ya tienen permisos definidos",
+          "correcta": true
+        },
+        {
+          "texto": "Los negocia con el propietario de cada recurso que necesita usar",
+          "correcta": false
+        },
+        {
+          "texto": "Se generan automáticamente en función de sus atributos personales",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Qué ventaja principal aporta el modelo RBAC respecto a la administración de permisos?",
+      "opciones": [
+        {
+          "texto": "Permite que cada usuario personalice sus propios permisos",
+          "correcta": false
+        },
+        {
+          "texto": "Los cambios en los permisos de un rol se propagan automáticamente a todos los usuarios que tienen ese rol asignado",
+          "correcta": true
+        },
+        {
+          "texto": "Elimina completamente la necesidad de auditorías de acceso",
+          "correcta": false
+        },
+        {
+          "texto": "Funciona mejor que cualquier otro modelo en entornos con alta seguridad requerida",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Qué es la Segregación de Funciones (SoD) en el contexto del RBAC?",
+      "opciones": [
+        {
+          "texto": "Dividir los roles en categorías según el departamento organizacional",
+          "correcta": false
+        },
+        {
+          "texto": "Asegurar que un solo rol no tenga demasiado poder distribuyendo tareas críticas entre diferentes roles",
+          "correcta": true
+        },
+        {
+          "texto": "Separar los permisos de lectura de los permisos de escritura en todos los recursos",
+          "correcta": false
+        },
+        {
+          "texto": "Crear roles diferentes para entornos cloud y on-premise",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "En el modelo ABAC, ¿qué tipo de información puede usarse para tomar una decisión de acceso?",
+      "opciones": [
+        {
+          "texto": "Solo el nombre de usuario y su contraseña",
+          "correcta": false
+        },
+        {
+          "texto": "Únicamente el rol asignado al usuario en la organización",
+          "correcta": false
+        },
+        {
+          "texto": "Atributos del usuario, del recurso, de la acción y del contexto (hora, ubicación, dispositivo)",
+          "correcta": true
+        },
+        {
+          "texto": "Solo las etiquetas de seguridad asignadas por la administración central",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Cuál es la principal ventaja del modelo ABAC respecto al RBAC?",
+      "opciones": [
+        {
+          "texto": "Es más simple de implementar y gestionar",
+          "correcta": false
+        },
+        {
+          "texto": "Ofrece mayor granularidad y puede considerar el contexto en tiempo real para tomar decisiones de acceso",
+          "correcta": true
+        },
+        {
+          "texto": "No requiere ningún tipo de política predefinida",
+          "correcta": false
+        },
+        {
+          "texto": "Es más adecuado para entornos militares donde la seguridad es crítica",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Cuál es la principal desventaja del modelo ABAC?",
+      "opciones": [
+        {
+          "texto": "No permite políticas dinámicas ni basadas en contexto",
+          "correcta": false
+        },
+        {
+          "texto": "Solo funciona en entornos Cloud, no on-premise",
+          "correcta": false
+        },
+        {
+          "texto": "Es el modelo más complejo de implementar y gestionar, requiriendo un sistema robusto para gestionar múltiples atributos y políticas",
+          "correcta": true
+        },
+        {
+          "texto": "No escala bien en organizaciones con más de 100 usuarios",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Cuál de los cuatro modelos ofrece la mayor seguridad en entornos donde la confidencialidad es crítica?",
+      "opciones": [
+        {
+          "texto": "DAC",
+          "correcta": false
+        },
+        {
+          "texto": "MAC",
+          "correcta": true
+        },
+        {
+          "texto": "RBAC",
+          "correcta": false
+        },
+        {
+          "texto": "ABAC",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Cuál de los cuatro modelos es más adecuado para un entorno empresarial mediano con estructura organizacional bien definida?",
+      "opciones": [
+        {
+          "texto": "DAC, por su flexibilidad individual",
+          "correcta": false
+        },
+        {
+          "texto": "MAC, por su alto nivel de seguridad",
+          "correcta": false
+        },
+        {
+          "texto": "RBAC, por su escalabilidad y facilidad de gestión en organizaciones con roles definidos",
+          "correcta": true
+        },
+        {
+          "texto": "ABAC, por su granularidad",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "El Principio de Mínimo Privilegio establece que:",
+      "opciones": [
+        {
+          "texto": "Todos los usuarios deben tener los mismos permisos para garantizar la equidad",
+          "correcta": false
+        },
+        {
+          "texto": "Solo se otorgan los accesos y permisos estrictamente necesarios para realizar las tareas asignadas",
+          "correcta": true
+        },
+        {
+          "texto": "Los administradores no necesitan restricciones de acceso al ser de confianza",
+          "correcta": false
+        },
+        {
+          "texto": "Los permisos deben revisarse una vez al año como máximo",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Qué son las ACLs (Listas de Control de Acceso) en el contexto de la autorización?",
+      "opciones": [
+        {
+          "texto": "Registros de todas las acciones realizadas por los usuarios en el sistema",
+          "correcta": false
+        },
+        {
+          "texto": "Listas que definen qué usuarios o grupos tienen permisos específicos (lectura, escritura, ejecución) sobre un objeto particular",
+          "correcta": true
+        },
+        {
+          "texto": "Listas de usuarios bloqueados por intentos fallidos de acceso",
+          "correcta": false
+        },
+        {
+          "texto": "Registros de auditoría de los cambios realizados en los permisos de los sistemas",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Cuál es el propósito principal de realizar revisiones periódicas de accesos?",
+      "opciones": [
+        {
+          "texto": "Aumentar el número de roles definidos en el sistema RBAC",
+          "correcta": false
+        },
+        {
+          "texto": "Asegurar que los permisos siguen siendo apropiados, especialmente tras cambios en funciones o responsabilidades",
+          "correcta": true
+        },
+        {
+          "texto": "Generar informes estadísticos sobre el uso de los sistemas",
+          "correcta": false
+        },
+        {
+          "texto": "Identificar qué usuarios han olvidado sus contraseñas",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "En términos de escalabilidad, ¿qué modelo escala peor cuando la organización crece significativamente en número de usuarios y recursos?",
+      "opciones": [
+        {
+          "texto": "DAC, porque cada recurso se controla individualmente y la gestión se vuelve inmanejable",
+          "correcta": true
+        },
+        {
+          "texto": "MAC, porque las etiquetas de seguridad no pueden ampliarse",
+          "correcta": false
+        },
+        {
+          "texto": "RBAC, porque los roles no pueden asignarse a más de 100 usuarios",
+          "correcta": false
+        },
+        {
+          "texto": "ABAC, porque los atributos no pueden ampliarse una vez definidos",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "Un sistema universitario permite el acceso a un examen solo si el usuario es estudiante matriculado en esa asignatura, accede desde la red del campus y durante el horario del examen. ¿Qué modelo de CA representa mejor este escenario?",
+      "opciones": [
+        {
+          "texto": "DAC — el profesor decide quién puede ver el examen",
+          "correcta": false
+        },
+        {
+          "texto": "MAC — el examen tiene una etiqueta de seguridad que solo los estudiantes pueden ver",
+          "correcta": false
+        },
+        {
+          "texto": "RBAC — el rol 'Estudiante' tiene acceso al examen",
+          "correcta": false
+        },
+        {
+          "texto": "ABAC — la decisión evalúa atributos del usuario, recurso y contexto simultáneamente",
+          "correcta": true
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Qué normativa europea tiene un impacto directo en la necesidad de implementar controles de acceso robustos para proteger datos personales?",
+      "opciones": [
+        {
+          "texto": "PCI DSS",
+          "correcta": false
+        },
+        {
+          "texto": "FERPA",
+          "correcta": false
+        },
+        {
+          "texto": "GDPR",
+          "correcta": true
+        },
+        {
+          "texto": "HIPAA",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "La gestión de identidades (IdM) permite, entre otras cosas:",
+      "opciones": [
+        {
+          "texto": "Solo la creación de nuevas cuentas de usuario",
+          "correcta": false
+        },
+        {
+          "texto": "La creación, gestión y eliminación de cuentas, además del control de perfiles, roles y credenciales",
+          "correcta": true
+        },
+        {
+          "texto": "Únicamente la autenticación de usuarios mediante contraseñas",
+          "correcta": false
+        },
+        {
+          "texto": "La gestión exclusiva de dispositivos físicos de acceso como tokens y tarjetas",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Qué diferencia fundamental existe entre el control de acceso físico y el lógico?",
+      "opciones": [
+        {
+          "texto": "El físico es siempre más seguro que el lógico",
+          "correcta": false
+        },
+        {
+          "texto": "El físico controla el acceso a espacios y dispositivos tangibles; el lógico controla el acceso a sistemas informáticos y datos digitales",
+          "correcta": true
+        },
+        {
+          "texto": "El lógico solo aplica a dispositivos móviles; el físico a edificios y servidores",
+          "correcta": false
+        },
+        {
+          "texto": "No hay diferencia, ambos términos son sinónimos en ciberseguridad",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    }
+  ],
+  "redaccion": [
+    {
+      "titulo": "Comparativa de los cuatro modelos de CA",
+      "enunciado": "Compara los cuatro modelos de Control de Acceso (DAC, MAC, RBAC y ABAC) en términos de: quién toma las decisiones de acceso, nivel de seguridad, flexibilidad, complejidad y escalabilidad. Para cada modelo indica un caso de uso real donde sería la opción más adecuada y justifica por qué.",
+      "puntos": 15
+    },
+    {
+      "titulo": "Diseño RBAC para una organización",
+      "enunciado": "Una empresa de desarrollo de software tiene los siguientes perfiles: Desarrollador Junior, Desarrollador Senior, DevOps, QA Tester, Project Manager y Director Técnico. Diseña un esquema RBAC básico: define qué permisos tendría cada rol sobre los recursos (código fuente, servidores de producción, base de datos, panel de facturación, documentación interna). Aplica el principio de mínimo privilegio y la Segregación de Funciones (SoD) y justifica las decisiones más importantes.",
+      "puntos": 15
+    },
+    {
+      "titulo": "Principio de Mínimo Privilegio",
+      "enunciado": "Explica en detalle el Principio de Mínimo Privilegio: qué significa, cómo se implementa en la práctica y qué beneficios aporta a la seguridad. ¿Qué relación tiene con la Segregación de Funciones? Describe tres situaciones concretas donde no aplicarlo podría llevar a un incidente de seguridad.",
+      "puntos": 15
+    },
+    {
+      "titulo": "ABAC en entornos dinámicos",
+      "enunciado": "Explica cómo funciona el modelo ABAC y por qué es especialmente útil en entornos dinámicos y complejos. Diseña tres políticas ABAC para una empresa que permita el acceso a sus sistemas solo bajo ciertas condiciones (combina atributos de usuario, recurso y contexto). ¿Cuáles son las principales dificultades de implementar ABAC y cómo se pueden mitigar?",
+      "puntos": 15
+    }
+  ]
+}

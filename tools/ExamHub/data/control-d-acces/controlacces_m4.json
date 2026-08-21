@@ -1,0 +1,471 @@
+{
+  "asignatura": "Control d'Accés",
+  "asignatura_slug": "control-d-acces",
+  "tema": "Gestión de Privilegios y Administración de Cuentas",
+  "tema_id": "controlacces_m4",
+  "orden": 13,
+  "test": [
+    {
+      "enunciado": "¿Cuál es el objetivo principal del movimiento lateral en un ataque?",
+      "opciones": [
+        {
+          "texto": "Obtener privilegios de administrador inmediatamente tras el acceso inicial",
+          "correcta": false
+        },
+        {
+          "texto": "Moverse entre sistemas del mismo nivel de seguridad para buscar datos sensibles, sistemas de mayor valor o cuentas con más privilegios",
+          "correcta": true
+        },
+        {
+          "texto": "Borrar todos los logs del sistema comprometido",
+          "correcta": false
+        },
+        {
+          "texto": "Instalar ransomware en el sistema inicial para luego extenderlo",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿En qué se diferencia el movimiento vertical (escalado de privilegios) del movimiento lateral?",
+      "opciones": [
+        {
+          "texto": "El movimiento vertical se mueve entre sistemas del mismo nivel; el lateral obtiene privilegios más altos",
+          "correcta": false
+        },
+        {
+          "texto": "El movimiento lateral se mueve entre sistemas del mismo nivel; el vertical obtiene niveles de acceso más altos que los inicialmente otorgados",
+          "correcta": true
+        },
+        {
+          "texto": "El movimiento vertical solo ocurre en sistemas Windows; el lateral en sistemas Linux",
+          "correcta": false
+        },
+        {
+          "texto": "El movimiento lateral es siempre detectado por los IDS; el vertical no",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Qué proceso del ciclo de vida de cuentas se activa cuando un nuevo empleado se incorpora a la organización?",
+      "opciones": [
+        {
+          "texto": "Leaver",
+          "correcta": false
+        },
+        {
+          "texto": "Mover",
+          "correcta": false
+        },
+        {
+          "texto": "Joiner",
+          "correcta": true
+        },
+        {
+          "texto": "Reviewer",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Qué debe ocurrir con las cuentas de usuario cuando un empleado abandona la organización?",
+      "opciones": [
+        {
+          "texto": "Deben mantenerse activas durante 6 meses por si el empleado vuelve",
+          "correcta": false
+        },
+        {
+          "texto": "Deben desactivarse inmediatamente para evitar accesos no autorizados",
+          "correcta": true
+        },
+        {
+          "texto": "Deben transferirse al supervisor directo del empleado",
+          "correcta": false
+        },
+        {
+          "texto": "Solo deben desactivarse las cuentas de empleados con privilegios de administrador",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Cuál es el principal riesgo de las cuentas de usuario inactivas que no se desactivan?",
+      "opciones": [
+        {
+          "texto": "Consumen recursos del servidor de autenticación",
+          "correcta": false
+        },
+        {
+          "texto": "Pueden ser usadas por atacantes para acceder al sistema sin ser detectados fácilmente, ya que la actividad puede parecer legítima",
+          "correcta": true
+        },
+        {
+          "texto": "Generan notificaciones de error en los sistemas IAM",
+          "correcta": false
+        },
+        {
+          "texto": "Bloquean automáticamente a otros usuarios del mismo grupo",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Qué es una 'bóveda de credenciales' en el contexto de PAM?",
+      "opciones": [
+        {
+          "texto": "Un gestor de contraseñas personal para empleados",
+          "correcta": false
+        },
+        {
+          "texto": "Un sistema que almacena, rota y gestiona de forma automática las contraseñas de cuentas privilegiadas",
+          "correcta": true
+        },
+        {
+          "texto": "Un archivo cifrado donde se guardan las contraseñas de backup",
+          "correcta": false
+        },
+        {
+          "texto": "Un módulo del SIEM que almacena los hashes de contraseñas robadas",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Qué herramienta aplica Machine Learning para detectar comportamientos anómalos de usuarios que podrían indicar abuso de privilegios?",
+      "opciones": [
+        {
+          "texto": "DLP (Data Loss Prevention)",
+          "correcta": false
+        },
+        {
+          "texto": "IAM (Identity and Access Management)",
+          "correcta": false
+        },
+        {
+          "texto": "UBA/UEBA (User Behavior Analytics / User and Entity Behavior Analytics)",
+          "correcta": true
+        },
+        {
+          "texto": "SIEM (Security Information and Event Management)",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Cuál es el propósito principal de los sistemas DLP en el contexto de la gestión de privilegios?",
+      "opciones": [
+        {
+          "texto": "Gestionar el ciclo de vida de las contraseñas de administrador",
+          "correcta": false
+        },
+        {
+          "texto": "Monitorizar el flujo de datos sensibles para detectar y prevenir su uso o transferencia indebida",
+          "correcta": true
+        },
+        {
+          "texto": "Detectar intentos de escalado de privilegios en tiempo real",
+          "correcta": false
+        },
+        {
+          "texto": "Bloquear el acceso a sistemas externos desde la red corporativa",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Por qué es importante que quienes realizan las auditorías de privilegios sean personas diferentes a quienes los asignan?",
+      "opciones": [
+        {
+          "texto": "Para reducir la carga de trabajo del equipo de IT",
+          "correcta": false
+        },
+        {
+          "texto": "Para evitar conflictos de interés y garantizar la objetividad e independencia de la revisión",
+          "correcta": true
+        },
+        {
+          "texto": "Porque la normativa ISO 27001 lo exige en todos los casos",
+          "correcta": false
+        },
+        {
+          "texto": "Porque los administradores no tienen conocimiento técnico suficiente para auditar",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Qué política de seguridad define cómo se gestionan las cuentas, privilegios, autenticación y el ciclo de vida de los usuarios?",
+      "opciones": [
+        {
+          "texto": "Política General de Seguridad de la Información",
+          "correcta": false
+        },
+        {
+          "texto": "Política de Gestión de Activos",
+          "correcta": false
+        },
+        {
+          "texto": "Política de Control de Accesos",
+          "correcta": true
+        },
+        {
+          "texto": "Política de Uso Aceptable de Recursos (AUP)",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "Una política de 'Uso Aceptable de Recursos (AUP)' tiene como objetivo principal:",
+      "opciones": [
+        {
+          "texto": "Definir los privilegios de administrador de los sistemas corporativos",
+          "correcta": false
+        },
+        {
+          "texto": "Especificar qué pueden y qué no pueden hacer los empleados con los recursos corporativos (equipos, internet, email, software)",
+          "correcta": true
+        },
+        {
+          "texto": "Establecer los procedimientos de auditoría de accesos privilegiados",
+          "correcta": false
+        },
+        {
+          "texto": "Regular la clasificación y el etiquetado de la información confidencial",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Qué indica el acrónimo JML en el contexto de la administración de cuentas?",
+      "opciones": [
+        {
+          "texto": "Java Management Layer — capa de gestión para aplicaciones Java",
+          "correcta": false
+        },
+        {
+          "texto": "Joiner-Mover-Leaver — ciclo de vida completo del acceso de un usuario en la organización",
+          "correcta": true
+        },
+        {
+          "texto": "JSON Management Library — biblioteca de gestión de tokens",
+          "correcta": false
+        },
+        {
+          "texto": "Joint Monitoring Log — registro conjunto de monitorización de accesos",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Cuál de los siguientes escenarios representa un escalado de privilegios LEGÍTIMO?",
+      "opciones": [
+        {
+          "texto": "Un atacante explota una vulnerabilidad del SO para obtener acceso root",
+          "correcta": false
+        },
+        {
+          "texto": "Un empleado usa la cuenta de su compañero con más permisos para completar una tarea",
+          "correcta": false
+        },
+        {
+          "texto": "Un técnico solicita formalmente privilegios temporales de administrador para realizar un mantenimiento específico, con aprobación y registro",
+          "correcta": true
+        },
+        {
+          "texto": "Un usuario descubre que puede acceder a carpetas de otros departamentos por una ACL mal configurada",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Qué es el RTO (Recovery Time Objective) en el contexto de la política de BCP/DRP?",
+      "opciones": [
+        {
+          "texto": "El tiempo máximo que una organización puede estar sin operar antes de sufrir daños inaceptables",
+          "correcta": true
+        },
+        {
+          "texto": "El punto en el tiempo más antiguo hasta el que se pueden recuperar los datos",
+          "correcta": false
+        },
+        {
+          "texto": "El tiempo necesario para completar una auditoría de control de accesos",
+          "correcta": false
+        },
+        {
+          "texto": "El tiempo de respuesta objetivo del equipo de seguridad ante un incidente",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Cuál de los siguientes es el objetivo principal de la Política de Clasificación y Manejo de la Información?",
+      "opciones": [
+        {
+          "texto": "Definir los niveles de acceso de cada empleado a los sistemas de la organización",
+          "correcta": false
+        },
+        {
+          "texto": "Establecer niveles de sensibilidad de la información (ej. Pública/Interna/Confidencial/Restringida) y cómo se etiqueta, almacena, transmite y destruye",
+          "correcta": true
+        },
+        {
+          "texto": "Gestionar el inventario de activos tecnológicos de la organización",
+          "correcta": false
+        },
+        {
+          "texto": "Regular el uso de dispositivos personales en el entorno corporativo",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "Un administrador de sistemas accede a los servidores de producción usando la misma cuenta con la que revisa su correo electrónico. ¿Qué principio de seguridad viola esto?",
+      "opciones": [
+        {
+          "texto": "Principio de confidencialidad",
+          "correcta": false
+        },
+        {
+          "texto": "Separación de cuentas de usuario y administrador como parte del principio de mínimo privilegio y separación de privilegios",
+          "correcta": true
+        },
+        {
+          "texto": "Principio de disponibilidad del sistema",
+          "correcta": false
+        },
+        {
+          "texto": "Política de copias de seguridad",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Cuándo debe revisarse y actualizarse una política de seguridad de la información?",
+      "opciones": [
+        {
+          "texto": "Solo cuando se produce un incidente de seguridad grave",
+          "correcta": false
+        },
+        {
+          "texto": "Periódicamente y también cuando cambien las amenazas, la tecnología o las necesidades empresariales",
+          "correcta": true
+        },
+        {
+          "texto": "Una vez al año, siempre en enero, independientemente de los cambios",
+          "correcta": false
+        },
+        {
+          "texto": "Solo cuando lo exija una auditoría externa o una normativa",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Qué ventaja aporta la automatización en la gestión del ciclo de vida de cuentas de usuario?",
+      "opciones": [
+        {
+          "texto": "Elimina completamente la necesidad de revisiones manuales periódicas",
+          "correcta": false
+        },
+        {
+          "texto": "Reduce errores humanos, mejora la consistencia y acelera los procesos de onboarding y offboarding",
+          "correcta": true
+        },
+        {
+          "texto": "Permite que los propios usuarios gestionen sus privilegios sin intervención de IT",
+          "correcta": false
+        },
+        {
+          "texto": "Garantiza el cumplimiento automático de todas las normativas sin necesidad de auditorías",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Cuál es el objetivo principal de la grabación de sesiones privilegiadas en un sistema PAM?",
+      "opciones": [
+        {
+          "texto": "Mejorar el rendimiento de los servidores privilegiados",
+          "correcta": false
+        },
+        {
+          "texto": "Permitir la reproducción y auditoría forense de todas las acciones realizadas con cuentas privilegiadas",
+          "correcta": true
+        },
+        {
+          "texto": "Bloquear automáticamente las sesiones que superen un tiempo determinado",
+          "correcta": false
+        },
+        {
+          "texto": "Reducir el número de cuentas privilegiadas necesarias en la organización",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Qué debe incluir un checklist de desactivación de cuenta al producirse la baja de un empleado?",
+      "opciones": [
+        {
+          "texto": "Solo la desactivación de la cuenta de correo electrónico corporativo",
+          "correcta": false
+        },
+        {
+          "texto": "Todos los sistemas y servicios a los que el usuario tenía acceso, incluyendo aplicaciones, VPNs, accesos físicos y servicios Cloud",
+          "correcta": true
+        },
+        {
+          "texto": "Únicamente las cuentas con privilegios de administrador del empleado saliente",
+          "correcta": false
+        },
+        {
+          "texto": "El borrado de todos los archivos creados por el empleado durante su estancia",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    }
+  ],
+  "redaccion": [
+    {
+      "titulo": "Ciclo de vida JML y gestión de cuentas",
+      "enunciado": "Describe el ciclo de vida completo de una cuenta de usuario siguiendo el modelo JML (Joiner, Mover, Leaver). Para cada fase indica qué acciones deben realizarse, quién es responsable y qué riesgos de seguridad pueden aparecer si no se gestiona correctamente. ¿Por qué es importante automatizar este proceso mediante herramientas IAM?",
+      "puntos": 15
+    },
+    {
+      "titulo": "PAM: Gestión de Accesos Privilegiados",
+      "enunciado": "Explica qué es un sistema PAM, cuáles son sus componentes principales y qué problemas resuelve. ¿Por qué las cuentas privilegiadas son el objetivo más valioso para un atacante? Describe cómo el movimiento lateral y el escalado de privilegios explotan una gestión deficiente de privilegios y qué medidas concretas del PAM los previenen.",
+      "puntos": 15
+    },
+    {
+      "titulo": "Políticas de seguridad en la organización",
+      "enunciado": "Una empresa mediana sin políticas de seguridad documentadas quiere implementarlas por primera vez. Selecciona las cinco políticas que consideres más prioritarias de las doce estudiadas, justifica por qué las has elegido y describe brevemente qué debe incluir cada una. ¿Qué relación hay entre la Política de Control de Accesos y las demás políticas?",
+      "puntos": 15
+    },
+    {
+      "titulo": "Segregación de funciones y separación de privilegios",
+      "enunciado": "Explica los conceptos de Segregación de Funciones (SoD) y Separación de Privilegios. ¿Por qué son fundamentales para prevenir el fraude y el abuso de accesos? Describe dos ejemplos concretos donde la falta de SoD podría llevar a un incidente de seguridad o fraude. ¿Cómo se implementa la SoD en un sistema RBAC?",
+      "puntos": 15
+    }
+  ]
+}

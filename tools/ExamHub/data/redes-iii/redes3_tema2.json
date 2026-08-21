@@ -1,0 +1,471 @@
+{
+  "asignatura": "Redes III",
+  "asignatura_slug": "redes-iii",
+  "tema": "Ataques en Redes y Mitigación",
+  "tema_id": "redes3_tema2",
+  "orden": 2,
+  "test": [
+    {
+      "enunciado": "¿Cuál es la diferencia principal entre un ataque DoS y un DDoS?",
+      "opciones": [
+        {
+          "texto": "El DoS usa paquetes UDP y el DDoS usa paquetes TCP",
+          "correcta": false
+        },
+        {
+          "texto": "El DoS proviene de una única máquina; el DDoS proviene de múltiples máquinas simultáneamente",
+          "correcta": true
+        },
+        {
+          "texto": "El DDoS solo afecta a servidores web; el DoS puede afectar a cualquier servicio",
+          "correcta": false
+        },
+        {
+          "texto": "El DoS es detectable y el DDoS no lo es nunca",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿En qué capa del modelo OSI opera un ataque SYN Flood?",
+      "opciones": [
+        {
+          "texto": "Capa 2 — Enlace de datos",
+          "correcta": false
+        },
+        {
+          "texto": "Capa 3 — Red",
+          "correcta": false
+        },
+        {
+          "texto": "Capa 4 — Transporte",
+          "correcta": true
+        },
+        {
+          "texto": "Capa 7 — Aplicación",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "En un SYN Flood, ¿qué ocurre con las IPs de origen de los paquetes SYN?",
+      "opciones": [
+        {
+          "texto": "Son IPs reales del atacante, que acepta los SYN-ACK del servidor",
+          "correcta": false
+        },
+        {
+          "texto": "Son IPs falsificadas (spoofed), por lo que el SYN-ACK nunca llega a nadie que responda",
+          "correcta": true
+        },
+        {
+          "texto": "Son IPs de la propia red interna obtenidas mediante ARP Spoofing previo",
+          "correcta": false
+        },
+        {
+          "texto": "Son siempre la IP de loopback 127.0.0.1",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Qué recurso del servidor queda agotado en un ataque SYN Flood?",
+      "opciones": [
+        {
+          "texto": "El espacio en disco del sistema de logs",
+          "correcta": false
+        },
+        {
+          "texto": "El ancho de banda del enlace de red",
+          "correcta": false
+        },
+        {
+          "texto": "La backlog queue — tabla de conexiones semi-abiertas en estado SYN_RECEIVED",
+          "correcta": true
+        },
+        {
+          "texto": "La caché DNS del sistema operativo",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Cómo funciona la mitigación SYN Cookies?",
+      "opciones": [
+        {
+          "texto": "El firewall bloquea todas las IPs que envíen más de 10 SYN por segundo",
+          "correcta": false
+        },
+        {
+          "texto": "El servidor no reserva estado hasta recibir el ACK final, usando una cookie criptográfica en el SYN-ACK",
+          "correcta": true
+        },
+        {
+          "texto": "El router descarta los paquetes SYN que no tienen TTL máximo",
+          "correcta": false
+        },
+        {
+          "texto": "El IPS reenvía los SYN al servidor solo si la IP origen tiene reputación positiva",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿En qué capa opera un ataque ICMP Flood?",
+      "opciones": [
+        {
+          "texto": "Capa 7 — Aplicación",
+          "correcta": false
+        },
+        {
+          "texto": "Capa 4 — Transporte",
+          "correcta": false
+        },
+        {
+          "texto": "Capa 3 — Red",
+          "correcta": true
+        },
+        {
+          "texto": "Capa 2 — Enlace de datos",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Cuál de los siguientes es un síntoma típico de un ataque ICMP Flood en la red víctima?",
+      "opciones": [
+        {
+          "texto": "Los usuarios no pueden autenticarse en el Active Directory",
+          "correcta": false
+        },
+        {
+          "texto": "Latencia muy alta, pérdida de paquetes generalizada y enlace de red saturado",
+          "correcta": true
+        },
+        {
+          "texto": "El servidor web devuelve errores 500 de forma intermitente",
+          "correcta": false
+        },
+        {
+          "texto": "La tabla ARP del gateway se llena con entradas duplicadas",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Por qué un HTTP Flood es más difícil de detectar que un SYN Flood?",
+      "opciones": [
+        {
+          "texto": "Porque opera en capa 2 y los firewalls no inspeccionan esa capa",
+          "correcta": false
+        },
+        {
+          "texto": "Porque usa cifrado TLS que impide cualquier análisis de tráfico",
+          "correcta": false
+        },
+        {
+          "texto": "Porque completa el three-way handshake y las peticiones son válidas a nivel de protocolo",
+          "correcta": true
+        },
+        {
+          "texto": "Porque solo puede lanzarse desde una única IP que rota constantemente",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Qué recursos agota principalmente un ataque HTTP Flood en el servidor víctima?",
+      "opciones": [
+        {
+          "texto": "La backlog queue TCP y la memoria del stack de red",
+          "correcta": false
+        },
+        {
+          "texto": "CPU y recursos de aplicación: hilos de trabajo, conexiones a base de datos, memoria",
+          "correcta": true
+        },
+        {
+          "texto": "El ancho de banda del enlace físico de red",
+          "correcta": false
+        },
+        {
+          "texto": "La tabla de enrutamiento del sistema operativo",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "Un atacante lanza un HTTP Flood al endpoint /buscar?q= de una tienda online. ¿Por qué es especialmente devastador?",
+      "opciones": [
+        {
+          "texto": "Porque el puerto 80 no está protegido por ningún firewall",
+          "correcta": false
+        },
+        {
+          "texto": "Porque las búsquedas implican consultas a base de datos y lógica de negocio costosa de procesar",
+          "correcta": true
+        },
+        {
+          "texto": "Porque ese endpoint no aparece en los logs del servidor web",
+          "correcta": false
+        },
+        {
+          "texto": "Porque HTTP GET no requiere autenticación y el firewall siempre lo permite",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Qué vulnerabilidad de diseño del protocolo ARP permite el ARP Spoofing?",
+      "opciones": [
+        {
+          "texto": "ARP usa cifrado simétrico débil que puede romperse en tiempo real",
+          "correcta": false
+        },
+        {
+          "texto": "ARP depende de un servidor centralizado que puede ser comprometido",
+          "correcta": false
+        },
+        {
+          "texto": "ARP no autentica las respuestas y acepta ARP Replies no solicitados (gratuitos)",
+          "correcta": true
+        },
+        {
+          "texto": "ARP solo funciona en redes con menos de 254 hosts",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "En un ataque de ARP Spoofing para hacer MitM, ¿a quién envía ARP Replies falsos el atacante?",
+      "opciones": [
+        {
+          "texto": "Solo al router/gateway de la red",
+          "correcta": false
+        },
+        {
+          "texto": "Solo a la máquina víctima",
+          "correcta": false
+        },
+        {
+          "texto": "Tanto a la víctima como al router/gateway, engañando a ambos simultáneamente",
+          "correcta": true
+        },
+        {
+          "texto": "A todos los hosts de la red en broadcast",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Qué función de los switches gestionables valida los ARP Replies contra la tabla de DHCP Snooping?",
+      "opciones": [
+        {
+          "texto": "STP (Spanning Tree Protocol)",
+          "correcta": false
+        },
+        {
+          "texto": "DAI (Dynamic ARP Inspection)",
+          "correcta": true
+        },
+        {
+          "texto": "LACP (Link Aggregation Control Protocol)",
+          "correcta": false
+        },
+        {
+          "texto": "802.1Q trunking",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Por qué el ARP Spoofing solo afecta a hosts dentro del mismo dominio de broadcast?",
+      "opciones": [
+        {
+          "texto": "Porque ARP usa TCP y los routers filtran ese tráfico",
+          "correcta": false
+        },
+        {
+          "texto": "Porque ARP es un protocolo de capa 2 y los routers no reenvían tramas de broadcast entre segmentos",
+          "correcta": true
+        },
+        {
+          "texto": "Porque los switches modernos cifran el tráfico ARP entre VLANs",
+          "correcta": false
+        },
+        {
+          "texto": "Porque ARP Spoofing requiere acceso físico al cable de red",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Cuál de las siguientes herramientas se usa en laboratorio para generar tráfico de ataque con control sobre cabeceras TCP/IP?",
+      "opciones": [
+        {
+          "texto": "Wireshark",
+          "correcta": false
+        },
+        {
+          "texto": "ss",
+          "correcta": false
+        },
+        {
+          "texto": "hping3",
+          "correcta": true
+        },
+        {
+          "texto": "arpwatch",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Qué hace la herramienta arpwatch en el contexto de seguridad de red?",
+      "opciones": [
+        {
+          "texto": "Genera ARP Replies falsos para testear la resiliencia de la red",
+          "correcta": false
+        },
+        {
+          "texto": "Monitoriza la caché ARP y alerta cuando una IP cambia de MAC de forma inesperada",
+          "correcta": true
+        },
+        {
+          "texto": "Bloquea automáticamente los paquetes ARP no solicitados en el switch",
+          "correcta": false
+        },
+        {
+          "texto": "Escanea la red en busca de hosts con ARP Spoofing activo",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿En qué consiste el proceso de hardening de un sistema?",
+      "opciones": [
+        {
+          "texto": "Instalar el firewall perimetral más potente disponible en el mercado",
+          "correcta": false
+        },
+        {
+          "texto": "Reducir la superficie de ataque eliminando servicios, usuarios, puertos y permisos innecesarios",
+          "correcta": true
+        },
+        {
+          "texto": "Realizar copias de seguridad diarias de la configuración de todos los dispositivos",
+          "correcta": false
+        },
+        {
+          "texto": "Cifrar todo el tráfico de red con TLS 1.3",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Cuál de las siguientes es una medida de hardening válida para un servidor web?",
+      "opciones": [
+        {
+          "texto": "Habilitar todos los módulos del servidor web para mayor compatibilidad",
+          "correcta": false
+        },
+        {
+          "texto": "Mantener la cuenta de administrador por defecto con la contraseña del fabricante",
+          "correcta": false
+        },
+        {
+          "texto": "Deshabilitar Telnet y usar SSH con autenticación por clave pública",
+          "correcta": true
+        },
+        {
+          "texto": "Desactivar los logs de acceso para reducir la carga de disco",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Para qué se usa tcpdump en el contexto de análisis de ataques?",
+      "opciones": [
+        {
+          "texto": "Para generar tráfico de prueba y simular ataques DoS en laboratorio",
+          "correcta": false
+        },
+        {
+          "texto": "Para capturar tráfico de red en línea de comandos y guardar PCAPs para análisis posterior",
+          "correcta": true
+        },
+        {
+          "texto": "Para bloquear automáticamente IPs que superen un umbral de paquetes por segundo",
+          "correcta": false
+        },
+        {
+          "texto": "Para gestionar y actualizar las firmas del IDS/IPS",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "Un atacante lanza un SYN Flood desde una sola máquina con IP real. ¿Qué contramedida lo mitigaría de forma más inmediata?",
+      "opciones": [
+        {
+          "texto": "Activar SYN Cookies en el servidor víctima",
+          "correcta": false
+        },
+        {
+          "texto": "Desplegar un segundo servidor web en modo balanceo de carga",
+          "correcta": false
+        },
+        {
+          "texto": "Bloquear la IP origen en el firewall o mediante rate limiting",
+          "correcta": true
+        },
+        {
+          "texto": "Aumentar el tamaño del enlace de red del servidor",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    }
+  ],
+  "redaccion": [
+    {
+      "titulo": "Mecanismo del SYN Flood",
+      "enunciado": "Describe el mecanismo detallado de un SYN Flood: qué hace el atacante, qué estado TCP se acumula en el servidor, qué recurso se agota y cuáles son las consecuencias. Explica cómo funciona la mitigación con SYN Cookies.",
+      "puntos": 15
+    },
+    {
+      "titulo": "SYN Flood vs HTTP Flood",
+      "enunciado": "Compara el SYN Flood con el HTTP Flood en términos de: capa OSI, recursos que agotan en el servidor víctima y dificultad de detección. ¿Por qué el SYN Flood es efectivo con pocos recursos del atacante?",
+      "puntos": 15
+    },
+    {
+      "titulo": "Contramedidas HTTP Flood",
+      "enunciado": "Propón tres contramedidas para mitigar un HTTP Flood. Para cada una indica: en qué capa OSI actúa, cómo funciona exactamente y qué limitación tiene frente a un DDoS distribuido real con miles de IPs distintas.",
+      "puntos": 15
+    },
+    {
+      "titulo": "ARP Spoofing y MitM",
+      "enunciado": "Explica el mecanismo del ARP Spoofing: qué vulnerabilidad del protocolo explota, cómo consigue el atacante posicionarse como MitM, cómo se detecta con Wireshark y cómo se mitiga con DAI y DHCP Snooping.",
+      "puntos": 15
+    }
+  ]
+}

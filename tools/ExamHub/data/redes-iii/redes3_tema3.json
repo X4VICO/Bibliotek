@@ -1,0 +1,471 @@
+{
+  "asignatura": "Redes III",
+  "asignatura_slug": "redes-iii",
+  "tema": "IDS/IPS y SIEM",
+  "tema_id": "redes3_tema3",
+  "orden": 3,
+  "test": [
+    {
+      "enunciado": "¿Cuál es la diferencia fundamental entre un IDS y un IPS en cuanto a su posición en la red?",
+      "opciones": [
+        {
+          "texto": "El IDS se despliega en la nube y el IPS siempre on-premise",
+          "correcta": false
+        },
+        {
+          "texto": "El IDS actúa fuera de banda y solo genera alertas; el IPS actúa en línea y puede bloquear tráfico",
+          "correcta": true
+        },
+        {
+          "texto": "El IDS analiza tráfico cifrado y el IPS solo tráfico en claro",
+          "correcta": false
+        },
+        {
+          "texto": "El IDS usa firmas y el IPS solo detección por anomalía",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Qué tipo de IPS protege un host individual en lugar de un segmento de red?",
+      "opciones": [
+        {
+          "texto": "NIPS (Network IPS)",
+          "correcta": false
+        },
+        {
+          "texto": "WIPS (Wireless IPS)",
+          "correcta": false
+        },
+        {
+          "texto": "HIPS (Host IPS)",
+          "correcta": true
+        },
+        {
+          "texto": "Cloud IPS",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Qué método de detección compara el tráfico contra una base de datos de patrones de ataques conocidos?",
+      "opciones": [
+        {
+          "texto": "Detección por anomalía",
+          "correcta": false
+        },
+        {
+          "texto": "Detección por política",
+          "correcta": false
+        },
+        {
+          "texto": "Detección por firma (signature-based)",
+          "correcta": true
+        },
+        {
+          "texto": "Detección híbrida",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Cuál de los métodos de detección es más efectivo ante un exploit de día cero?",
+      "opciones": [
+        {
+          "texto": "Detección por firma",
+          "correcta": false
+        },
+        {
+          "texto": "Detección por lista negra de IPs",
+          "correcta": false
+        },
+        {
+          "texto": "Detección por política",
+          "correcta": false
+        },
+        {
+          "texto": "Detección por anomalía",
+          "correcta": true
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Por qué la detección por anomalía genera más falsos positivos en una red universitaria que en una corporativa?",
+      "opciones": [
+        {
+          "texto": "Porque las universidades tienen más ancho de banda y el IPS no puede procesarlo todo",
+          "correcta": false
+        },
+        {
+          "texto": "Porque el tráfico universitario es muy variado e impredecible, dificultando establecer una línea base de comportamiento normal",
+          "correcta": true
+        },
+        {
+          "texto": "Porque los estudiantes usan protocolos cifrados que el IPS no puede analizar",
+          "correcta": false
+        },
+        {
+          "texto": "Porque las universidades no tienen presupuesto para hacer el tuning inicial correctamente",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿En qué consiste el método de detección por política en un IPS?",
+      "opciones": [
+        {
+          "texto": "Aprender el comportamiento normal del tráfico y alertar ante desviaciones",
+          "correcta": false
+        },
+        {
+          "texto": "Definir explícitamente qué está permitido y bloquear todo lo que no cumple esas reglas",
+          "correcta": true
+        },
+        {
+          "texto": "Comparar el tráfico con firmas de ataques conocidos en una base de datos",
+          "correcta": false
+        },
+        {
+          "texto": "Combinar firma y anomalía para reducir falsos positivos y negativos",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "Un IPS desplegado entre el router de borde e Internet, ¿cómo se denomina?",
+      "opciones": [
+        {
+          "texto": "IPS de segmentación interna",
+          "correcta": false
+        },
+        {
+          "texto": "IPS perimetral",
+          "correcta": true
+        },
+        {
+          "texto": "IPS en modo TAP",
+          "correcta": false
+        },
+        {
+          "texto": "HIPS perimetral",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Qué es un puerto SPAN y para qué se usa en el despliegue de un IDS?",
+      "opciones": [
+        {
+          "texto": "Un puerto de alta velocidad reservado para tráfico de gestión del switch",
+          "correcta": false
+        },
+        {
+          "texto": "Una configuración del switch que copia el tráfico de uno o varios puertos a un puerto de monitorización donde está conectado el IDS",
+          "correcta": true
+        },
+        {
+          "texto": "Un puerto físico especial que permite al IDS bloquear tráfico en línea",
+          "correcta": false
+        },
+        {
+          "texto": "Un enlace redundante entre switches para alta disponibilidad",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Cuál es la diferencia entre un TAP de red y un puerto SPAN?",
+      "opciones": [
+        {
+          "texto": "El TAP es software y el SPAN es hardware",
+          "correcta": false
+        },
+        {
+          "texto": "El TAP copia el tráfico a nivel físico sin depender del switch, garantizando que no se pierden paquetes; el SPAN puede descartar paquetes si el switch está saturado",
+          "correcta": true
+        },
+        {
+          "texto": "El SPAN puede capturar tráfico cifrado y el TAP no",
+          "correcta": false
+        },
+        {
+          "texto": "No hay diferencia práctica entre ambos métodos",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿En qué situación es preferible desplegar un IDS en lugar de un IPS?",
+      "opciones": [
+        {
+          "texto": "Cuando la red tiene poco tráfico y es fácil definir políticas de bloqueo",
+          "correcta": false
+        },
+        {
+          "texto": "Cuando se necesita bloqueo automático e inmediato de amenazas conocidas",
+          "correcta": false
+        },
+        {
+          "texto": "Cuando no se puede asumir el riesgo de que un falso positivo corte tráfico legítimo crítico",
+          "correcta": true
+        },
+        {
+          "texto": "Cuando el presupuesto no permite adquirir un IPS",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Qué es el despliegue en modo activo/pasivo con failover automático?",
+      "opciones": [
+        {
+          "texto": "Dos IPS activos que procesan el tráfico simultáneamente repartiéndolo entre ambos",
+          "correcta": false
+        },
+        {
+          "texto": "Un IPS principal que procesa todo el tráfico y un IPS secundario en espera que toma el relevo automáticamente si el principal falla",
+          "correcta": true
+        },
+        {
+          "texto": "Un IPS que alterna entre modo IDS e IPS según la carga de tráfico",
+          "correcta": false
+        },
+        {
+          "texto": "Dos IPS conectados en paralelo que se sincronizan cada 24 horas",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Qué es un bypass hardware en un IPS y cuándo es prioritario usarlo?",
+      "opciones": [
+        {
+          "texto": "Un módulo que acelera el procesamiento de firmas mediante hardware dedicado",
+          "correcta": false
+        },
+        {
+          "texto": "Un mecanismo físico que, si el IPS falla, permite que el tráfico fluya directamente sin inspección, manteniendo la conectividad",
+          "correcta": true
+        },
+        {
+          "texto": "Una configuración que permite al IPS ignorar cierto tráfico para reducir la carga",
+          "correcta": false
+        },
+        {
+          "texto": "Un puerto de gestión fuera de banda para administrar el IPS remotamente",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Qué es el tuning inicial de un IPS y por qué es necesario?",
+      "opciones": [
+        {
+          "texto": "La actualización de firmas que se realiza tras la instalación del IPS",
+          "correcta": false
+        },
+        {
+          "texto": "El proceso de ajuste de reglas tras un periodo de observación en modo IDS, para eliminar falsos positivos antes de activar el bloqueo",
+          "correcta": true
+        },
+        {
+          "texto": "La configuración inicial de las interfaces de red del IPS",
+          "correcta": false
+        },
+        {
+          "texto": "El proceso de integración del IPS con el SIEM corporativo",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Qué consecuencia tiene no realizar el tuning inicial correctamente en un IPS?",
+      "opciones": [
+        {
+          "texto": "El IPS no puede actualizarse automáticamente con nuevas firmas",
+          "correcta": false
+        },
+        {
+          "texto": "El IPS puede generar tantos falsos positivos que bloquee tráfico legítimo, o tantos falsos negativos que deje pasar ataques reales",
+          "correcta": true
+        },
+        {
+          "texto": "El IPS pierde la capacidad de detectar ataques de día cero",
+          "correcta": false
+        },
+        {
+          "texto": "El IPS no puede integrarse con Wireshark para análisis de tráfico",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Cuál es la principal ventaja de Suricata sobre Snort v2 en redes de alto tráfico?",
+      "opciones": [
+        {
+          "texto": "Suricata soporta más protocolos de capa 2 que Snort",
+          "correcta": false
+        },
+        {
+          "texto": "Suricata es multihilo de forma nativa y aprovecha todos los núcleos de CPU; Snort v2 es monohilo",
+          "correcta": true
+        },
+        {
+          "texto": "Suricata incluye un SIEM integrado que Snort no tiene",
+          "correcta": false
+        },
+        {
+          "texto": "Suricata puede actuar como IPS y Snort solo como IDS",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "En una regla de Suricata, ¿qué parte define la acción a ejecutar cuando hay una coincidencia?",
+      "opciones": [
+        {
+          "texto": "El campo msg entre comillas",
+          "correcta": false
+        },
+        {
+          "texto": "El campo sid al final de la regla",
+          "correcta": false
+        },
+        {
+          "texto": "La primera palabra de la regla: alert, drop, pass o reject",
+          "correcta": true
+        },
+        {
+          "texto": "El campo classtype dentro de las opciones",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Qué es Emerging Threats (ET) en el contexto de Suricata?",
+      "opciones": [
+        {
+          "texto": "Un tipo de ataque avanzado persistente que Suricata detecta de forma nativa",
+          "correcta": false
+        },
+        {
+          "texto": "Un conjunto de reglas open-source mantenido por la comunidad, actualizado varias veces al día",
+          "correcta": true
+        },
+        {
+          "texto": "Una herramienta de línea de comandos para gestionar Suricata",
+          "correcta": false
+        },
+        {
+          "texto": "Un módulo de Suricata para detección de amenazas en tráfico cifrado",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Para qué se usa suricata-update?",
+      "opciones": [
+        {
+          "texto": "Para actualizar el sistema operativo del servidor donde corre Suricata",
+          "correcta": false
+        },
+        {
+          "texto": "Para gestionar y actualizar los conjuntos de reglas de Suricata desde fuentes como Emerging Threats",
+          "correcta": true
+        },
+        {
+          "texto": "Para reiniciar el servicio de Suricata tras un cambio de configuración",
+          "correcta": false
+        },
+        {
+          "texto": "Para exportar los logs de Suricata al SIEM en formato JSON",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Qué es un SIEM y cuál es su función principal?",
+      "opciones": [
+        {
+          "texto": "Un sistema de prevención de intrusos de última generación con IA integrada",
+          "correcta": false
+        },
+        {
+          "texto": "Un sistema que centraliza, normaliza y correlaciona eventos de seguridad de múltiples fuentes para detectar amenazas y generar alertas",
+          "correcta": true
+        },
+        {
+          "texto": "Una herramienta de captura de tráfico avanzada que sustituye a Wireshark",
+          "correcta": false
+        },
+        {
+          "texto": "Un firewall de aplicación con capacidad de aprendizaje automático",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Qué ventaja aporta el SIEM respecto a un IDS/IPS actuando de forma aislada?",
+      "opciones": [
+        {
+          "texto": "El SIEM puede bloquear tráfico en tiempo real, algo que el IDS no puede hacer",
+          "correcta": false
+        },
+        {
+          "texto": "El SIEM puede correlacionar eventos de múltiples fuentes distintas y detectar ataques que individualmente parecen inocentes",
+          "correcta": true
+        },
+        {
+          "texto": "El SIEM analiza el tráfico a mayor velocidad que cualquier IDS/IPS",
+          "correcta": false
+        },
+        {
+          "texto": "El SIEM elimina la necesidad de mantener reglas de firmas actualizadas",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    }
+  ],
+  "redaccion": [
+    {
+      "titulo": "Métodos de detección IPS",
+      "enunciado": "Describe los cuatro métodos de detección de un IPS (firma, anomalía, política, híbrido). ¿Cuál detectaría antes un exploit de día cero y por qué? Justifica por qué la detección por anomalía genera más falsos positivos en una red universitaria.",
+      "puntos": 15
+    },
+    {
+      "titulo": "IDS vs IPS: cuándo usar cada uno",
+      "enunciado": "¿En qué situaciones concretas es preferible un IDS en lugar de un IPS? ¿Y al revés? Da al menos dos situaciones para cada caso. ¿Cuál recomendarías en un hospital con sistemas críticos de monitorización de pacientes?",
+      "puntos": 15
+    },
+    {
+      "titulo": "Tuning inicial y alta disponibilidad",
+      "enunciado": "Explica qué es el tuning inicial de un IPS, por qué es necesario y qué consecuencias tiene no realizarlo (falsos positivos y falsos negativos). ¿Qué es el bypass hardware y por qué es importante en entornos críticos?",
+      "puntos": 15
+    },
+    {
+      "titulo": "SIEM: componentes y correlación",
+      "enunciado": "¿Qué es un SIEM, cuáles son sus componentes principales y de qué fuentes recopila datos? Explica el pipeline típico de un SIEM y cómo complementa al IDS/IPS en la detección de ataques que usan múltiples vectores simultáneos.",
+      "puntos": 15
+    }
+  ]
+}

@@ -1,0 +1,471 @@
+{
+  "asignatura": "Control d'Accés",
+  "asignatura_slug": "control-d-acces",
+  "tema": "Evaluación y Gestión de Riesgos",
+  "tema_id": "controlacces_m6",
+  "orden": 15,
+  "test": [
+    {
+      "enunciado": "¿Cuál es la fórmula correcta para calcular el riesgo según la metodología estudiada?",
+      "opciones": [
+        {
+          "texto": "Riesgo = Probabilidad + Impacto",
+          "correcta": false
+        },
+        {
+          "texto": "Riesgo = Amenaza × Vulnerabilidad × Impacto",
+          "correcta": true
+        },
+        {
+          "texto": "Riesgo = Activo × Amenaza / Control",
+          "correcta": false
+        },
+        {
+          "texto": "Riesgo = Vulnerabilidad / Impacto × Probabilidad",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Qué estrategia de mitigación de riesgos consiste en trasladar la responsabilidad financiera del riesgo a un tercero, como una aseguradora?",
+      "opciones": [
+        {
+          "texto": "Evitar el riesgo",
+          "correcta": false
+        },
+        {
+          "texto": "Mitigar el riesgo",
+          "correcta": false
+        },
+        {
+          "texto": "Transferir el riesgo",
+          "correcta": true
+        },
+        {
+          "texto": "Aceptar el riesgo",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Cuándo es apropiado 'aceptar' un riesgo como estrategia de gestión?",
+      "opciones": [
+        {
+          "texto": "Siempre que el riesgo no haya sido identificado en la matriz de riesgos",
+          "correcta": false
+        },
+        {
+          "texto": "Cuando el coste de mitigar el riesgo supera el impacto potencial que causaría si se materializara",
+          "correcta": true
+        },
+        {
+          "texto": "Cuando el riesgo afecta a datos clasificados como confidenciales",
+          "correcta": false
+        },
+        {
+          "texto": "Nunca; siempre debe mitigarse o transferirse cualquier riesgo identificado",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Qué es una vulnerabilidad de 'día cero' (zero-day)?",
+      "opciones": [
+        {
+          "texto": "Una vulnerabilidad que lleva cero días sin ser parcheada",
+          "correcta": false
+        },
+        {
+          "texto": "Una vulnerabilidad recién descubierta pero para la que ya existe un parche disponible",
+          "correcta": false
+        },
+        {
+          "texto": "Una vulnerabilidad para la que no se conoce todavía ninguna mitigación o solución",
+          "correcta": true
+        },
+        {
+          "texto": "Una vulnerabilidad que solo puede ser explotada en el primer día tras su publicación",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Cuál es la diferencia entre una vulnerabilidad y un exploit?",
+      "opciones": [
+        {
+          "texto": "Son sinónimos en el contexto de la gestión de vulnerabilidades",
+          "correcta": false
+        },
+        {
+          "texto": "Una vulnerabilidad es una debilidad en un sistema; un exploit es una herramienta o técnica creada para aprovechar esa vulnerabilidad",
+          "correcta": true
+        },
+        {
+          "texto": "Una vulnerabilidad es creada por atacantes; un exploit existe de forma natural en el software",
+          "correcta": false
+        },
+        {
+          "texto": "Un exploit es teórico; una vulnerabilidad ya ha sido demostrada en la práctica",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Qué es el análisis BIA (Business Impact Analysis) en la gestión de riesgos?",
+      "opciones": [
+        {
+          "texto": "Un tipo de análisis cuantitativo para calcular el coste de implementar controles de seguridad",
+          "correcta": false
+        },
+        {
+          "texto": "Un análisis que evalúa el impacto potencial de interrupciones en el acceso a activos críticos para priorizar los recursos de mitigación",
+          "correcta": true
+        },
+        {
+          "texto": "Una metodología para identificar a los responsables de cada activo de la organización",
+          "correcta": false
+        },
+        {
+          "texto": "Un informe que describe las brechas de seguridad ocurridas en los últimos 12 meses",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "En el escenario de Zero Trust mal implementado estudiado, ¿cuál fue el vector de entrada inicial del atacante?",
+      "opciones": [
+        {
+          "texto": "Explotación de una vulnerabilidad zero-day en el sistema de autenticación",
+          "correcta": false
+        },
+        {
+          "texto": "Phishing a un empleado de un departamento no crítico con acceso a una aplicación legacy sin MFA",
+          "correcta": true
+        },
+        {
+          "texto": "Ataque de fuerza bruta a la cuenta de un administrador de sistemas",
+          "correcta": false
+        },
+        {
+          "texto": "Compromiso físico de un servidor en el centro de datos",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "En el escenario de suplantación en un sistema federado SAML/OIDC, ¿qué técnica usó el atacante para obtener acceso a recursos de alto privilegio?",
+      "opciones": [
+        {
+          "texto": "Robo de credenciales del IdP principal mediante un ataque de phishing masivo",
+          "correcta": false
+        },
+        {
+          "texto": "Comprometió un IdP secundario mal configurado y emitió aserciones SAML con roles inflados (attribute spoofing)",
+          "correcta": true
+        },
+        {
+          "texto": "Interceptó los tokens SAML en tránsito mediante un ataque MitM",
+          "correcta": false
+        },
+        {
+          "texto": "Explotó una vulnerabilidad conocida en el protocolo SAML 2.0",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Cuál es el primer número de la OWASP TOP 10 (2025), que es directamente relevante para el Control de Accesos?",
+      "opciones": [
+        {
+          "texto": "Fallos Criptográficos",
+          "correcta": false
+        },
+        {
+          "texto": "Inyecciones SQL",
+          "correcta": false
+        },
+        {
+          "texto": "Pérdida de Control de Acceso",
+          "correcta": true
+        },
+        {
+          "texto": "Configuración de Seguridad Incorrecta",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Cuáles son las fases del hacking ético en el orden correcto?",
+      "opciones": [
+        {
+          "texto": "Escaneo → Reconocimiento → Obtención de acceso → Persistencia → Limpieza de huellas",
+          "correcta": false
+        },
+        {
+          "texto": "Reconocimiento → Escaneo → Obtención de acceso → Persistencia → Limpieza de huellas",
+          "correcta": true
+        },
+        {
+          "texto": "Obtención de acceso → Reconocimiento → Escaneo → Limpieza → Persistencia",
+          "correcta": false
+        },
+        {
+          "texto": "Reconocimiento → Obtención de acceso → Escaneo → Persistencia → Limpieza de huellas",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Qué característica del factor 'motivación' ayuda a estimar la gravedad de una amenaza específica?",
+      "opciones": [
+        {
+          "texto": "Mide los recursos técnicos disponibles para el agente de amenaza",
+          "correcta": false
+        },
+        {
+          "texto": "Determina cuán motivado está el agente de amenaza para encontrar y explotar la vulnerabilidad",
+          "correcta": true
+        },
+        {
+          "texto": "Evalúa la facilidad con que puede descubrirse la vulnerabilidad",
+          "correcta": false
+        },
+        {
+          "texto": "Calcula el impacto económico de una explotación exitosa",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "Un control que actúa disuadiendo a posibles atacantes sin bloquear activamente el acceso se denomina:",
+      "opciones": [
+        {
+          "texto": "Control preventivo",
+          "correcta": false
+        },
+        {
+          "texto": "Control correctivo",
+          "correcta": false
+        },
+        {
+          "texto": "Control compensatorio",
+          "correcta": false
+        },
+        {
+          "texto": "Control disuasorio",
+          "correcta": true
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "En el escenario de abuso de identidades en pipelines DevOps, ¿qué error de seguridad crítico permitió el compromiso total de la infraestructura?",
+      "opciones": [
+        {
+          "texto": "No tener antivirus instalado en los servidores de CI/CD",
+          "correcta": false
+        },
+        {
+          "texto": "Service accounts con permisos excesivos (cluster-admin en Kubernetes) y secretos almacenados en variables de entorno accesibles",
+          "correcta": true
+        },
+        {
+          "texto": "Usar GitHub como repositorio de código en lugar de un sistema privado",
+          "correcta": false
+        },
+        {
+          "texto": "No cifrar las comunicaciones entre los pipelines de CI/CD",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Por qué el escenario de compromiso OT/ICS es especialmente peligroso en infraestructuras críticas?",
+      "opciones": [
+        {
+          "texto": "Porque los sistemas OT son más modernos y por tanto más vulnerables",
+          "correcta": false
+        },
+        {
+          "texto": "Porque el atacante puede obtener persistencia a largo plazo en sistemas industriales con impacto físico potencial, y las auditorías OT suelen ser manuales y los logs limitados",
+          "correcta": true
+        },
+        {
+          "texto": "Porque los sistemas OT están siempre conectados directamente a Internet",
+          "correcta": false
+        },
+        {
+          "texto": "Porque los sistemas ICS no tienen mecanismos de autenticación de ningún tipo",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Cuál de los siguientes es un ejemplo de vulnerabilidad de tipo 'operación/control'?",
+      "opciones": [
+        {
+          "texto": "Error de programación que permite un buffer overflow",
+          "correcta": false
+        },
+        {
+          "texto": "Debilidad en el diseño del protocolo TCP/IP",
+          "correcta": false
+        },
+        {
+          "texto": "Configuración inadecuada de los sistemas y desconocimiento de los responsables",
+          "correcta": true
+        },
+        {
+          "texto": "Existencia de una backdoor instalada por el fabricante del software",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Qué diferencia existe entre una evaluación de vulnerabilidades y un pentest?",
+      "opciones": [
+        {
+          "texto": "Son exactamente lo mismo, solo tienen nombres diferentes",
+          "correcta": false
+        },
+        {
+          "texto": "La evaluación de vulnerabilidades proporciona un inventario de vulnerabilidades existentes; el pentest trata de explotarlas para comprobar el riesgo real",
+          "correcta": true
+        },
+        {
+          "texto": "El pentest es más rápido y menos invasivo que la evaluación de vulnerabilidades",
+          "correcta": false
+        },
+        {
+          "texto": "La evaluación de vulnerabilidades solo aplica a sistemas Cloud; el pentest a sistemas on-premise",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "El Mobile TOP 10 (2024) indica que el primer riesgo en aplicaciones móviles es:",
+      "opciones": [
+        {
+          "texto": "Autenticación/autorización insegura",
+          "correcta": false
+        },
+        {
+          "texto": "Uso indebido de credenciales",
+          "correcta": true
+        },
+        {
+          "texto": "Comunicación insegura",
+          "correcta": false
+        },
+        {
+          "texto": "Validación insuficiente de entrada/salida",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Cuál de las siguientes representa la mejor práctica en el proceso de respuesta ante incidentes?",
+      "opciones": [
+        {
+          "texto": "Eliminar inmediatamente el sistema comprometido para detener el ataque antes de investigar",
+          "correcta": false
+        },
+        {
+          "texto": "Seguir las fases: identificación y evaluación → contención → erradicación → recuperación → análisis post-incidente",
+          "correcta": true
+        },
+        {
+          "texto": "Comunicar el incidente públicamente de inmediato para mantener la transparencia",
+          "correcta": false
+        },
+        {
+          "texto": "Esperar 48 horas antes de actuar para confirmar que el incidente es real",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Por qué el análisis cualitativo de riesgos es útil aunque no sea tan preciso como el cuantitativo?",
+      "opciones": [
+        {
+          "texto": "Porque siempre produce resultados más conservadores que protegen mejor a la organización",
+          "correcta": false
+        },
+        {
+          "texto": "Porque permite obtener una visión general rápida de los riesgos potenciales sin necesidad de datos numéricos detallados",
+          "correcta": true
+        },
+        {
+          "texto": "Porque las normativas como ISO 27001 solo aceptan análisis cualitativos",
+          "correcta": false
+        },
+        {
+          "texto": "Porque es el único método válido en organizaciones con menos de 50 empleados",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Cuál es la lección principal del escenario de Zero Trust mal implementado en términos de gestión de riesgos?",
+      "opciones": [
+        {
+          "texto": "Zero Trust es un modelo demasiado complejo para implementar en la práctica",
+          "correcta": false
+        },
+        {
+          "texto": "Una implementación parcial de Zero Trust puede crear una falsa sensación de seguridad, dejando vectores de ataque abiertos en los sistemas no migrados",
+          "correcta": true
+        },
+        {
+          "texto": "Los sistemas legacy no pueden integrarse nunca con modelos modernos de seguridad",
+          "correcta": false
+        },
+        {
+          "texto": "Los tokens OAuth son inherentemente inseguros y no deben usarse",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    }
+  ],
+  "redaccion": [
+    {
+      "titulo": "Gestión de riesgos: proceso completo",
+      "enunciado": "Describe el proceso completo de gestión de riesgos aplicado al Control de Accesos: identificación, evaluación, mitigación y monitoreo continuo. Explica la fórmula Riesgo = Amenaza × Vulnerabilidad × Impacto y cómo se usa una matriz de riesgos para priorizar las respuestas. ¿Cuáles son las cuatro estrategias posibles ante un riesgo identificado y cuándo aplicar cada una?",
+      "puntos": 15
+    },
+    {
+      "titulo": "Análisis de un escenario de ataque avanzado",
+      "enunciado": "Elige uno de los cuatro escenarios de ataque estudiados en el módulo 6 (Zero Trust mal implementado, SAML federado, DevOps/pipelines, OT/ICS). Describe paso a paso la cadena de ataque, identifica qué vulnerabilidades de Control de Accesos se explotaron en cada paso y propón controles concretos que habrían prevenido o detectado el ataque. ¿Qué lección general extrae este escenario sobre la gestión de identidades?",
+      "puntos": 15
+    },
+    {
+      "titulo": "Gestión de vulnerabilidades y hacking ético",
+      "enunciado": "Explica qué es la gestión de vulnerabilidades y cuál es su relación con el Control de Accesos. Describe los tipos de vulnerabilidades según su origen (diseño, implementación, operación, día cero). ¿Cuál es el papel del hacking ético en la identificación de vulnerabilidades? Describe las fases de un pentest y qué información aporta cada una al equipo de seguridad.",
+      "puntos": 15
+    },
+    {
+      "titulo": "Monitoreo continuo y respuesta a incidentes",
+      "enunciado": "Explica por qué el monitoreo continuo es fundamental en la gestión de riesgos del CA. Describe las técnicas de revisión y mejora que se pueden aplicar (auditorías, análisis de logs, pentests, retroalimentación de usuarios). ¿Cómo se desarrolla un plan de respuesta a incidentes basado en los hallazgos del monitoreo? ¿Qué papel juegan los simulacros y pruebas periódicas?",
+      "puntos": 15
+    }
+  ]
+}

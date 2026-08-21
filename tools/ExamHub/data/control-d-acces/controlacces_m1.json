@@ -1,0 +1,471 @@
+{
+  "asignatura": "Control d'Accés",
+  "asignatura_slug": "control-d-acces",
+  "tema": "Introducción al Control de Accesos",
+  "tema_id": "controlacces_m1",
+  "orden": 10,
+  "test": [
+    {
+      "enunciado": "¿Cuál es el objetivo principal del Control de Accesos en ciberseguridad?",
+      "opciones": [
+        {
+          "texto": "Maximizar el rendimiento de los sistemas informáticos",
+          "correcta": false
+        },
+        {
+          "texto": "Proteger la confidencialidad, integridad y disponibilidad de los recursos",
+          "correcta": true
+        },
+        {
+          "texto": "Reducir los costes de infraestructura tecnológica",
+          "correcta": false
+        },
+        {
+          "texto": "Gestionar el inventario de hardware y software de la organización",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Qué representa la triada CIA en el contexto del Control de Accesos?",
+      "opciones": [
+        {
+          "texto": "Confidencialidad, Identificación y Autenticación",
+          "correcta": false
+        },
+        {
+          "texto": "Control, Integridad y Autorización",
+          "correcta": false
+        },
+        {
+          "texto": "Confidencialidad, Integridad y Disponibilidad",
+          "correcta": true
+        },
+        {
+          "texto": "Cifrado, Integridad y Acceso",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿En qué orden correcto se produce el proceso AAA?",
+      "opciones": [
+        {
+          "texto": "Autorización → Autenticación → Autenticación",
+          "correcta": false
+        },
+        {
+          "texto": "Identificación → Autenticación → Autorización → Accountability",
+          "correcta": true
+        },
+        {
+          "texto": "Autenticación → Identificación → Autorización → Auditoría",
+          "correcta": false
+        },
+        {
+          "texto": "Autorización → Identificación → Autenticación → Accountability",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "En el proceso AAA, ¿qué fase consiste en declarar quién eres ante el sistema sin que se verifique todavía?",
+      "opciones": [
+        {
+          "texto": "Autenticación",
+          "correcta": false
+        },
+        {
+          "texto": "Autorización",
+          "correcta": false
+        },
+        {
+          "texto": "Identificación",
+          "correcta": true
+        },
+        {
+          "texto": "Accountability",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Cuál de los siguientes es un ejemplo de control técnico (lógico)?",
+      "opciones": [
+        {
+          "texto": "Guardia de seguridad en la entrada del edificio",
+          "correcta": false
+        },
+        {
+          "texto": "Política de contraseñas fuertes establecida por RRHH",
+          "correcta": false
+        },
+        {
+          "texto": "Firewall que filtra el tráfico de red",
+          "correcta": true
+        },
+        {
+          "texto": "Cámara de vigilancia en el centro de datos",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Cuál de los siguientes es un ejemplo de control administrativo?",
+      "opciones": [
+        {
+          "texto": "Sistema de cifrado de disco completo",
+          "correcta": false
+        },
+        {
+          "texto": "Política de seguridad y programa de formación de empleados",
+          "correcta": true
+        },
+        {
+          "texto": "Cerradura biométrica en la sala de servidores",
+          "correcta": false
+        },
+        {
+          "texto": "Sistema de detección de intrusos (IDS)",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "Un control que tiene como objetivo evitar que ocurra un incidente de seguridad se denomina:",
+      "opciones": [
+        {
+          "texto": "Control detectivo",
+          "correcta": false
+        },
+        {
+          "texto": "Control correctivo",
+          "correcta": false
+        },
+        {
+          "texto": "Control preventivo",
+          "correcta": true
+        },
+        {
+          "texto": "Control compensatorio",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Qué tipo de control son los planes de respuesta a incidentes y las copias de seguridad?",
+      "opciones": [
+        {
+          "texto": "Controles preventivos",
+          "correcta": false
+        },
+        {
+          "texto": "Controles detectivos",
+          "correcta": false
+        },
+        {
+          "texto": "Controles correctivos",
+          "correcta": true
+        },
+        {
+          "texto": "Controles físicos",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Qué fase del proceso AAA rastrea y registra todas las acciones realizadas por un usuario?",
+      "opciones": [
+        {
+          "texto": "Identificación",
+          "correcta": false
+        },
+        {
+          "texto": "Autenticación",
+          "correcta": false
+        },
+        {
+          "texto": "Autorización",
+          "correcta": false
+        },
+        {
+          "texto": "Accountability (Rendición de cuentas)",
+          "correcta": true
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Cuál de los siguientes NO es un componente de infraestructura del Control de Accesos?",
+      "opciones": [
+        {
+          "texto": "Servidor LDAP para autenticación",
+          "correcta": false
+        },
+        {
+          "texto": "Sistema IAM para gestión de identidades",
+          "correcta": false
+        },
+        {
+          "texto": "Switch de capa 2 para conectividad básica de red",
+          "correcta": true
+        },
+        {
+          "texto": "Tokens de seguridad para segundo factor",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Qué estrategia de seguridad asume que ningún usuario o dispositivo es de confianza por defecto, incluso dentro de la red corporativa?",
+      "opciones": [
+        {
+          "texto": "Defensa en Profundidad",
+          "correcta": false
+        },
+        {
+          "texto": "Zero Trust",
+          "correcta": true
+        },
+        {
+          "texto": "Seguridad Perimetral",
+          "correcta": false
+        },
+        {
+          "texto": "Principio de Mínimo Privilegio",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Cuál es uno de los principales desafíos del Control de Accesos en entornos IoT?",
+      "opciones": [
+        {
+          "texto": "Exceso de ancho de banda disponible en los dispositivos",
+          "correcta": false
+        },
+        {
+          "texto": "Los dispositivos IoT tienen capacidades computacionales limitadas que dificultan el cifrado y la autenticación tradicional",
+          "correcta": true
+        },
+        {
+          "texto": "Los dispositivos IoT no se conectan a redes corporativas",
+          "correcta": false
+        },
+        {
+          "texto": "La excesiva centralización de la gestión de identidades",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Qué protocolo se usa habitualmente como servidor de autenticación centralizado en redes corporativas?",
+      "opciones": [
+        {
+          "texto": "HTTP y HTTPS",
+          "correcta": false
+        },
+        {
+          "texto": "LDAP o RADIUS",
+          "correcta": true
+        },
+        {
+          "texto": "DNS y DHCP",
+          "correcta": false
+        },
+        {
+          "texto": "FTP y SFTP",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "La política BYOD (Bring Your Own Device) en el Control de Accesos plantea principalmente el reto de:",
+      "opciones": [
+        {
+          "texto": "Reducir los costes de licencias de software corporativo",
+          "correcta": false
+        },
+        {
+          "texto": "Equilibrar la flexibilidad de los empleados con la seguridad en el acceso a datos corporativos",
+          "correcta": true
+        },
+        {
+          "texto": "Gestionar el inventario de dispositivos personales de los empleados",
+          "correcta": false
+        },
+        {
+          "texto": "Garantizar la velocidad de conexión de los dispositivos personales",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Cuál de las siguientes afirmaciones sobre la evolución del Control de Accesos es correcta?",
+      "opciones": [
+        {
+          "texto": "Los primeros sistemas de CA ya usaban autenticación biométrica avanzada",
+          "correcta": false
+        },
+        {
+          "texto": "Internet no tuvo impacto en la complejidad de los controles de acceso",
+          "correcta": false
+        },
+        {
+          "texto": "La evolución fue de sistemas rudimentarios (ACLs, contraseñas simples) hacia sistemas con MFA, biometría y enfoques basados en identidad",
+          "correcta": true
+        },
+        {
+          "texto": "Los sistemas modernos de CA han eliminado completamente la necesidad de controles físicos",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Cuál es la función principal de un sistema IAM (Identity and Access Management)?",
+      "opciones": [
+        {
+          "texto": "Monitorizar el rendimiento de la red corporativa",
+          "correcta": false
+        },
+        {
+          "texto": "Administrar identidades de usuario: creación, modificación, desactivación de cuentas y gestión de roles y permisos",
+          "correcta": true
+        },
+        {
+          "texto": "Cifrar las comunicaciones entre sistemas internos y externos",
+          "correcta": false
+        },
+        {
+          "texto": "Gestionar las copias de seguridad de los datos corporativos",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Qué necesidad fundamental del CA se encarga de verificar que solo las personas autorizadas puedan modificar la información?",
+      "opciones": [
+        {
+          "texto": "Prevención de accesos no autorizados",
+          "correcta": false
+        },
+        {
+          "texto": "Control de privilegios y autorizaciones",
+          "correcta": false
+        },
+        {
+          "texto": "Mantenimiento de la integridad de los datos",
+          "correcta": true
+        },
+        {
+          "texto": "Gestión de identidades y autenticación",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "La 'Defensa en Profundidad' como estrategia de seguridad implica:",
+      "opciones": [
+        {
+          "texto": "Concentrar todos los recursos de seguridad en el perímetro de la red",
+          "correcta": false
+        },
+        {
+          "texto": "Implementar una única capa de seguridad muy robusta",
+          "correcta": false
+        },
+        {
+          "texto": "Implementar múltiples capas de seguridad independientes para que si una falla, las demás compensen",
+          "correcta": true
+        },
+        {
+          "texto": "Defender únicamente los sistemas más críticos de la organización",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Cuál es el principal riesgo de los errores de configuración en el Control de Accesos?",
+      "opciones": [
+        {
+          "texto": "Degradación del rendimiento de los servidores de autenticación",
+          "correcta": false
+        },
+        {
+          "texto": "Pueden exponer datos mediante permisos excesivamente permisivos o reglas mal configuradas",
+          "correcta": true
+        },
+        {
+          "texto": "Aumentan el tiempo de respuesta en la autenticación de usuarios",
+          "correcta": false
+        },
+        {
+          "texto": "Generan conflictos entre los sistemas IAM y los servidores LDAP",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Cuál de los siguientes representa un desafío específico del Control de Accesos relacionado con la Inteligencia Artificial?",
+      "opciones": [
+        {
+          "texto": "La IA elimina completamente la necesidad de autenticación humana",
+          "correcta": false
+        },
+        {
+          "texto": "La IA no puede integrarse con sistemas IAM existentes",
+          "correcta": false
+        },
+        {
+          "texto": "La IA procesa grandes volúmenes de datos sensibles y puede ser manipulada o comprometida si no tiene un CA robusto",
+          "correcta": true
+        },
+        {
+          "texto": "La IA solo puede usarse para controles físicos, no lógicos",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    }
+  ],
+  "redaccion": [
+    {
+      "titulo": "El proceso AAA y la triada CIA",
+      "enunciado": "Explica el proceso AAA (Identificación, Autenticación, Autorización y Accountability) describiendo qué ocurre en cada fase y qué información se maneja. Relaciona cada fase con la protección de los principios de la triada CIA (Confidencialidad, Integridad y Disponibilidad).",
+      "puntos": 15
+    },
+    {
+      "titulo": "Tipos de controles de acceso",
+      "enunciado": "Clasifica y describe los tipos de controles de acceso según su naturaleza (físicos, técnicos y administrativos) y según su función (preventivos, detectivos y correctivos). Para cada tipo proporciona al menos dos ejemplos concretos y explica por qué ninguna categoría es suficiente por sí sola.",
+      "puntos": 15
+    },
+    {
+      "titulo": "Desafíos del CA en entornos modernos",
+      "enunciado": "Describe los principales desafíos que plantea el Control de Accesos en tres entornos modernos: Cloud/Mobile, IoT y entornos con Inteligencia Artificial. Para cada entorno indica al menos dos retos específicos y una medida para afrontarlos. ¿Qué tienen en común estos desafíos?",
+      "puntos": 15
+    },
+    {
+      "titulo": "Zero Trust vs. Seguridad Perimetral",
+      "enunciado": "Explica en qué consiste el modelo Zero Trust y en qué se diferencia fundamentalmente del modelo tradicional de seguridad perimetral. ¿Por qué la adopción del Cloud y el trabajo remoto han acelerado la adopción de Zero Trust? Indica dos ventajas y dos dificultades de implementar Zero Trust en una organización mediana.",
+      "puntos": 15
+    }
+  ]
+}

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sesión · ExamHub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+<div class="app">
+
+  <div class="topbar">
+    <div class="brand">
+      <div class="brand-mark">&gt;_</div>
+      <div class="brand-text">
+        <a href="index.html"><h1>ExamHub</h1></a>
+        <p id="sessionSubtitle">preparando sesión…</p>
+      </div>
+    </div>
+    <a class="top-link" href="index.html">&larr; volver al catálogo</a>
+  </div>
+
+  <div id="loadError" style="display:none;" class="empty-note"></div>
+
+  <!-- ============ SESSION VIEW ============ -->
+  <div id="view-session" style="display:none;">
+    <div class="session-head">
+      <div class="ticket-id">TICKET <b id="ticketNum">001</b> / <span id="ticketTotal">000</span></div>
+      <div class="head-actions">
+        <button class="icon-btn" id="paletteBtn" title="Ver todas las preguntas">
+          <svg viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="6" height="6" rx="1" stroke="currentColor" stroke-width="2"/><rect x="14" y="4" width="6" height="6" rx="1" stroke="currentColor" stroke-width="2"/><rect x="4" y="14" width="6" height="6" rx="1" stroke="currentColor" stroke-width="2"/><rect x="14" y="14" width="6" height="6" rx="1" stroke="currentColor" stroke-width="2"/></svg>
+        </button>
+        <button class="icon-btn flags-btn" id="flagsNavBtn" title="Ir a la siguiente marcada" style="display:none;">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M5 3v18M5 4h11l-2.5 3.5L16 11H5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span class="flags-badge" id="flagsBadge">0</span>
+        </button>
+        <button class="icon-btn" id="flagBtn" title="Marcar para repasar">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M5 3v18M5 4h11l-2.5 3.5L16 11H5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="icon-btn" id="exitBtn" title="Salir de la sesión">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="nav-row">
+      <button class="nav-btn" id="prevBtn">‹ Anterior</button>
+      <button class="nav-btn primary" id="nextBtn">Siguiente ›</button>
+    </div>
+
+    <div class="palette-panel" id="palettePanel" style="display:none;">
+      <div class="palette-legend">
+        <span><i class="lg-dot"></i> Sin responder</span>
+        <span><i class="lg-dot st-skipped"></i> En blanco</span>
+        <span><i class="lg-dot done-correct"></i> Acertada</span>
+        <span><i class="lg-dot done-wrong"></i> Fallada</span>
+        <span><i class="lg-dot flagged"></i> Marcada</span>
+      </div>
+      <div class="palette-grid" id="paletteGrid"></div>
+    </div>
+
+    <div class="trail" id="trail"></div>
+
+    <div class="q-card" id="qCard">
+      <div class="q-tags" id="qTags"></div>
+      <div class="q-text" id="qText"></div>
+      <div class="q-images" id="qImages"></div>
+      <div class="options" id="options"></div>
+      <div id="matchArea"></div>
+      <div id="redaccionArea"></div>
+      <div class="feedback" id="feedback">
+        <div class="feedback-head" id="feedbackHead"></div>
+        <div id="feedbackBody"></div>
+      </div>
+    </div>
+
+    <div class="action-bar">
+      <div class="action-bar-inner">
+        <span class="multi-hint" id="multiHint"></span>
+        <div>
+          <button class="btn-secondary" id="skipBtn">Saltar</button>
+          <button class="btn-primary" id="checkBtn">Verificar respuesta</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ RESULTS VIEW ============ -->
+  <div id="view-results" style="display:none;">
+    <div class="report-hero">
+      <div class="score-ring" id="scoreRing">
+        <svg width="120" height="120" viewBox="0 0 120 120">
+          <circle cx="60" cy="60" r="52" fill="none" stroke="#1c2740" stroke-width="10"/>
+          <circle id="scoreArc" cx="60" cy="60" r="52" fill="none" stroke="#4fd6c8" stroke-width="10" stroke-linecap="round"/>
+        </svg>
+        <div class="score-ring-val" id="scoreVal">0%</div>
+      </div>
+      <div class="report-info">
+        <h2 id="reportTitle">Informe de la sesión</h2>
+        <p id="reportSub">Resumen de resultados.</p>
+        <div class="report-stats">
+          <div class="rstat"><b id="statCorrect">0</b>correctas</div>
+          <div class="rstat"><b id="statWrong">0</b>falladas</div>
+          <div class="rstat"><b id="statSkipped">0</b>saltadas</div>
+          <div class="rstat"><b id="statTime">0:00</b>duración</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="testResultsSection">
+      <div class="section-label">Resultado por tema</div>
+      <div class="cat-breakdown" id="catBreakdown"></div>
+
+      <div class="section-label">Preguntas falladas</div>
+      <div class="review-list" id="reviewList"></div>
+    </div>
+
+    <div id="redaccionResultsSection" style="display:none;">
+      <div class="section-label">Redacción</div>
+      <div class="redaccion-block">
+        <h3>Bloque para corrección manual</h3>
+        <p>Tus respuestas de desarrollo no se corrigen solas. Tienes dos formas de corregirlas:</p>
+        <ul class="redaccion-help">
+          <li><b>Copiar prompt para IA</b>: copia un prompt listo para pegar en Claude, ChatGPT o similar — incluye instrucciones de corrección, tu respuesta y pide nota + feedback por pregunta.</li>
+          <li><b>Descargar bloque (.txt)</b>: descarga solo tus respuestas en texto plano, para pasárselas a un profesor o corregirlas tú mismo con los apuntes.</li>
+        </ul>
+        <div class="redaccion-preview" id="redaccionPreview"></div>
+        <div class="redaccion-actions">
+          <button class="btn-primary" id="copyPromptBtn">Copiar prompt para IA</button>
+          <button class="btn-secondary" id="downloadRedBtn">Descargar bloque (.txt)</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="end-actions">
+      <button class="btn-primary" id="retryFailedBtn">Repasar solo las falladas</button>
+      <button class="btn-secondary" id="restartBtn">Volver al catálogo</button>
+    </div>
+  </div>
+
+  <!-- ============ PASSWORD MODAL (temas cifrados) ============ -->
+  <div class="lock-modal" id="lockModal" style="display:none;">
+    <div class="lock-modal-card">
+      <svg class="lock-modal-icon" viewBox="0 0 24 24" fill="none"><rect x="5" y="11" width="14" height="9" rx="2" stroke="currentColor" stroke-width="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3" stroke="currentColor" stroke-width="2"/></svg>
+      <h3>Contenido protegido</h3>
+      <p id="lockModalDesc">Esta selección incluye temas cifrados. Introduce la contraseña para descifrarlos en tu navegador (no se envía a ningún sitio).</p>
+      <input type="password" id="lockPasswordInput" placeholder="Contraseña" autocomplete="current-password">
+      <div class="lock-modal-error" id="lockModalError" style="display:none;">Contraseña incorrecta — inténtalo de nuevo.</div>
+      <div class="lock-modal-actions">
+        <button class="btn-secondary" id="lockCancelBtn">Cancelar</button>
+        <button class="btn-primary" id="lockSubmitBtn">Desbloquear</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="lightbox" id="lightbox"><img id="lightboxImg" src=""></div>
+
+<script src="assets/js/storage.js"></script>
+<script src="assets/js/crypto-lock.js"></script>
+<script src="assets/js/quiz-engine.js"></script>
+</body>
+</html>

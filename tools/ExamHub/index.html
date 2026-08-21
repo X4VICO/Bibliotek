@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ExamHub · Generador de exámenes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+<div class="app">
+
+  <div class="topbar">
+    <div class="brand">
+      <a href="../../index.html" class="chip-btn" style="text-decoration: none; display: inline-flex; align-items: center; gap: 6px; margin-right: 12px;">
+        ← Bibliotek
+      </a>
+      <div class="brand-mark">&gt;_</div>
+      <div class="brand-text">
+        <h1>ExamHub</h1>
+        <p>catálogo de preguntas · todas tus asignaturas</p>
+      </div>
+    </div>
+    <div class="global-stat" id="globalStat"></div>
+  </div>
+
+  <div class="hero">
+    <div class="hero-eyebrow"><span class="dot"></span> <span id="heroCount">cargando catálogo…</span></div>
+    <h2>Todas tus asignaturas, un solo sitio para repasar.</h2>
+    <p>Elige qué temas quieres practicar, cuántas preguntas de test y de redacción, y genera la sesión. Cada vez que subas apuntes nuevos a <code>/data</code>, aparecerán aquí solos.</p>
+  </div>
+
+  <div id="loadError" style="display:none;" class="empty-note"></div>
+
+  <div id="mainContent" style="display:none;">
+    <div class="section-label">Asignaturas y temas</div>
+    <div class="toolbar">
+      <button class="chip-btn" id="selectAll">Seleccionar todo</button>
+      <button class="chip-btn" id="selectNone">Vaciar selección</button>
+      <button class="chip-btn" id="selectFailed" style="display:none;">Solo falladas anteriormente</button>
+    </div>
+    <div id="subjectList"></div>
+
+    <div class="section-label">Modo de sesión</div>
+    <div class="config-row">
+      <div class="config-card">
+        <h3>Comportamiento</h3>
+        <div class="seg" id="modeSeg">
+          <button class="active" data-mode="practice">Práctica</button>
+          <button data-mode="exam">Examen</button>
+        </div>
+        <p class="seg-desc" id="modeDesc">Corriges cada pregunta al momento y lees la explicación antes de continuar. Ideal para estudiar.</p>
+
+        <span class="field-label">Orden</span>
+        <div class="seg" id="orderSeg">
+          <button class="active" data-order="random">Aleatorio</button>
+          <button data-order="sequential">En orden</button>
+        </div>
+      </div>
+      <div class="config-card">
+        <h3>Cantidad de preguntas</h3>
+        <span class="field-label">Tipo test (<span id="testAvail">0</span> disponibles)</span>
+        <div class="count-row">
+          <input type="range" id="countTest" min="0" max="0" value="0" step="1">
+          <span class="count-val" id="countTestVal">0</span>
+        </div>
+        <span class="field-label">Redacción (<span id="redAvail">0</span> disponibles)</span>
+        <div class="count-row">
+          <input type="range" id="countRed" min="0" max="0" value="0" step="1">
+          <span class="count-val" id="countRedVal">0</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="start-bar">
+      <div class="start-info"><b id="selCount">0</b> preguntas seleccionadas &nbsp;·&nbsp; modo <b id="selMode">práctica</b></div>
+      <button class="btn-primary" id="startBtn" disabled>
+        Empezar sesión
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <footer>ExamHub · <a href="../../index.html">Bibliotek Suite</a></footer>
+</div>
+
+<script src="assets/js/storage.js"></script>
+<script src="assets/js/hub.js"></script>
+</body>
+</html>

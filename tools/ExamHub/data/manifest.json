@@ -1,0 +1,218 @@
+{
+  "generated_at": "2026-07-31T11:45:11Z",
+  "asignaturas": [
+    {
+      "slug": "control-d-acces",
+      "nombre": "Control d'Accés",
+      "temas": [
+        {
+          "tema_id": "controlacces_m1",
+          "nombre": "Introducción al Control de Accesos",
+          "orden": 10,
+          "file": "data/control-d-acces/controlacces_m1.json",
+          "test_count": 20,
+          "redaccion_count": 4,
+          "encrypted": false
+        },
+        {
+          "tema_id": "controlacces_m2",
+          "nombre": "Modelos de Control de Acceso (DAC, MAC, RBAC, ABAC)",
+          "orden": 11,
+          "file": "data/control-d-acces/controlacces_m2.json",
+          "test_count": 20,
+          "redaccion_count": 4,
+          "encrypted": false
+        },
+        {
+          "tema_id": "controlacces_m3",
+          "nombre": "Identificación, Autenticación y MFA",
+          "orden": 12,
+          "file": "data/control-d-acces/controlacces_m3.json",
+          "test_count": 20,
+          "redaccion_count": 4,
+          "encrypted": false
+        },
+        {
+          "tema_id": "controlacces_m4",
+          "nombre": "Gestión de Privilegios y Administración de Cuentas",
+          "orden": 13,
+          "file": "data/control-d-acces/controlacces_m4.json",
+          "test_count": 20,
+          "redaccion_count": 4,
+          "encrypted": false
+        },
+        {
+          "tema_id": "controlacces_m5",
+          "nombre": "Auditoría y Monitoreo de Control de Accesos",
+          "orden": 14,
+          "file": "data/control-d-acces/controlacces_m5.json",
+          "test_count": 20,
+          "redaccion_count": 4,
+          "encrypted": false
+        },
+        {
+          "tema_id": "controlacces_m6",
+          "nombre": "Evaluación y Gestión de Riesgos",
+          "orden": 15,
+          "file": "data/control-d-acces/controlacces_m6.json",
+          "test_count": 20,
+          "redaccion_count": 4,
+          "encrypted": false
+        }
+      ]
+    },
+    {
+      "slug": "cyberops-associate",
+      "nombre": "CyberOps Associate",
+      "temas": [
+        {
+          "tema_id": "cyberops-associate_m01-02",
+          "nombre": "Módulos 1-2: Atacantes y Defensores de Amenazas",
+          "orden": 1,
+          "file": "data/cyberops-associate/cyberops-associate_m01-02.json",
+          "test_count": 28,
+          "redaccion_count": 0,
+          "encrypted": true
+        },
+        {
+          "tema_id": "cyberops-associate_m03-04",
+          "nombre": "Módulos 3-4: Visión general del Sistema Operativo",
+          "orden": 2,
+          "file": "data/cyberops-associate/cyberops-associate_m03-04.json",
+          "test_count": 35,
+          "redaccion_count": 0,
+          "encrypted": true
+        },
+        {
+          "tema_id": "cyberops-associate_m05-10",
+          "nombre": "Módulos 5-10: Fundamentos de la Red",
+          "orden": 3,
+          "file": "data/cyberops-associate/cyberops-associate_m05-10.json",
+          "test_count": 62,
+          "redaccion_count": 0,
+          "encrypted": true
+        },
+        {
+          "tema_id": "cyberops-associate_m11-12",
+          "nombre": "Módulos 11-12: Seguridad de la Infraestructura de Red",
+          "orden": 4,
+          "file": "data/cyberops-associate/cyberops-associate_m11-12.json",
+          "test_count": 35,
+          "redaccion_count": 0,
+          "encrypted": true
+        },
+        {
+          "tema_id": "cyberops-associate_m13-17",
+          "nombre": "Módulos 13-17: Amenazas y Ataques",
+          "orden": 5,
+          "file": "data/cyberops-associate/cyberops-associate_m13-17.json",
+          "test_count": 51,
+          "redaccion_count": 0,
+          "encrypted": true
+        },
+        {
+          "tema_id": "cyberops-associate_m18-20",
+          "nombre": "Módulos 18-20: Defensa de la Red",
+          "orden": 6,
+          "file": "data/cyberops-associate/cyberops-associate_m18-20.json",
+          "test_count": 33,
+          "redaccion_count": 0,
+          "encrypted": true
+        },
+        {
+          "tema_id": "cyberops-associate_m21-23",
+          "nombre": "Módulos 21-23: Criptografía y Protección de Terminales",
+          "orden": 7,
+          "file": "data/cyberops-associate/cyberops-associate_m21-23.json",
+          "test_count": 36,
+          "redaccion_count": 0,
+          "encrypted": true
+        },
+        {
+          "tema_id": "cyberops-associate_m24-25",
+          "nombre": "Módulos 24-25: Protocolos y Archivos de registro",
+          "orden": 8,
+          "file": "data/cyberops-associate/cyberops-associate_m24-25.json",
+          "test_count": 30,
+          "redaccion_count": 0,
+          "encrypted": true
+        },
+        {
+          "tema_id": "cyberops-associate_m26-28",
+          "nombre": "Módulos 26-28: Análisis de Datos de Seguridad",
+          "orden": 9,
+          "file": "data/cyberops-associate/cyberops-associate_m26-28.json",
+          "test_count": 37,
+          "redaccion_count": 0,
+          "encrypted": true
+        },
+        {
+          "tema_id": "cyberops-associate_cert-200-201",
+          "nombre": "Examen de práctica de certificación 200-201",
+          "orden": 10,
+          "file": "data/cyberops-associate/cyberops-associate_cert-200-201.json",
+          "test_count": 92,
+          "redaccion_count": 0,
+          "encrypted": true
+        },
+        {
+          "tema_id": "cyberops-associate_final-practica",
+          "nombre": "Examen final de práctica CyberOps Associate 1.0",
+          "orden": 11,
+          "file": "data/cyberops-associate/cyberops-associate_final-practica.json",
+          "test_count": 68,
+          "redaccion_count": 0,
+          "encrypted": true
+        },
+        {
+          "tema_id": "cyberops-associate_final-curso",
+          "nombre": "Examen final del curso",
+          "orden": 12,
+          "file": "data/cyberops-associate/cyberops-associate_final-curso.json",
+          "test_count": 184,
+          "redaccion_count": 0,
+          "encrypted": true
+        }
+      ]
+    },
+    {
+      "slug": "redes-iii",
+      "nombre": "Redes III",
+      "temas": [
+        {
+          "tema_id": "redes3_tema1",
+          "nombre": "Firewall y DMZ",
+          "orden": 1,
+          "file": "data/redes-iii/redes3_tema1.json",
+          "test_count": 20,
+          "redaccion_count": 4,
+          "encrypted": false
+        },
+        {
+          "tema_id": "redes3_tema2",
+          "nombre": "Ataques en Redes y Mitigación",
+          "orden": 2,
+          "file": "data/redes-iii/redes3_tema2.json",
+          "test_count": 20,
+          "redaccion_count": 4,
+          "encrypted": false
+        },
+        {
+          "tema_id": "redes3_tema3",
+          "nombre": "IDS/IPS y SIEM",
+          "orden": 3,
+          "file": "data/redes-iii/redes3_tema3.json",
+          "test_count": 20,
+          "redaccion_count": 4,
+          "encrypted": false
+        }
+      ]
+    }
+  ],
+  "totals": {
+    "asignaturas": 3,
+    "temas": 21,
+    "test": 871,
+    "redaccion": 36
+  }
+}

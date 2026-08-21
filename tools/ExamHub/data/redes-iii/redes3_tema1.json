@@ -1,0 +1,471 @@
+{
+  "asignatura": "Redes III",
+  "asignatura_slug": "redes-iii",
+  "tema": "Firewall y DMZ",
+  "tema_id": "redes3_tema1",
+  "orden": 1,
+  "test": [
+    {
+      "enunciado": "¿En qué capas del modelo OSI opera un firewall stateful inspection?",
+      "opciones": [
+        {
+          "texto": "Capa 2 y 3",
+          "correcta": false
+        },
+        {
+          "texto": "Capa 3 y 4",
+          "correcta": true
+        },
+        {
+          "texto": "Capa 5 y 6",
+          "correcta": false
+        },
+        {
+          "texto": "Capa 7 únicamente",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "Un firewall stateful mantiene una tabla de estado. ¿Qué información contiene?",
+      "opciones": [
+        {
+          "texto": "Las direcciones MAC de todos los hosts conectados",
+          "correcta": false
+        },
+        {
+          "texto": "Los logs de acceso de los últimos 30 días",
+          "correcta": false
+        },
+        {
+          "texto": "La 5-tupla de cada conexión activa: IP origen, IP destino, puerto origen, puerto destino y protocolo",
+          "correcta": true
+        },
+        {
+          "texto": "Las rutas de la tabla de enrutamiento del router adyacente",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Cuál es la regla implícita que todo firewall aplica al final de su lista de reglas?",
+      "opciones": [
+        {
+          "texto": "Permit all — permite todo el tráfico no clasificado",
+          "correcta": false
+        },
+        {
+          "texto": "Log all — registra todo el tráfico sin bloquearlo",
+          "correcta": false
+        },
+        {
+          "texto": "Deny all — bloquea todo el tráfico que no coincidió con ninguna regla anterior",
+          "correcta": true
+        },
+        {
+          "texto": "Forward all — reenvía el tráfico no clasificado al siguiente dispositivo",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Por qué las reglas de un firewall deben ordenarse de más específica a más genérica?",
+      "opciones": [
+        {
+          "texto": "Para reducir el consumo de CPU al procesar paquetes",
+          "correcta": false
+        },
+        {
+          "texto": "Porque las reglas genéricas al principio pueden tapar reglas específicas y nunca evaluarlas",
+          "correcta": true
+        },
+        {
+          "texto": "Porque los firewalls solo leen las primeras 10 reglas de la lista",
+          "correcta": false
+        },
+        {
+          "texto": "Para facilitar la exportación de la configuración a otros dispositivos",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Qué tipo de firewall podría detectar un ataque de inyección SQL dentro de una petición HTTP válida?",
+      "opciones": [
+        {
+          "texto": "Packet filter",
+          "correcta": false
+        },
+        {
+          "texto": "Circuit-level gateway",
+          "correcta": false
+        },
+        {
+          "texto": "Stateful inspection",
+          "correcta": false
+        },
+        {
+          "texto": "Application layer firewall (NGFW)",
+          "correcta": true
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "En una arquitectura DMZ con doble firewall, ¿qué zonas separa el firewall interno?",
+      "opciones": [
+        {
+          "texto": "Internet y la DMZ",
+          "correcta": false
+        },
+        {
+          "texto": "La DMZ y la LAN interna",
+          "correcta": true
+        },
+        {
+          "texto": "La LAN interna y la VLAN de gestión",
+          "correcta": false
+        },
+        {
+          "texto": "Dos segmentos de DMZ diferentes",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Cuál de los siguientes servicios es típico desplegar en una DMZ?",
+      "opciones": [
+        {
+          "texto": "El servidor de base de datos con datos de clientes",
+          "correcta": false
+        },
+        {
+          "texto": "El directorio activo (Active Directory) corporativo",
+          "correcta": false
+        },
+        {
+          "texto": "El servidor web público (HTTP/HTTPS)",
+          "correcta": true
+        },
+        {
+          "texto": "El servidor de ficheros interno de la empresa",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Qué ventaja aporta usar firewalls de distinto fabricante en una arquitectura de doble firewall?",
+      "opciones": [
+        {
+          "texto": "Reducen el coste total de la infraestructura",
+          "correcta": false
+        },
+        {
+          "texto": "Simplifican la gestión centralizada de reglas",
+          "correcta": false
+        },
+        {
+          "texto": "Evitan que una vulnerabilidad afecte a ambos firewalls simultáneamente",
+          "correcta": true
+        },
+        {
+          "texto": "Permiten mayor velocidad de inspección del tráfico",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Qué protocolo usa un enlace troncal (trunk link) para identificar a qué VLAN pertenece cada trama?",
+      "opciones": [
+        {
+          "texto": "STP (Spanning Tree Protocol)",
+          "correcta": false
+        },
+        {
+          "texto": "802.1Q",
+          "correcta": true
+        },
+        {
+          "texto": "802.11",
+          "correcta": false
+        },
+        {
+          "texto": "LACP",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Cuál es el principal beneficio de seguridad de segmentar la red con VLANs?",
+      "opciones": [
+        {
+          "texto": "Cifrar el tráfico entre hosts de distintas VLANs automáticamente",
+          "correcta": false
+        },
+        {
+          "texto": "Eliminar la necesidad de un firewall perimetral",
+          "correcta": false
+        },
+        {
+          "texto": "Limitar el radio de acción de ataques de capa 2 al dominio de broadcast de la VLAN",
+          "correcta": true
+        },
+        {
+          "texto": "Aumentar el ancho de banda disponible para cada host",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Qué ataque explota la ausencia de autenticación en ARP para comprometer una VLAN?",
+      "opciones": [
+        {
+          "texto": "SYN Flood",
+          "correcta": false
+        },
+        {
+          "texto": "VLAN Hopping",
+          "correcta": false
+        },
+        {
+          "texto": "ARP Spoofing",
+          "correcta": true
+        },
+        {
+          "texto": "MAC Flooding",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Qué función tiene el DHCP Snooping en la seguridad de una red con VLANs?",
+      "opciones": [
+        {
+          "texto": "Asignar IPs estáticas a los servidores de la DMZ",
+          "correcta": false
+        },
+        {
+          "texto": "Registrar qué IP ha sido asignada a qué MAC en qué puerto, sirviendo de base para DAI",
+          "correcta": true
+        },
+        {
+          "texto": "Bloquear el tráfico DHCP entre VLANs diferentes",
+          "correcta": false
+        },
+        {
+          "texto": "Cifrar las comunicaciones entre el servidor DHCP y los clientes",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Qué ocurre si un enlace troncal entre dos switches queda saturado?",
+      "opciones": [
+        {
+          "texto": "Solo se ve afectada la VLAN con mayor prioridad configurada",
+          "correcta": false
+        },
+        {
+          "texto": "El switch redirige automáticamente el tráfico por otro enlace físico",
+          "correcta": false
+        },
+        {
+          "texto": "Todas las VLANs que atraviesan ese enlace sufren degradación simultáneamente",
+          "correcta": true
+        },
+        {
+          "texto": "El tráfico de gestión tiene prioridad y el resto se descarta",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Cuál es la diferencia entre una regla con acción deny y una con acción drop en un firewall?",
+      "opciones": [
+        {
+          "texto": "Deny bloquea solo tráfico TCP; drop bloquea solo tráfico UDP",
+          "correcta": false
+        },
+        {
+          "texto": "Deny notifica al emisor con un mensaje de rechazo; drop descarta el paquete silenciosamente",
+          "correcta": true
+        },
+        {
+          "texto": "Son sinónimos, ambas hacen exactamente lo mismo",
+          "correcta": false
+        },
+        {
+          "texto": "Drop es más lento que deny porque requiere procesamiento adicional",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Cómo se mitiga el ataque de VLAN Hopping?",
+      "opciones": [
+        {
+          "texto": "Saturando el enlace troncal con QoS",
+          "correcta": false
+        },
+        {
+          "texto": "Desactivando el auto-trunking en puertos de acceso y usando una VLAN nativa sin tráfico de usuario",
+          "correcta": true
+        },
+        {
+          "texto": "Activando STP en todos los switches",
+          "correcta": false
+        },
+        {
+          "texto": "Aplicando ACLs entre VLANs en el router",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Qué significa aplicar el principio de mínimo privilegio en el diseño de reglas de un firewall?",
+      "opciones": [
+        {
+          "texto": "Usar el firewall con menos funcionalidades para reducir su superficie de ataque",
+          "correcta": false
+        },
+        {
+          "texto": "Permitir únicamente el tráfico estrictamente necesario y denegar todo lo demás",
+          "correcta": true
+        },
+        {
+          "texto": "Asignar la gestión del firewall al usuario con menos permisos del sistema",
+          "correcta": false
+        },
+        {
+          "texto": "Configurar el menor número posible de reglas para simplificar la gestión",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "Un servidor web en la DMZ es comprometido. ¿Qué impide al atacante acceder directamente a la LAN?",
+      "opciones": [
+        {
+          "texto": "El propio servidor web tiene un firewall local que bloquea el acceso a la LAN",
+          "correcta": false
+        },
+        {
+          "texto": "El firewall interno entre DMZ y LAN bloquea el tráfico no autorizado desde la DMZ hacia la LAN",
+          "correcta": true
+        },
+        {
+          "texto": "Las VLANs cifran automáticamente el tráfico impidiendo el movimiento lateral",
+          "correcta": false
+        },
+        {
+          "texto": "El router de borde descarta el tráfico que no viene de Internet",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿En qué se diferencia un packet filter de un stateful firewall ante un paquete TCP ACK sin sesión previa?",
+      "opciones": [
+        {
+          "texto": "Ambos lo bloquean porque el flag ACK indica una sesión no iniciada",
+          "correcta": false
+        },
+        {
+          "texto": "El packet filter lo permite si el puerto está abierto en las reglas; el stateful lo bloquea porque no hay sesión activa",
+          "correcta": true
+        },
+        {
+          "texto": "El stateful lo permite siempre que venga de una IP de confianza; el packet filter lo bloquea",
+          "correcta": false
+        },
+        {
+          "texto": "No hay diferencia, ambos toman la misma decisión",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Cuál de las siguientes es una buena práctica en la gestión continua de reglas de un firewall?",
+      "opciones": [
+        {
+          "texto": "Añadir nuevas reglas siempre al final de la lista para no alterar el orden existente",
+          "correcta": false
+        },
+        {
+          "texto": "Revisar y eliminar periódicamente reglas obsoletas para no aumentar la superficie de ataque",
+          "correcta": true
+        },
+        {
+          "texto": "Deshabilitar el logging para reducir la carga de procesamiento del firewall",
+          "correcta": false
+        },
+        {
+          "texto": "Usar reglas any/any como base y añadir excepciones específicas",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    },
+    {
+      "enunciado": "¿Qué capa del modelo OSI inspeccionan las ACLs aplicadas entre VLANs en un router o switch de capa 3?",
+      "opciones": [
+        {
+          "texto": "Capa 2 — analizan direcciones MAC",
+          "correcta": false
+        },
+        {
+          "texto": "Capa 3 — analizan direcciones IP, protocolo y puerto",
+          "correcta": true
+        },
+        {
+          "texto": "Capa 7 — analizan el contenido de los paquetes",
+          "correcta": false
+        },
+        {
+          "texto": "Capa 1 — analizan la señal física del enlace",
+          "correcta": false
+        }
+      ],
+      "explicacion": ""
+    }
+  ],
+  "redaccion": [
+    {
+      "titulo": "Firewall stateful vs NGFW",
+      "enunciado": "Explica la diferencia entre un firewall stateful y un NGFW de capa 7. ¿Qué información analiza cada uno y en qué capa OSI opera? Pon un ejemplo de ataque que el stateful NO detectaría pero el NGFW SÍ.",
+      "puntos": 15
+    },
+    {
+      "titulo": "Arquitectura DMZ doble firewall",
+      "enunciado": "Explica por qué una arquitectura DMZ con doble firewall aporta mayor seguridad que una de un solo firewall. Usa el concepto de defensa en profundidad. Indica qué zonas separa cada firewall y qué ocurre si el firewall externo es comprometido.",
+      "puntos": 15
+    },
+    {
+      "titulo": "VLANs y segmentación de red",
+      "enunciado": "Explica qué son las VLANs, qué es el dominio de broadcast y cómo la segmentación con VLANs limita el impacto de un ARP Spoofing. ¿Qué medida técnica complementaria usarías en el switch para reforzar la seguridad ARP?",
+      "puntos": 15
+    },
+    {
+      "titulo": "Caso práctico: auditoría de firewall",
+      "enunciado": "Un auditor encuentra esta configuración: un único firewall packet filter con una regla 'permit any any' al inicio, la base de datos de clientes en la DMZ junto al servidor web, y sin VLANs internas. Identifica todos los problemas de seguridad y propón una arquitectura mejorada.",
+      "puntos": 15
+    }
+  ]
+}
