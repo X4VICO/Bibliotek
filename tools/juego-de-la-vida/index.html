@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Juego de la Vida - Bibliotek</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <a href="../../index.html" class="back-link">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+        Volver a Bibliotek
+      </a>
+      <h1>/ Juego de la Vida</h1>
+      <p>Simulación de autómata celular de Conway. Haz clic en la cuadrícula para dibujar o borrar células.</p>
+    </header>
+
+    <div class="stats-bar">
+      <div>Generación: <span id="genCount">0</span></div>
+      <div>Población: <span id="popCount">0</span></div>
+    </div>
+
+    <div class="canvas-container">
+      <canvas id="lifeCanvas" width="600" height="600"></canvas>
+    </div>
+
+    <div class="toolbar">
+      <button id="playBtn" class="btn primary">▶️ Iniciar</button>
+      <button id="stepBtn" class="btn">⏭️ Paso</button>
+      <button id="randomBtn" class="btn">🎲 Aleatorio</button>
+      <button id="clearBtn" class="btn danger">🧹 Limpiar</button>
+      <a href="./juego_de_la_vida.py" download="juego_de_la_vida.py" class="btn download">🐍 Descargar .py</a>
+    </div>
+  </div>
+
+  <script src="./script.js"></script>
+</body>
+</html>

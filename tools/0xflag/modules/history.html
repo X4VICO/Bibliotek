@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es" data-bs-theme="dark">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>0xFlag - Historial de Comandos</title>
+
+    <link rel="icon" type="image/x-icon" href="../assets/favicon.ico" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/styles.css" rel="stylesheet" />
+</head>
+
+<body class="bg-dark text-light d-flex flex-column min-vh-100">
+
+    <!-- Navegación -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark border-bottom border-secondary">
+        <div class="container-fluid px-4 px-lg-5">
+            <a class="btn btn-outline-success btn-sm font-monospace me-3" href="../../../index.html">
+                <i class="bi bi-arrow-left"></i> Bibliotek
+            </a>
+
+            <a class="navbar-brand d-flex align-items-center" href="../index.html">
+                <img src="../assets/0xFlag_Logo.png" alt="Logo" width="40" height="auto" class="d-inline-block align-text-center me-2">
+                <span class="fw-bold font-monospace">0xFlag</span>
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0 font-monospace" style="font-size: 0.95rem;">
+                    <li class="nav-item"><a class="nav-link" href="../index.html">Inicio</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navRecon" role="button" data-bs-toggle="dropdown">Reconocimiento</a>
+                        <ul class="dropdown-menu dropdown-menu-dark cyber-dropdown">
+                            <li><a class="dropdown-item" href="nmap.html">Generador Nmap</a></li>
+                            <li><a class="dropdown-item" href="discovery.html">Discovery</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navExp" role="button" data-bs-toggle="dropdown">Explotación</a>
+                        <ul class="dropdown-menu dropdown-menu-dark cyber-dropdown">
+                            <li><a class="dropdown-item" href="reverse.html">Reverse Shell</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navEsc" role="button" data-bs-toggle="dropdown">Escalada</a>
+                        <ul class="dropdown-menu dropdown-menu-dark cyber-dropdown">
+                            <li><a class="dropdown-item" href="tty.html">TTY Assistant</a></li>
+                            <li><a class="dropdown-item" href="peass.html">PEASS-ng</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item border-start border-secondary ms-lg-2 ps-lg-2">
+                        <a class="nav-link active" href="history.html"><i class="bi bi-clock-history"></i> Historial</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="settings.html"><i class="bi bi-gear-fill"></i> Config</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenido Historial -->
+    <main class="container px-5 my-5 flex-grow-1">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h1 class="fw-bolder font-monospace text-success mb-0">&gt; Historial Local</h1>
+                <p class="text-white-50 mb-0">Comandos copiados en esta sesión</p>
+            </div>
+            <button class="btn btn-outline-danger btn-sm font-monospace" id="btn-clear-history">
+                <i class="bi bi-trash"></i> Limpiar Historial
+            </button>
+        </div>
+
+        <div class="card bg-secondary bg-opacity-25 border-secondary shadow">
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-dark table-hover mb-0 font-monospace align-middle">
+                        <thead class="table-borderless border-bottom border-secondary text-success">
+                            <tr>
+                                <th scope="col" style="width: 15%;">Hora</th>
+                                <th scope="col" style="width: 20%;">Módulo</th>
+                                <th scope="col" style="width: 55%;">Comando</th>
+                                <th scope="col" class="text-end" style="width: 10%;">Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody id="history-table-body">
+                            <!-- Inyectado vía app.js -->
+                            <tr>
+                                <td colspan="4" class="text-center py-4 text-white-50">No hay comandos registrados aún.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-dark border-top border-secondary text-white-50 text-center py-3 mt-auto font-monospace small">
+        © 2026 0xFlag - Bibliotek Suite
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/commands.js"></script>
+    <script src="../js/app.js"></script>
+</body>
+</html>

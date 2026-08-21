@@ -1,0 +1,41 @@
+[
+  {
+    "id": "planner-semanal",
+    "title": "Planner Semanal",
+    "category": "herramientas",
+    "type": "web",
+    "description": "Diseña tu rutina semanal interactiva y expórtala como imagen o JSON.",
+    "path": "./tools/Planner-semanal/index.html",
+    "tags": ["Web", "Productividad", "Exportar"]
+  },
+  {
+    "id": "listenvault",
+    "title": "ListenVault",
+    "category": "utilidades",
+    "type": "repo",
+    "description": "Herramienta CLI en Python para procesar, transcribir y resumir episodios de podcasts.",
+    "github": "https://github.com/X4VICO/ListenVault",
+    "requirements": "Requiere: Python 3.10+, FFmpeg",
+    "cloneCmd": "git clone https://github.com/X4VICO/ListenVault.git",
+    "tags": ["Python", "CLI", "Audio", "Local"]
+  },
+  {
+    "id": "juego-de-la-vida",
+    "title": "Juego de la Vida",
+    "category": "minijuegos",
+    "type": "web",
+    "description": "Simulación interactiva del autómata celular de Conway.",
+    "path": "./tools/juego-de-la-vida/index.html",
+    "tags": ["JavaScript", "Canvas", "Simulación"]
+  },
+  {
+    "id": "0xflag",
+    "title": "0xFlag",
+    "category": "ciberseguridad",
+    "type": "web",
+    "description": "Plataforma/herramienta de retos CTF y ciberseguridad.",
+    "path": "./tools/0xflag/index.html",
+    "github": "https://github.com/X4VICO/0xFlag",
+    "tags": ["Ciberseguridad", "CTF", "Web"]
+  }
+]

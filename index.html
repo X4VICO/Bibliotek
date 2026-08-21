@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bibliotek</title>
+  <link rel="stylesheet" href="./assets/css/main.css">
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <h1>BIBLIOTEK</h1>
+      <p>Colección personal de herramientas web, minijuegos y utilidades de automatización.</p>
+    </header>
+
+    <div class="controls">
+      <div class="search-box">
+        <input type="text" id="searchInput" placeholder="🔍 Buscar por nombre o tecnología...">
+      </div>
+      <div class="filter-pills">
+        <button class="pill active" data-filter="all">Todos</button>
+        <button class="pill" data-filter="herramientas">🛠️ Herramientas</button>
+        <button class="pill" data-filter="minijuegos">🎮 Minijuegos</button>
+        <button class="pill" data-filter="utilidades">💻 Utilidades Locales</button>
+      </div>
+    </div>
+
+    <div class="grid" id="toolsGrid"></div>
+  </div>
+
+  <footer>
+    <div class="footer-content">
+      <p>© XAVICO - Bibliotek</p>
+      <div class="footer-links">
+        <a href="https://github.com/X4VICO" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://linkedin.com/in/xavi-conde" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://bibliotek.gitbook.io/miwiki" target="_blank" rel="noopener">GitBook</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="./assets/js/app.js"></script>
+</body>
+</html>

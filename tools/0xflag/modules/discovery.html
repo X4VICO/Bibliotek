@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es" data-bs-theme="dark">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>0xFlag - Discovery</title>
+
+    <link rel="icon" type="image/x-icon" href="../assets/favicon.ico" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/styles.css" rel="stylesheet" />
+</head>
+
+<body class="bg-dark text-light d-flex flex-column min-vh-100">
+
+    <!-- Navegación -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark border-bottom border-secondary">
+        <div class="container-fluid px-4 px-lg-5">
+            <a class="btn btn-outline-success btn-sm font-monospace me-3" href="../../../index.html">
+                <i class="bi bi-arrow-left"></i> Bibliotek
+            </a>
+
+            <a class="navbar-brand d-flex align-items-center" href="../index.html">
+                <img src="../assets/0xFlag_Logo.png" alt="Logo" width="40" height="auto" class="d-inline-block align-text-center me-2">
+                <span class="fw-bold font-monospace">0xFlag</span>
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0 font-monospace" style="font-size: 0.95rem;">
+                    <li class="nav-item"><a class="nav-link" href="../index.html">Inicio</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle active" href="#" id="navRecon" role="button" data-bs-toggle="dropdown">Reconocimiento</a>
+                        <ul class="dropdown-menu dropdown-menu-dark cyber-dropdown">
+                            <li><a class="dropdown-item" href="nmap.html">Generador Nmap</a></li>
+                            <li><a class="dropdown-item active" href="discovery.html">Discovery</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navExp" role="button" data-bs-toggle="dropdown">Explotación</a>
+                        <ul class="dropdown-menu dropdown-menu-dark cyber-dropdown">
+                            <li><a class="dropdown-item" href="reverse.html">Reverse Shell</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navEsc" role="button" data-bs-toggle="dropdown">Escalada</a>
+                        <ul class="dropdown-menu dropdown-menu-dark cyber-dropdown">
+                            <li><a class="dropdown-item" href="tty.html">TTY Assistant</a></li>
+                            <li><a class="dropdown-item" href="peass.html">PEASS-ng</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item border-start border-secondary ms-lg-2 ps-lg-2">
+                        <a class="nav-link" href="history.html"><i class="bi bi-clock-history"></i> Historial</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="settings.html"><i class="bi bi-gear-fill"></i> Config</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenido Discovery -->
+    <main class="container px-5 my-5 flex-grow-1">
+        <div class="text-center text-white mb-5">
+            <h1 class="fw-bolder font-monospace text-success">> Discovery (Directorios)</h1>
+            <p class="lead text-white-50">Generación de comandos para fuzzing web</p>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-lg-7">
+                <div class="card bg-secondary bg-opacity-25 text-white border-secondary shadow mb-4">
+                    <div class="card-body p-4">
+                        <form onsubmit="event.preventDefault();">
+                            <div class="mb-3">
+                                <label class="form-label fw-bold font-monospace">URL Objetivo:</label>
+                                <input type="text" id="disco_url" class="form-control bg-dark text-white border-secondary font-monospace" placeholder="http://10.10.10.55">
+                                <div class="form-text text-white-50 small">Se recomienda incluir http:// o https://</div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label fw-bold font-monospace">Diccionario (Wordlist):</label>
+                                <input type="text" id="disco_wordlist" class="form-control bg-dark text-white border-secondary font-monospace" value="/usr/share/wordlists/dirb/common.txt">
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label fw-bold font-monospace">Extensiones (opcional):</label>
+                                <input type="text" id="disco_extensions" class="form-control bg-dark text-white border-secondary font-monospace" placeholder="php,txt,html">
+                                <div class="form-text text-white-50 small">Separadas por comas (ej: php,txt)</div>
+                            </div>
+
+                            <div class="mb-2">
+                                <label class="form-label fw-bold font-monospace">Herramienta:</label>
+                                <select class="form-select bg-dark text-white border-secondary font-monospace" id="disco_tool">
+                                    <option value="gobuster">Gobuster</option>
+                                    <option value="ffuf">FFuF</option>
+                                    <option value="dirsearch">Dirsearch</option>
+                                </select>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="terminal-output card bg-black border-success p-3" id="disco-output-container" style="display:none;">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="fw-bold text-success font-monospace">&gt; Comando Generado:</span>
+                        <button class="btn btn-outline-success btn-sm btn-copy font-monospace" id="btn-disco-copy" data-target="disco-output-text">
+                            <i class="bi bi-clipboard"></i> Copiar
+                        </button>
+                    </div>
+                    <div id="disco-output-text" class="form-control bg-dark text-success border-0 font-monospace text-break">
+                        Esperando datos...
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-dark border-top border-secondary text-white-50 text-center py-3 mt-auto font-monospace small">
+        © 2026 0xFlag - Bibliotek Suite
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/commands.js"></script>
+    <script src="../js/app.js"></script>
+</body>
+</html>

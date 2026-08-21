@@ -1,0 +1,77 @@
+/* 1. Definición de la Paleta Oficial 0xFlag */
+:root {
+  --bg-main: #050423;
+  --bg-card: #0A0928;
+  --cyber-green: #59F894;
+  --cyber-blue: #21D8F8;
+  --cyber-lila: #A432E2;
+}
+
+/* 2. Sobrescritura del tema global (Bootstrap overrides) */
+body, 
+.bg-dark {
+  background-color: var(--bg-main) !important;
+}
+
+/* Textos con acentos de la paleta */
+.text-success {
+  color: var(--cyber-green) !important;
+}
+
+.text-info,
+.text-primary {
+  color: var(--cyber-blue) !important;
+}
+
+/* Botones y bordes personalizados */
+.btn-outline-success {
+  color: var(--cyber-green);
+  border-color: var(--cyber-green);
+}
+
+.btn-outline-success:hover {
+  background-color: var(--cyber-green);
+  color: var(--bg-main);
+  border-color: var(--cyber-green);
+}
+
+.border-secondary {
+  border-color: rgba(33, 216, 248, 0.2) !important; /* Azul suave para divisiones */
+}
+
+/* 3. Componentes Específicos de 0xFlag */
+
+/* Separador Lila */
+.separator-lila {
+  border-bottom: 2px solid var(--cyber-lila);
+}
+
+/* Menús despegables Ciberseguridad */
+.cyber-dropdown {
+  background-color: var(--bg-card) !important;
+  border: 1px solid var(--cyber-green);
+  box-shadow: 0 4px 15px rgba(89, 248, 148, 0.15);
+}
+
+.cyber-dropdown .dropdown-item:hover {
+  background-color: var(--cyber-lila);
+  color: #ffffff;
+}
+
+/* Tarjetas de Módulos (Nmap, Discovery, etc.) */
+.nmap-card {
+  background-color: var(--bg-card) !important;
+  border: 1px solid rgba(164, 50, 226, 0.3) !important;
+  transition: all 0.25s ease-in-out;
+}
+
+.nmap-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--cyber-blue) !important;
+  box-shadow: 0 8px 20px rgba(33, 216, 248, 0.2);
+}
+
+/* Contenedores de iconos dentro de las tarjetas */
+.nmap-card .feature {
+  background: linear-gradient(135deg, var(--cyber-lila), var(--cyber-blue)) !important;
+}
