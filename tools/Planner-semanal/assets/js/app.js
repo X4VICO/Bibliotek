@@ -573,7 +573,82 @@
       setTimeout(()=> statusEl.textContent='guardado', 2000);
     }
   }
-  document.getElementById('downloadBtn').addEventListener('click', downloadImage);
+  document.getElementById('downloadBtn').addEventListener('click', ()=>{
+    openOverlay(exportOverlay);
+  });
+  document.getElementById('exportCancelBtn').addEventListener('click', ()=>closeOverlay(exportOverlay));
+  exportOverlay.addEventListener('click', e=>{ if(e.target===exportOverlay) closeOverlay(exportOverlay); });
+
+  document.getElementById('exportImageBtn').addEventListener('click', ()=>{
+    closeOverlay(exportOverlay);
+    downloadImage();
+  });
+  document.getElementById('exportFileBtn').addEventListener('click', ()=>{
+    closeOverlay(exportOverlay);
+    downloadDataFile();
+  });
+
+  // ---------- DOWNLOAD AS DATA FILE (.json) ----------
+  function downloadDataFile(){
+    try{
+      statusEl.textContent = 'generando…';
+      const data = {
+        app: 'planner-semanal',
+        version: 1,
+        exportedAt: new Date().toISOString(),
+        settings,
+        categories: CATEGORIES,
+        events
+      };
+      const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.download = 'horario-semanal.json';
+      link.href = url;
+      link.click();
+      URL.revokeObjectURL(url);
+      statusEl.textContent = 'archivo listo';
+    }catch(e){
+      statusEl.textContent = 'error al generar';
+    }finally{
+      setTimeout(()=> statusEl.textContent='guardado', 2000);
+    }
+  }
+
+  // ---------- IMPORT FROM DATA FILE ----------
+  document.getElementById('importBtn').addEventListener('click', ()=> importInput.click());
+  importInput.addEventListener('change', e=>{
+    const file = e.target.files[0];
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = ()=>{
+      try{
+        const data = JSON.parse(reader.result);
+        if(!data || !Array.isArray(data.events)) throw new Error('formato inválido');
+        const proceed = confirm('Importar este archivo reemplazará tu horario, configuración y etiquetas actuales. ¿Continuar?');
+        if(!proceed) return;
+
+        if(data.settings && Number.isFinite(data.settings.start) && Number.isFinite(data.settings.end) && data.settings.end > data.settings.start){
+          settings = {start:data.settings.start, end:data.settings.end};
+        }
+        CATEGORIES = mergeCategories(data.categories);
+        events = Array.isArray(data.events) ? data.events : [];
+
+        saveSettings();
+        saveCategories();
+        saveEvents();
+        buildGrid();
+        render();
+        statusEl.textContent = 'importado';
+      }catch(err){
+        alert('No se ha podido leer el archivo. Asegúrate de que es un archivo exportado desde este planner.');
+      }finally{
+        importInput.value = '';
+        setTimeout(()=> statusEl.textContent='guardado', 1800);
+      }
+    };
+    reader.readAsText(file);
+  });
 
   // ---------- INIT ----------
   applyTheme(loadTheme());
