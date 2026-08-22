@@ -110,19 +110,29 @@
       statusEl.textContent = 'guardado';
     }catch(e){ statusEl.textContent = 'error al guardar'; }
   }
-  // Combina las categorías guardadas con las de por defecto: los ids no cambian
-  // (así los bloques ya creados nunca pierden su categoría), solo se puede
-  // sobrescribir el nombre y el color de cada una.
+  // Combina las categorías guardadas con las de por defecto: conserva CUALQUIER
+  // categoría guardada (incluidas las personalizadas con id propio), rellenando
+  // nombre/color que falten con los valores por defecto cuando el id coincide.
+  // "otro" siempre se garantiza presente, ya que es la categoría de reserva.
   function mergeCategories(saved){
-    if(!Array.isArray(saved)) return DEFAULT_CATEGORIES.map(c=>({...c}));
-    return DEFAULT_CATEGORIES.map(def=>{
-      const s = saved.find(c=>c && c.id===def.id);
-      return {
-        id: def.id,
-        label: (s && s.label && String(s.label).trim()) ? String(s.label).trim() : def.label,
-        color: (s && s.color) ? s.color : def.color
-      };
+    if(!Array.isArray(saved) || saved.length===0) return DEFAULT_CATEGORIES.map(c=>({...c}));
+    const result = [];
+    const seen = new Set();
+    saved.forEach(c=>{
+      if(!c || !c.id || seen.has(c.id)) return;
+      const def = DEFAULT_CATEGORIES.find(d=>d.id===c.id);
+      result.push({
+        id: c.id,
+        label: (c.label && String(c.label).trim()) ? String(c.label).trim() : (def ? def.label : 'Otro'),
+        color: c.color || (def ? def.color : '#8890A0')
+      });
+      seen.add(c.id);
     });
+    if(!seen.has('otro')){
+      const def = DEFAULT_CATEGORIES.find(d=>d.id==='otro');
+      result.push({...def});
+    }
+    return result;
   }
   function loadCategories(){
     try{
@@ -354,18 +364,48 @@
   }
 
   // ---------- LABELS EDITOR ----------
+  const LABEL_PALETTE = ['#4F5DFF','#8B5CF6','#F97F51','#22B07D','#00C9B7','#EF4C6B','#F5A623','#3B82F6'];
+
+  function genCategoryId(){
+    return 'cat_' + Date.now().toString(36) + Math.random().toString(36).slice(2,6);
+  }
+
+  function createLabelRow(cat){
+    const row = document.createElement('div');
+    row.className = 'label-row';
+    row.dataset.id = cat.id;
+    const isLocked = cat.id === 'otro';
+    row.innerHTML = `
+      <input type="color" class="label-color" value="${cat.color}" aria-label="Color de ${escapeHtml(cat.label)}">
+      <input type="text" class="label-text" value="${escapeHtml(cat.label)}" maxlength="18" placeholder="Nombre de la etiqueta">
+      ${isLocked
+        ? '<span class="label-locked" title="Esta etiqueta no se puede eliminar: recoge los bloques de etiquetas borradas"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg></span>'
+        : '<button type="button" class="label-delete" title="Eliminar etiqueta" aria-label="Eliminar etiqueta">✕</button>'}
+    `;
+    return row;
+  }
+
   function buildLabelsForm(){
     labelsForm.innerHTML = '';
-    CATEGORIES.forEach(c=>{
-      const row = document.createElement('div');
-      row.className = 'label-row';
-      row.innerHTML = `
-        <input type="color" class="label-color" data-id="${c.id}" value="${c.color}" aria-label="Color de ${escapeHtml(c.label)}">
-        <input type="text" class="label-text" data-id="${c.id}" value="${escapeHtml(c.label)}" maxlength="16">
-      `;
-      labelsForm.appendChild(row);
-    });
+    CATEGORIES.forEach(c=> labelsForm.appendChild(createLabelRow(c)));
   }
+
+  // Elimina la fila al pulsar su botón (delegación: funciona también con filas añadidas después)
+  labelsForm.addEventListener('click', e=>{
+    const btn = e.target.closest('.label-delete');
+    if(!btn) return;
+    const row = btn.closest('.label-row');
+    if(row) row.remove();
+  });
+
+  document.getElementById('labelsAddBtn').addEventListener('click', ()=>{
+    const count = labelsForm.querySelectorAll('.label-row').length;
+    const color = LABEL_PALETTE[count % LABEL_PALETTE.length];
+    const row = createLabelRow({id: genCategoryId(), label:'', color});
+    labelsForm.appendChild(row);
+    row.querySelector('.label-text').focus();
+    labelsForm.scrollTop = labelsForm.scrollHeight;
+  });
 
   document.getElementById('labelsBtn').addEventListener('click', ()=>{
     buildLabelsForm();
@@ -374,24 +414,64 @@
   document.getElementById('labelsCancelBtn').addEventListener('click', ()=>closeOverlay(labelsOverlay));
   labelsOverlay.addEventListener('click', e=>{ if(e.target===labelsOverlay) closeOverlay(labelsOverlay); });
 
-  document.getElementById('labelsResetBtn').addEventListener('click', ()=>{
-    if(!confirm('¿Restaurar los nombres y colores por defecto de las etiquetas?')) return;
-    CATEGORIES = DEFAULT_CATEGORIES.map(c=>({...c}));
+  // Sustituye la lista de categorías, reasignando a "otro" los bloques cuya
+  // etiqueta ha desaparecido. Devuelve cuántos bloques se han reasignado.
+  function applyCategoryChange(newCats){
+    const oldIds = CATEGORIES.map(c=>c.id);
+    const newIds = newCats.map(c=>c.id);
+    const removedIds = oldIds.filter(id=> !newIds.includes(id));
+    let reassigned = 0;
+    if(removedIds.length){
+      events.forEach(ev=>{
+        if(removedIds.includes(ev.category)){
+          ev.category = 'otro';
+          reassigned++;
+        }
+      });
+    }
+    CATEGORIES = newCats;
     saveCategories();
+    if(reassigned>0) saveEvents();
+    return reassigned;
+  }
+
+  function flashStatus(msg, ms){
+    statusEl.textContent = msg;
+    setTimeout(()=> statusEl.textContent='guardado', ms || 1800);
+  }
+
+  document.getElementById('labelsResetBtn').addEventListener('click', ()=>{
+    if(!confirm('¿Restaurar las etiquetas por defecto? Se eliminarán las etiquetas personalizadas que hayas añadido.')) return;
+    const reassigned = applyCategoryChange(DEFAULT_CATEGORIES.map(c=>({...c})));
     buildLabelsForm();
     render();
+    flashStatus(reassigned>0 ? `restaurado (${reassigned} bloque${reassigned===1?'':'s'} → Otro)` : 'guardado', 3000);
   });
 
   document.getElementById('labelsSaveBtn').addEventListener('click', ()=>{
-    CATEGORIES.forEach(c=>{
-      const t = labelsForm.querySelector(`.label-text[data-id="${c.id}"]`);
-      const col = labelsForm.querySelector(`.label-color[data-id="${c.id}"]`);
-      if(t && t.value.trim()) c.label = t.value.trim();
-      if(col && col.value) c.color = col.value;
-    });
-    saveCategories();
+    const rows = Array.from(labelsForm.querySelectorAll('.label-row'));
+    const newCats = [];
+    for(const row of rows){
+      const textInput = row.querySelector('.label-text');
+      const colorInput = row.querySelector('.label-color');
+      const label = textInput.value.trim();
+      if(!label){
+        textInput.focus();
+        alert('Todas las etiquetas necesitan un nombre. Rellénala o elimínala.');
+        return;
+      }
+      newCats.push({id: row.dataset.id, label, color: colorInput.value});
+    }
+    // "Otro" no tiene botón de eliminar, así que siempre debería seguir en la lista;
+    // esto es solo una salvaguarda por si acaso.
+    if(!newCats.some(c=>c.id==='otro')){
+      const fallback = catById('otro');
+      newCats.push({...fallback});
+    }
+    const reassigned = applyCategoryChange(newCats);
     render();
     closeOverlay(labelsOverlay);
+    flashStatus(reassigned>0 ? `guardado (${reassigned} bloque${reassigned===1?'':'s'} → Otro)` : 'guardado', 3000);
   });
 
   function openCreateCard(day, start, end){
@@ -537,14 +617,35 @@
     wrapper.style.fontFamily = "'Space Grotesk', sans-serif";
     wrapper.style.width = 'fit-content';
 
+    // La exportación siempre usa colores claros, independientemente del tema
+    // activo en pantalla, y con líneas más discretas y texto más legible.
+    const EXPORT_VARS = {
+      '--bg':'#FFFFFF', '--surface':'#FFFFFF', '--ink':'#12141C', '--ink-soft':'#5B6472',
+      '--ink-faint':'#9098AC', '--line':'#DCDFE6', '--line-hour':'#C7CCD8',
+      '--accent':'#4F5DFF', '--accent-2':'#00C9B7', '--accent-soft':'#EEF0FF', '--danger':'#E5484D'
+    };
+    Object.keys(EXPORT_VARS).forEach(k=> wrapper.style.setProperty(k, EXPORT_VARS[k]));
+
     const titleEl = document.createElement('div');
     const now = new Date();
-    titleEl.innerHTML = `<div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:20px;color:#12141C;margin-bottom:4px;">Horario semanal</div>
-      <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#9098AC;margin-bottom:18px;">Generado el ${pad(now.getDate())}/${pad(now.getMonth()+1)}/${now.getFullYear()}</div>`;
+    titleEl.style.display = 'flex';
+    titleEl.style.alignItems = 'baseline';
+    titleEl.style.gap = '10px';
+    titleEl.style.marginBottom = '16px';
+    titleEl.innerHTML = `<span style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:20px;color:#12141C;">Horario semanal</span>
+      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#9098AC;">Generado el ${pad(now.getDate())}/${pad(now.getMonth()+1)}/${now.getFullYear()}</span>`;
     wrapper.appendChild(titleEl);
 
     const gridClone = grid.cloneNode(true);
     gridClone.style.minWidth = 'auto';
+    // Al exportar no se destaca el día ni la hora actuales: es útil mientras
+    // planificas, pero no tiene sentido en una imagen guardada o impresa.
+    gridClone.querySelectorAll('.now-line').forEach(el=> el.remove());
+    gridClone.querySelectorAll('.today-col').forEach(el=> el.classList.remove('today-col'));
+    gridClone.querySelectorAll('.day-head.today').forEach(el=> el.classList.remove('today'));
+    // El texto de cada bloque en negro sólido para que se lea bien siempre,
+    // sin depender del tema claro/oscuro activo en pantalla.
+    gridClone.querySelectorAll('.block b, .block .t').forEach(el=>{ el.style.color = '#12141C'; });
     wrapper.appendChild(gridClone);
 
     const legendClone = document.getElementById('legend').cloneNode(true);

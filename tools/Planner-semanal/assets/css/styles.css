@@ -457,6 +457,38 @@ button.text-danger:hover{color:var(--danger);background:rgba(229,72,77,0.1);}
   color:var(--ink);
 }
 .label-row input[type=text]:focus{border-color:var(--accent);}
+.label-delete{
+  flex-shrink:0;
+  width:30px;height:30px;
+  border-radius:8px;
+  border:1px solid var(--line-hour);
+  background:var(--surface);
+  color:var(--ink-faint);
+  font-size:14px;
+  line-height:1;
+  padding:0;
+  display:flex;align-items:center;justify-content:center;
+}
+.label-delete:hover{color:var(--danger);border-color:var(--danger);background:rgba(229,72,77,0.08);}
+.label-locked{
+  flex-shrink:0;
+  width:30px;height:30px;
+  display:flex;align-items:center;justify-content:center;
+  color:var(--ink-faint);
+}
+.label-locked svg{width:14px;height:14px;}
+.label-add-btn{
+  width:100%;
+  padding:9px;
+  margin-bottom:16px;
+  border:1.5px dashed var(--line-hour);
+  border-radius:9px;
+  background:none;
+  color:var(--ink-soft);
+  font-size:12.5px;
+  font-weight:600;
+}
+.label-add-btn:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-soft);}
 
 /* EXPORT CHOICE */
 .export-options{
