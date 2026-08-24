@@ -5,8 +5,6 @@
 
 Un espacio centralizado de filosofía *open-source* creado para recopilar, estructurar y compartir herramientas, configuraciones y utilidades dinámicas enfocadas en **Ciberseguridad** y **Administración de Sistemas Informáticos en Red (ASIR)**.
 
-https://x4vico.github.io/Bibliotek/
-
 ---
 
 ## **Características Clave**

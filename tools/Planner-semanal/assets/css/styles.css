@@ -79,6 +79,19 @@ header{
   max-width:38ch;
   line-height:1.5;
 }
+.back-link{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  font-size:11.5px;
+  font-weight:500;
+  color:var(--ink-faint);
+  text-decoration:none;
+  margin-bottom:10px;
+  transition:color .15s ease;
+}
+.back-link svg{width:13px;height:13px;flex-shrink:0;}
+.back-link:hover{color:var(--accent);}
 .toolbar{
   display:flex;
   gap:6px;

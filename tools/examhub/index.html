@@ -41,7 +41,20 @@
       <button class="chip-btn" id="selectNone">Vaciar selección</button>
       <button class="chip-btn" id="selectFailed" style="display:none;">Solo falladas anteriormente</button>
     </div>
+
     <div id="subjectList"></div>
+
+    <div class="section-label">Progreso guardado (en este navegador)</div>
+    <div class="toolbar">
+      <button class="chip-btn" id="exportProgressBtn" title="Descarga un archivo .json con todo tu progreso, por si cambias de equipo o navegador">Exportar progreso</button>
+      <button class="chip-btn" id="importProgressBtn" title="Carga un archivo .json de progreso exportado antes">Importar progreso</button>
+      <input type="file" id="importProgressFile" accept="application/json" style="display:none;">
+      <button class="chip-btn chip-btn-danger" id="clearAllProgressBtn" style="display:none;" title="Borra todo el progreso guardado en este navegador">Borrar todo el progreso</button>
+    </div>
+    <p style="font-size:12px; color:var(--text-faint); margin:-6px 0 0;">
+      Puedes borrar el progreso de un tema o asignatura concretos con el icono 🗑 que aparece cuando ya tienen preguntas practicadas.
+      No hay cuentas ni servidor: todo se guarda solo en este navegador. Usa "Exportar progreso" para llevártelo a otro equipo.
+    </p>
 
     <div class="section-label">Modo de sesión</div>
     <div class="config-row">

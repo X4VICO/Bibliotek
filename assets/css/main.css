@@ -341,11 +341,42 @@ footer {
     flex-direction: row;
     justify-content: space-between;
   }
+
+  .footer-feedback,
+  .footer-links {
+    flex: 1;
+  }
+
+  .footer-feedback {
+    text-align: left;
+  }
+
+  .footer-copy {
+    text-align: center;
+    flex: 1;
+  }
+
+  .footer-links {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1.1rem;
+  }
+}
+
+.footer-feedback a {
+  color: var(--text-dim);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.footer-feedback a:hover {
+  color: var(--green);
 }
 
 .footer-links {
   display: flex;
   gap: 1.5rem;
+  font-size: 1.2rem;
 }
 
 .footer-links a {

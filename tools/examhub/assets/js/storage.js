@@ -57,5 +57,104 @@
     return { seenQuestions: ids.length, pct: seen ? Math.round((correct / seen) * 100) : 0 };
   }
 
-  global.ExamStorage = { record: record, get: get, all: all, globalAccuracy: globalAccuracy };
+  // ---------- borrado parcial de progreso ----------
+
+  function clearQuestion(qid) {
+    if (!(qid in stats)) return false;
+    delete stats[qid];
+    save(stats);
+    return true;
+  }
+
+  // Borra todas las entradas cuyo id empiece por `${file}#` (todas las
+  // preguntas de un tema concreto, sin tocar el resto).
+  function clearTema(file) {
+    var prefix = file + "#";
+    var changed = false;
+    Object.keys(stats).forEach(function (id) {
+      if (id.indexOf(prefix) === 0) {
+        delete stats[id];
+        changed = true;
+      }
+    });
+    if (changed) save(stats);
+    return changed;
+  }
+
+  // Borra el progreso de varios temas a la vez (p. ej. todos los temas de
+  // una asignatura).
+  function clearFiles(files) {
+    var prefixes = (files || []).map(function (f) { return f + "#"; });
+    var changed = false;
+    Object.keys(stats).forEach(function (id) {
+      for (var i = 0; i < prefixes.length; i++) {
+        if (id.indexOf(prefixes[i]) === 0) {
+          delete stats[id];
+          changed = true;
+          break;
+        }
+      }
+    });
+    if (changed) save(stats);
+    return changed;
+  }
+
+  function clearAll() {
+    stats = {};
+    save(stats);
+  }
+
+  // ---------- exportar / importar progreso (portable, sin cuentas) ----------
+
+  function exportJSON() {
+    return JSON.stringify(
+      { app: "examhub", version: 1, exportedAt: new Date().toISOString(), stats: stats },
+      null,
+      2
+    );
+  }
+
+  // mode: "merge" (por defecto, combina con lo que ya haya) o "replace"
+  // (sustituye todo el progreso actual por el del archivo importado).
+  function importJSON(json, mode) {
+    var data;
+    try {
+      data = typeof json === "string" ? JSON.parse(json) : json;
+    } catch (e) {
+      throw new Error("el archivo no es un JSON válido");
+    }
+    var incoming = data && typeof data === "object" && data.stats ? data.stats : data;
+    if (!incoming || typeof incoming !== "object" || Array.isArray(incoming)) {
+      throw new Error("el archivo no tiene el formato de progreso de ExamHub");
+    }
+
+    if (mode === "replace") {
+      stats = incoming;
+    } else {
+      // Combinar: para cada pregunta nos quedamos con el registro que tenga
+      // más intentos (`seen`), asumiendo que es el más "avanzado". No hay
+      // marca de tiempo por pregunta, así que es una heurística razonable.
+      Object.keys(incoming).forEach(function (qid) {
+        var inc = incoming[qid];
+        var cur = stats[qid];
+        if (!cur || (inc && inc.seen >= cur.seen)) {
+          stats[qid] = inc;
+        }
+      });
+    }
+    save(stats);
+  }
+
+  global.ExamStorage = {
+    record: record,
+    get: get,
+    all: all,
+    globalAccuracy: globalAccuracy,
+    clearQuestion: clearQuestion,
+    clearTema: clearTema,
+    clearFiles: clearFiles,
+    clearAll: clearAll,
+    exportJSON: exportJSON,
+    importJSON: importJSON,
+  };
 })(window);

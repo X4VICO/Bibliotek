@@ -1,72 +1,87 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bibliotek</title>
-  <link rel="stylesheet" href="./assets/css/main.css">
-  <link rel="icon" type="image/png" href="assets/img/bibliotek.png" />
-  <!-- Librería para renderizar el formato Markdown -->
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bibliotek</title>
+    <link rel="stylesheet" href="./assets/css/main.css">
+    <link rel="icon" type="image/png" href="assets/img/bibliotek.png" />
+    <!-- Librería para renderizar el formato Markdown -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    
+  </head>
+  <body>
 
-  <div class="container">
-    <!-- Encabezado centrado -->
-    <header style="text-align: center; margin-bottom: 2.5rem;">
-      <div style="display: flex; align-items: center; justify-content: center; gap: 0.75rem; margin-bottom: 0.5rem;">
-        <img src="assets/img/bibliotek.png" alt="Logo Bibliotek" style="height: 2.8rem; width: auto; object-fit: contain;">
-        <h1 style="margin: 0; font-family: var(--font-display, sans-serif);">BIBLIOTEK</h1>
+    <div class="container">
+      <!-- Encabezado centrado -->
+      <header style="text-align: center; margin-bottom: 2.5rem;">
+        <div style="display: flex; align-items: center; justify-content: center; gap: 0.75rem; margin-bottom: 0.5rem;">
+          <img src="assets/img/bibliotek.png" alt="Logo Bibliotek" style="height: 2.8rem; width: auto; object-fit: contain;">
+          <h1 style="margin: 0; font-family: var(--font-display, sans-serif);">BIBLIOTEK</h1>
+        </div>
+
+        <p style="margin: 0.5rem 0 1rem; color: var(--text-dim, #92a1bd);">
+          Colección personal de herramientas web, minijuegos y utilidades de automatización.
+        </p>
+
+        <button id="readmeBtn" onclick="toggleReadme()" class="btn-readme" style="cursor: pointer; padding: 8px 18px; font-size: 13px; background: var(--panel, #141e30); color: var(--text-dim, #92a1bd); border: 1px solid var(--line, #263450); border-radius: 999px; font-family: var(--font-mono, monospace); transition: all 0.2s ease;">
+          📖 Ver README
+        </button>
+      </header>
+
+      <!-- Tarjeta desplegable del README sin botón de cerrar duplicado -->
+      <div id="readmeCard" class="card" style="display: none; margin-bottom: 2.5rem; border-color: var(--green, #00d084); width: 100%;">
+        <div class="card-header" style="border-bottom: 1px solid var(--line, #263450); padding-bottom: 12px; margin-bottom: 16px;">
+          <h2 class="card-title" style="color: var(--green, #00d084); margin: 0; font-size: 1.2rem;">📖 README.md</h2>
+        </div>
+        <!-- Div adaptativo para HTML renderizado -->
+        <div id="readmeContent" class="readme-body" style="color: var(--text, #e7edf7); max-height: 520px; overflow-y: auto; padding-right: 10px;">
+          ⏳ Cargando contenido...
+        </div>
       </div>
 
-      <p style="margin: 0.5rem 0 1rem; color: var(--text-dim, #92a1bd);">
-        Colección personal de herramientas web, minijuegos y utilidades de automatización.
-      </p>
+      <!-- Buscador y Filtros -->
+      <div class="controls">
+        <div class="search-box">
+          <input type="text" id="searchInput" placeholder="🔍 Buscar por nombre...">
+        </div>
+        <div class="filter-pills">
+          <button class="pill active" data-filter="all">Todos</button>
+          <button class="pill" data-filter="herramientas">🛠️ Herramientas</button>
+          <button class="pill" data-filter="minijuegos">🎮 Minijuegos</button>
+          <button class="pill" data-filter="utilidades">💻 Utilidades Locales</button>
+        </div>
+      </div>
+
+      <!-- Grid de herramientas -->
+      <div class="grid" id="toolsGrid"></div>
+    </div>
+
+    <footer>
+      <div class="footer-content">
+        <div class="footer-feedback">
+          <a href="https://github.com/X4VICO/Bibliotek/issues/new" target="_blank" rel="noopener">
+            📥 Feedback
+          </a>
+        </div>
       
-      <button id="readmeBtn" onclick="toggleReadme()" class="btn-readme" style="cursor: pointer; padding: 8px 18px; font-size: 13px; background: var(--panel, #141e30); color: var(--text-dim, #92a1bd); border: 1px solid var(--line, #263450); border-radius: 999px; font-family: var(--font-mono, monospace); transition: all 0.2s ease;">
-        📖 Ver README
-      </button>
-    </header>
-
-    <!-- Tarjeta desplegable del README sin botón de cerrar duplicado -->
-    <div id="readmeCard" class="card" style="display: none; margin-bottom: 2.5rem; border-color: var(--green, #00d084); width: 100%;">
-      <div class="card-header" style="border-bottom: 1px solid var(--line, #263450); padding-bottom: 12px; margin-bottom: 16px;">
-        <h2 class="card-title" style="color: var(--green, #00d084); margin: 0; font-size: 1.2rem;">📖 README.md</h2>
+        <p class="footer-copy">© XAVICO - Bibliotek</p>
+      
+        <div class="footer-links">
+          <a href="https://github.com/X4VICO" target="_blank" rel="noopener" aria-label="GitHub">
+            <i class="fa-brands fa-github"></i>
+          </a>
+          <a href="https://linkedin.com/in/xavi-conde" target="_blank" rel="noopener" aria-label="LinkedIn">
+            <i class="fa-brands fa-linkedin"></i>
+          </a>
+          <a href="https://bibliotek.gitbook.io/miwiki" target="_blank" rel="noopener" aria-label="GitBook">
+            <i class="fa-solid fa-book"></i>
+          </a>
+        </div>
       </div>
-      <!-- Div adaptativo para HTML renderizado -->
-      <div id="readmeContent" class="readme-body" style="color: var(--text, #e7edf7); max-height: 520px; overflow-y: auto; padding-right: 10px;">
-        ⏳ Cargando contenido...
-      </div>
-    </div>
+    </footer>
 
-    <!-- Buscador y Filtros -->
-    <div class="controls">
-      <div class="search-box">
-        <input type="text" id="searchInput" placeholder="🔍 Buscar por nombre...">
-      </div>
-      <div class="filter-pills">
-        <button class="pill active" data-filter="all">Todos</button>
-        <button class="pill" data-filter="herramientas">🛠️ Herramientas</button>
-        <button class="pill" data-filter="minijuegos">🎮 Minijuegos</button>
-        <button class="pill" data-filter="utilidades">💻 Utilidades Locales</button>
-      </div>
-    </div>
-
-    <!-- Grid de herramientas -->
-    <div class="grid" id="toolsGrid"></div>
-  </div>
-
-  <footer>
-    <div class="footer-content">
-      <p>© XAVICO - Bibliotek</p>
-      <div class="footer-links">
-        <a href="https://github.com/X4VICO" target="_blank" rel="noopener">GitHub</a>
-        <a href="https://linkedin.com/in/xavi-conde" target="_blank" rel="noopener">LinkedIn</a>
-        <a href="https://bibliotek.gitbook.io/miwiki" target="_blank" rel="noopener">GitBook</a>
-      </div>
-    </div>
-  </footer>
-
-  <script src="./assets/js/app.js"></script>
-</body>
+    <script src="./assets/js/app.js"></script>
+  </body>
 </html>

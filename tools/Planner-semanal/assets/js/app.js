@@ -49,6 +49,23 @@
     const h = Math.floor(mins/60), m = mins%60;
     return pad(h)+':'+pad(m);
   }
+  // ---------- STATUS CLOCK ----------
+  // En reposo, el indicador de estado muestra la hora actual (más útil que
+  // un "guardado" fijo); los mensajes puntuales (guardando…, importado…) lo
+  // sustituyen un momento y luego se vuelve a la hora.
+  let clockInterval = null;
+  function formatClock(){
+    const d = new Date();
+    return pad(d.getHours())+':'+pad(d.getMinutes());
+  }
+  function showClock(){
+    statusEl.textContent = formatClock();
+  }
+  function startClock(){
+    showClock();
+    if(clockInterval) clearInterval(clockInterval);
+    clockInterval = setInterval(showClock, 15000);
+  }
   function hexToRgba(hex, a){
     const v = hex.replace('#','');
     const r = parseInt(v.substring(0,2),16);
@@ -92,7 +109,7 @@
       events = raw ? JSON.parse(raw) : [];
     }catch(e){ events = []; }
     loadCategories();
-    statusEl.textContent = 'guardado';
+    showClock();
     buildGrid();
     render();
   }
@@ -100,15 +117,15 @@
     statusEl.textContent = 'guardando…';
     try{
       localStorage.setItem(LS_SETTINGS, JSON.stringify(settings));
-      statusEl.textContent = 'guardado';
-    }catch(e){ statusEl.textContent = 'error al guardar'; }
+      showClock();
+    }catch(e){ statusEl.textContent = 'error al guardar'; setTimeout(showClock, 2500); }
   }
   function saveEvents(){
     statusEl.textContent = 'guardando…';
     try{
       localStorage.setItem(LS_EVENTS, JSON.stringify(events));
-      statusEl.textContent = 'guardado';
-    }catch(e){ statusEl.textContent = 'error al guardar'; }
+      showClock();
+    }catch(e){ statusEl.textContent = 'error al guardar'; setTimeout(showClock, 2500); }
   }
   // Combina las categorías guardadas con las de por defecto: conserva CUALQUIER
   // categoría guardada (incluidas las personalizadas con id propio), rellenando
@@ -437,7 +454,7 @@
 
   function flashStatus(msg, ms){
     statusEl.textContent = msg;
-    setTimeout(()=> statusEl.textContent='guardado', ms || 1800);
+    setTimeout(showClock, ms || 1800);
   }
 
   document.getElementById('labelsResetBtn').addEventListener('click', ()=>{
@@ -603,7 +620,7 @@
   async function downloadImage(){
     if(typeof html2canvas === 'undefined'){
       statusEl.textContent = 'no disponible';
-      setTimeout(()=> statusEl.textContent='guardado', 1800);
+      setTimeout(showClock, 1800);
       return;
     }
     statusEl.textContent = 'generando…';
@@ -671,7 +688,7 @@
       statusEl.textContent = 'error al generar';
     }finally{
       document.body.removeChild(wrapper);
-      setTimeout(()=> statusEl.textContent='guardado', 2000);
+      setTimeout(showClock, 2000);
     }
   }
   document.getElementById('downloadBtn').addEventListener('click', ()=>{
@@ -712,7 +729,7 @@
     }catch(e){
       statusEl.textContent = 'error al generar';
     }finally{
-      setTimeout(()=> statusEl.textContent='guardado', 2000);
+      setTimeout(showClock, 2000);
     }
   }
 
@@ -745,7 +762,7 @@
         alert('No se ha podido leer el archivo. Asegúrate de que es un archivo exportado desde este planner.');
       }finally{
         importInput.value = '';
-        setTimeout(()=> statusEl.textContent='guardado', 1800);
+        setTimeout(showClock, 1800);
       }
     };
     reader.readAsText(file);
@@ -755,4 +772,5 @@
   applyTheme(loadTheme());
   populateHourSelects();
   loadAll();
+  startClock();
 })();
