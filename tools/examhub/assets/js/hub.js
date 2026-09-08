@@ -56,6 +56,7 @@
     renderGlobalStat();
     setupFailedButton();
     setupProgressTools();
+    setupFailedModal();
     setupControls();
     updateStartBar();
   }
@@ -114,6 +115,7 @@
         var body = subj.querySelector(".subject-body");
         var anySelected = a.temas.some(function (t) { return selected[t.file]; });
         a.temas.forEach(function (t) { selected[t.file] = !anySelected; });
+        filterFailedOnly = false; // selección manual: se decide al pulsar "Empezar sesión"
         Array.prototype.forEach.call(body.children, function (card, i) {
           card.classList.toggle("checked", selected[a.temas[i].file]);
         });
@@ -153,6 +155,7 @@
           '<div class="topic-progress"><div style="width:' + st.pct + '%"></div></div>';
         card.addEventListener("click", function () {
           selected[t.file] = !selected[t.file];
+          filterFailedOnly = false; // selección manual: se decide al pulsar "Empezar sesión"
           card.classList.toggle("checked", selected[t.file]);
           updateStartBar();
         });
@@ -210,6 +213,51 @@
     var stats = window.ExamStorage.all();
     var hasFailed = Object.keys(stats).some(function (id) { return stats[id].lastWrong; });
     document.getElementById("selectFailed").style.display = hasFailed ? "inline-block" : "none";
+  }
+
+  // Cuántas preguntas de test están falladas dentro de la selección actual
+  // de temas (no de todo el catálogo, solo lo que el usuario ha marcado).
+  function failedCountInSelection() {
+    var total = 0;
+    selectedTemas().forEach(function (t) {
+      total += statsForTema(t).failed;
+    });
+    return total;
+  }
+
+  function openFailedModal(count) {
+    var modal = document.getElementById("failedModal");
+    if (!modal) {
+      startSession();
+      return;
+    }
+    var c1 = document.getElementById("failedModalCount");
+    var c2 = document.getElementById("failedModalCount2");
+    if (c1) c1.textContent = count;
+    if (c2) c2.textContent = count;
+    modal.style.display = "flex";
+  }
+
+  function setupFailedModal() {
+    var modal = document.getElementById("failedModal");
+    if (!modal) return;
+
+    document.getElementById("failedModalRetryBtn").addEventListener("click", function () {
+      filterFailedOnly = true;
+      modal.style.display = "none";
+      startSession();
+    });
+    document.getElementById("failedModalFullBtn").addEventListener("click", function () {
+      filterFailedOnly = false;
+      modal.style.display = "none";
+      startSession();
+    });
+    document.getElementById("failedModalCancelBtn").addEventListener("click", function () {
+      modal.style.display = "none";
+    });
+    modal.addEventListener("click", function (e) {
+      if (e.target === modal) modal.style.display = "none";
+    });
   }
 
   function updateClearAllVisibility() {
@@ -328,11 +376,19 @@
     });
     document.getElementById("selectNone").addEventListener("click", function () {
       manifest.asignaturas.forEach(function (a) { a.temas.forEach(function (t) { selected[t.file] = false; }); });
+      filterFailedOnly = false;
       renderSubjects();
       updateStartBar();
     });
 
-    document.getElementById("startBtn").addEventListener("click", startSession);
+    document.getElementById("startBtn").addEventListener("click", function () {
+      var failed = failedCountInSelection();
+      if (!filterFailedOnly && failed > 0) {
+        openFailedModal(failed);
+      } else {
+        startSession();
+      }
+    });
   }
 
   function selectedTemas() {

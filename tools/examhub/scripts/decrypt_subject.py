@@ -91,7 +91,7 @@ def main():
     print(f"\nListo: {n} archivo(s) descifrado(s) a JSON plano.")
     print("Recuerda NO subir estos archivos en plano si vas a hacer commit —")
     print("vuelve a cifrarlos con encrypt_subject.py antes de git push.")
-    print("Ejecuta también: python3 scripts/build_manifest.py")
+    print("Ejecuta también: python3 .\tools\examhub\scripts\build_manifest.py")
 
 
 if __name__ == "__main__":

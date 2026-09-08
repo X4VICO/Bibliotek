@@ -118,7 +118,7 @@ def main():
     print(f"Cifrando {len(archivos)} archivo(s) en {args.carpeta}...\n")
     n = sum(1 for a in archivos if cifrar_archivo(a, password))
     print(f"\nListo: {n} archivo(s) cifrado(s).")
-    print("Ahora ejecuta: python3 scripts/build_manifest.py")
+    print("Ahora ejecuta: python3 .\tools\examhub\scripts\build_manifest.py")
 
 
 if __name__ == "__main__":

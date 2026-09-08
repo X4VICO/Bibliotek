@@ -111,12 +111,6 @@ tabla o con una imagen de la respuesta, puedes usar:
 ```
 La web muestra un botón "Mostrar respuesta".
 
-### Migrar un tema antiguo (.py con TEMA/TEST/REDACCION)
-
-```bash
-python3 scripts/convert_legacy_py.py temas/tu_archivo.py
-python3 scripts/build_manifest.py
-```
 
 ---
 
@@ -177,13 +171,13 @@ Necesitas la librería `cryptography` solo para estos dos scripts (el resto
 del proyecto no tiene dependencias fuera de la librería estándar):
 
 ```bash
-pip install -r requirements.txt
+pip install -r .\tools\examhub\requirements.txt
 ```
 
 ```bash
-python3 scripts/encrypt_subject.py data/cyberops-associate
+python3 .\tools\examhub\scripts\encrypt_subject.py .\tools\examhub\data\cyberops-associate
 # te pide la contraseña (oculta, dos veces para confirmar)
-python3 scripts/build_manifest.py
+python3 .\tools\examhub\scripts\build_manifest.py
 git add . && git commit -m "cifrar CyberOps" && git push
 ```
 
@@ -201,14 +195,14 @@ equivocas de contraseña, te avisa y te deja reintentar.
   ilegibles.
 - Para volver a editar las preguntas más adelante, descífralas primero:
 
-    ```bash
-    python3 scripts/decrypt_subject.py data/cyberops-associate
-    # edita los .json en texto plano
-    python3 scripts/encrypt_subject.py data/cyberops-associate   # vuelve a cifrar
-    python3 scripts/build_manifest.py
-    ```
-    No hagas commit de la versión descifrada por accidente — revisa
-    `git diff` antes de subir.
+```bash
+python3 .\tools\examhub\scripts\decrypt_subject.py .\tools\examhub\data\cyberops-associate
+# edita los .json en texto plano
+python3 .\tools\examhub\scripts\encrypt_subject.py .\tools\examhub\data\cyberops-associate   # vuelve a cifrar
+python3 .\tools\examhub\scripts\build_manifest.py
+```
+No hagas commit de la versión descifrada por accidente — revisa
+`git diff` antes de subir.
 
 ---
 

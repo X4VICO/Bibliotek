@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-31T11:45:11Z",
+  "generated_at": "2026-09-07T14:09:00Z",
   "asignaturas": [
     {
       "slug": "control-d-acces",
@@ -72,7 +72,7 @@
           "file": "data/cyberops-associate/cyberops-associate_m01-02.json",
           "test_count": 28,
           "redaccion_count": 0,
-          "encrypted": true
+          "encrypted": false
         },
         {
           "tema_id": "cyberops-associate_m03-04",
@@ -81,7 +81,7 @@
           "file": "data/cyberops-associate/cyberops-associate_m03-04.json",
           "test_count": 35,
           "redaccion_count": 0,
-          "encrypted": true
+          "encrypted": false
         },
         {
           "tema_id": "cyberops-associate_m05-10",
@@ -90,7 +90,7 @@
           "file": "data/cyberops-associate/cyberops-associate_m05-10.json",
           "test_count": 62,
           "redaccion_count": 0,
-          "encrypted": true
+          "encrypted": false
         },
         {
           "tema_id": "cyberops-associate_m11-12",
@@ -99,7 +99,7 @@
           "file": "data/cyberops-associate/cyberops-associate_m11-12.json",
           "test_count": 35,
           "redaccion_count": 0,
-          "encrypted": true
+          "encrypted": false
         },
         {
           "tema_id": "cyberops-associate_m13-17",
@@ -108,7 +108,7 @@
           "file": "data/cyberops-associate/cyberops-associate_m13-17.json",
           "test_count": 51,
           "redaccion_count": 0,
-          "encrypted": true
+          "encrypted": false
         },
         {
           "tema_id": "cyberops-associate_m18-20",
@@ -117,7 +117,7 @@
           "file": "data/cyberops-associate/cyberops-associate_m18-20.json",
           "test_count": 33,
           "redaccion_count": 0,
-          "encrypted": true
+          "encrypted": false
         },
         {
           "tema_id": "cyberops-associate_m21-23",
@@ -126,7 +126,7 @@
           "file": "data/cyberops-associate/cyberops-associate_m21-23.json",
           "test_count": 36,
           "redaccion_count": 0,
-          "encrypted": true
+          "encrypted": false
         },
         {
           "tema_id": "cyberops-associate_m24-25",
@@ -135,7 +135,7 @@
           "file": "data/cyberops-associate/cyberops-associate_m24-25.json",
           "test_count": 30,
           "redaccion_count": 0,
-          "encrypted": true
+          "encrypted": false
         },
         {
           "tema_id": "cyberops-associate_m26-28",
@@ -144,7 +144,7 @@
           "file": "data/cyberops-associate/cyberops-associate_m26-28.json",
           "test_count": 37,
           "redaccion_count": 0,
-          "encrypted": true
+          "encrypted": false
         },
         {
           "tema_id": "cyberops-associate_cert-200-201",
@@ -153,7 +153,7 @@
           "file": "data/cyberops-associate/cyberops-associate_cert-200-201.json",
           "test_count": 92,
           "redaccion_count": 0,
-          "encrypted": true
+          "encrypted": false
         },
         {
           "tema_id": "cyberops-associate_final-practica",
@@ -162,7 +162,7 @@
           "file": "data/cyberops-associate/cyberops-associate_final-practica.json",
           "test_count": 68,
           "redaccion_count": 0,
-          "encrypted": true
+          "encrypted": false
         },
         {
           "tema_id": "cyberops-associate_final-curso",
@@ -171,7 +171,7 @@
           "file": "data/cyberops-associate/cyberops-associate_final-curso.json",
           "test_count": 184,
           "redaccion_count": 0,
-          "encrypted": true
+          "encrypted": false
         }
       ]
     },

@@ -1,5 +1,15 @@
 [
   {
+    "id": "examhub",
+    "title": "ExamHub",
+    "category": "herramientas",
+    "type": "web",
+    "description": "Generador de exámenes interactivos tipo test y redacción organizados por asignatura y tema.",
+    "path": "./tools/examhub/index.html",
+    "github": "https://github.com/X4VICO/ExamHub",
+    "tags": ["Web", "Estudio", "Exámenes"]
+  },
+  {
     "id": "planner-semanal",
     "title": "Planner Semanal",
     "category": "herramientas",
@@ -39,13 +49,12 @@
     "tags": ["Ciberseguridad", "CTF", "Web"]
   },
   {
-    "id": "examhub",
-    "title": "ExamHub",
-    "category": "herramientas",
+    "id": "montando-modelo-osi",
+    "title": "Montando modelo OSI",
+    "category": "minijuegos",
     "type": "web",
-    "description": "Generador de exámenes interactivos tipo test y redacción organizados por asignatura y tema.",
-    "path": "./tools/examhub/index.html",
-    "github": "https://github.com/X4VICO/ExamHub",
-    "tags": ["Web", "Estudio", "Exámenes"]
+    "description": "",
+    "path": "./tools/montando-modelo-osi/index.html",
+    "tags": ["Web", "Estudio", "Modelo  OSI"]
   }
 ]

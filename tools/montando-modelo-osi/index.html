@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Montando modelo OSI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+
+<h2 class="sr-only">Proyecto para aprender el modelo OSI: primero estudia las siete capas con tarjetas que se giran, luego móntalas en el orden correcto contra reloj.</h2>
+
+<div class="blueprint-grid" aria-hidden="true"></div>
+
+<div class="wrap">
+
+  <!-- ================= VISTA DE ESTUDIO ================= -->
+  <section id="studyView" class="view">
+    <header class="hero">
+      <span class="eyebrow">// Proyecto independiente — Redes</span>
+      <h1>Montando modelo OSI</h1>
+      <p class="lede">Repasa las 7 capas tocando cada tarjeta para que se den la vuelta. Cuando te las sepas, móntalas en orden contra reloj.</p>
+    </header>
+
+    <div class="stack-study" id="stackStudy"></div>
+
+    <div class="start-actions">
+      <button class="btn btn-primary btn-lg" id="startBtn">Empezar juego →</button>
+      <span class="hint-note">Puedes volver a repasar en cualquier momento desde el juego</span>
+    </div>
+  </section>
+
+  <!-- ================= VISTA DE JUEGO ================= -->
+  <section id="gameView" class="view hidden">
+    <header class="hero hero-compact">
+      <button class="btn btn-ghost" id="backBtn">← Repasar capas</button>
+      <h1>Montando modelo OSI</h1>
+      <p class="lede">Arrastra cada capa a su posición correcta antes de que se acabe el tiempo.</p>
+    </header>
+
+    <div class="hud">
+      <div class="hud-item">Ronda <strong id="round">1</strong>/<span id="totalRounds">3</span></div>
+      <div class="hud-item">Puntos <strong id="score">0</strong></div>
+      <div class="hud-item">Vidas <span class="hearts" id="hearts">♥ ♥ ♥</span></div>
+      <div class="hud-wide">
+        <div class="timer-track"><div id="timerFill"></div></div>
+      </div>
+    </div>
+
+    <div class="game-area">
+      <div>
+        <div class="pool-title">Capas disponibles (orden aleatorio)</div>
+        <div class="pool-grid" id="pool"></div>
+
+        <div class="pool-title spaced">Orden: capa 7 (aplicación) arriba → capa 1 (física) abajo</div>
+        <div class="slots" id="slots"></div>
+      </div>
+
+      <div class="hint-panel">
+        <div class="hp-title">Pista de la capa seleccionada</div>
+        <p id="hintText">Toca o arrastra una ficha para ver aquí su función y ejemplos.</p>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-secondary" id="checkBtn">Comprobar orden</button>
+      <button class="btn btn-secondary" id="resetRoundBtn">Reiniciar ronda</button>
+    </div>
+  </section>
+
+</div>
+
+<div class="overlay" id="overlay">
+  <div class="result-card" id="resultCard">
+    <h2 id="resultTitle">¡Stack completo!</h2>
+    <div class="score-big" id="resultScore">0 pts</div>
+    <p id="resultMsg">Has ordenado las 7 capas correctamente.</p>
+    <button class="btn btn-primary" id="resultBtn">Siguiente ronda</button>
+  </div>
+</div>
+
+<script src="./js/game.js"></script>
+</body>
+</html>
