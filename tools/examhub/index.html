@@ -39,7 +39,7 @@
     <div class="toolbar">
       <button class="chip-btn" id="selectAll">Seleccionar todo</button>
       <button class="chip-btn" id="selectNone">Vaciar selección</button>
-      <button class="chip-btn" id="selectFailed" style="display:none;">Solo falladas anteriormente</button>
+      <button class="chip-btn" id="selectFailed" style="display:none;" title="Selecciona automáticamente, en todas las asignaturas, los temas donde tienes preguntas falladas">Todo lo fallado (todas asignaturas)</button>
     </div>
 
     <div id="subjectList"></div>
@@ -93,6 +93,19 @@
         Empezar sesión
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </button>
+    </div>
+  </div>
+
+  <div class="lock-modal" id="failedModal" style="display:none;">
+    <div class="lock-modal-card">
+      <svg class="lock-modal-icon" viewBox="0 0 24 24" fill="none"><path d="M12 9v4m0 4h.01M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <h3>Hay preguntas falladas en esta selección</h3>
+      <p>Has fallado <b id="failedModalCount">0</b> pregunta(s) de test en los temas que has elegido. ¿Qué quieres hacer?</p>
+      <div class="lock-modal-actions" style="flex-direction:column;">
+        <button class="btn-primary" id="failedModalRetryBtn" style="width:100%; justify-content:center; margin-bottom:8px;">Repasar solo las falladas (<span id="failedModalCount2">0</span>)</button>
+        <button class="btn-secondary" id="failedModalFullBtn" style="width:100%; justify-content:center; margin-bottom:8px;">Empezar con toda la selección</button>
+        <button class="btn-secondary" id="failedModalCancelBtn" style="width:100%; justify-content:center;">Cancelar</button>
+      </div>
     </div>
   </div>
 
