@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gestión de Vida</title>
+<link rel="stylesheet" href="./assets/css/style.css">
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+</head>
+<body>
+  <div class="wrap">
+    <header class="topbar">
+      <div class="title-block">
+        <a href="../../index.html" class="chip-btn" style="text-decoration: none; display: inline-flex; align-items: center; gap: 6px; margin-right: 12px;">
+          ← Bibliotek
+        </a>
+        <h1>🧭 Gestión de Vida</h1>
+        <p>Un panel para las cosas que quieres llevar controladas: el coche, lo que compras, lo que debes y por dónde has pasado.</p>
+      </div>
+    </header>
+
+    <div class="hub-grid" id="hubGrid"></div>
+
+    <div class="template-box">
+      <p><strong>¿Primera vez?</strong> Descarga la plantilla Excel con las hojas ya preparadas, rellénala (o impórtala directamente en cada app) y empieza desde ahí.</p>
+      <button class="btn primary" onclick="gvDownloadFullTemplate()">⬇ Descargar plantilla Excel</button>
+    </div>
+
+    <footer class="gv">Todo se guarda en tu navegador. Exporta a menudo para tener copia de seguridad.</footer>
+  </div>
+
+  <script src="./assets/js/shared/storage.js"></script>
+  <script src="./assets/js/shared/io.js"></script>
+  <script src="./assets/js/shared/template.js"></script>
+  <script src="./assets/js/hub.js"></script>
+</body>
+</html>

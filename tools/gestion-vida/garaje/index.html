@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Garaje · Gestión de Vida</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+</head>
+<body>
+  <div class="wrap">
+    <header class="topbar">
+      <a class="back-link" href="../index.html">← Gestión de Vida</a>
+      <div class="actions" id="topActions"></div>
+    </header>
+
+    <div class="title-block" style="margin-bottom:1.6rem;">
+      <h1>🚗 Garaje</h1>
+      <p>Gastos, mantenimiento y vencimientos de tus vehículos.</p>
+    </div>
+
+    <!-- Estado vacío: importar datos -->
+    <div id="emptyState" class="dropzone" style="display:none;">
+      <div style="font-size:2rem;">📄</div>
+      <h3>Todavía no hay datos cargados</h3>
+      <p>Arrastra aquí tu Excel o CSV de gastos, o empieza desde cero.</p>
+      <div style="margin-top:1.2rem; display:flex; gap:.7rem; justify-content:center; flex-wrap:wrap;">
+        <button class="btn primary" onclick="document.getElementById('fileInput').click()">📥 Importar Excel / CSV</button>
+        <button class="btn ghost" onclick="gvStartEmpty()">Empezar desde cero</button>
+      </div>
+      <div class="or">o descarga la <a href="#" onclick="gvDownloadFullTemplate();return false;" style="color:var(--green);">plantilla</a> para rellenarla primero</div>
+      <input type="file" id="fileInput" accept=".xlsx,.xls,.csv">
+    </div>
+
+    <!-- Contenido principal -->
+    <div id="mainContent" style="display:none;">
+      <div class="stats-row" id="statsRow"></div>
+      <div class="tabs" id="vehicleTabs"></div>
+
+      <div class="layout">
+        <div id="sideCol"></div>
+        <div>
+          <div class="card">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+              <h3 style="margin:0;">Gastos</h3>
+              <button class="btn primary small" onclick="gvOpenGastoModal()">+ Añadir gasto</button>
+            </div>
+            <div class="table-toolbar">
+              <input type="text" id="searchInput" placeholder="🔍 Buscar por descripción o proveedor...">
+            </div>
+            <div style="overflow-x:auto;">
+              <table class="gastos" id="gastosTable">
+                <thead>
+                  <tr>
+                    <th>Fecha</th>
+                    <th>Vehículo</th>
+                    <th>Categoría</th>
+                    <th>Descripción</th>
+                    <th class="num">Coste</th>
+                    <th>Vencimiento</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody id="gastosBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer class="gv">Los datos se guardan solo en este navegador. Exporta cuando quieras tener una copia.</footer>
+  </div>
+
+  <!-- Modal: gasto -->
+  <div class="overlay" id="gastoOverlay">
+    <div class="modal">
+      <h3 id="gastoModalTitle">Añadir gasto</h3>
+      <input type="hidden" id="gastoId">
+      <div class="field">
+        <label>Vehículo</label>
+        <select id="gastoVehiculo"></select>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>Categoría</label>
+          <select id="gastoCategoria">
+            <option>Mantenimiento</option>
+            <option>Seguro</option>
+            <option>Impuestos</option>
+            <option>ITV</option>
+            <option>Compra</option>
+            <option>Accesorio</option>
+            <option>Combustible</option>
+            <option>Otro</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Coste (€)</label>
+          <input type="number" step="0.01" id="gastoCoste">
+        </div>
+      </div>
+      <div class="field">
+        <label>Descripción</label>
+        <input type="text" id="gastoDescripcion">
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>Fecha</label>
+          <input type="date" id="gastoFechaInicio">
+        </div>
+        <div class="field">
+          <label>Vence el (opcional)</label>
+          <input type="date" id="gastoFechaFinal">
+        </div>
+      </div>
+      <div class="field">
+        <label>Kilometraje (opcional)</label>
+        <input type="text" id="gastoKm" placeholder="ej. 163.000 km">
+      </div>
+      <div class="field">
+        <label>Proveedor / Link (opcional)</label>
+        <input type="text" id="gastoProveedor">
+      </div>
+      <div class="field">
+        <label>Notas</label>
+        <textarea id="gastoNotas"></textarea>
+      </div>
+      <div class="modal-actions">
+        <button class="btn danger ghost" id="gastoDeleteBtn" onclick="gvDeleteGasto()" style="display:none;">Eliminar</button>
+        <button class="btn ghost" onclick="gvCloseModal('gastoOverlay')">Cancelar</button>
+        <button class="btn primary" onclick="gvSaveGasto()">Guardar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: vehículo -->
+  <div class="overlay" id="vehiculoOverlay">
+    <div class="modal">
+      <h3 id="vehiculoModalTitle">Nuevo vehículo</h3>
+      <input type="hidden" id="vehiculoOriginalNombre">
+      <div class="field">
+        <label>Nombre</label>
+        <input type="text" id="vehNombre" placeholder="ej. Ford Focus">
+      </div>
+      <div class="field">
+        <label>Marca / Modelo</label>
+        <input type="text" id="vehMarcaModelo">
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>Matrícula</label>
+          <input type="text" id="vehMatricula">
+        </div>
+        <div class="field">
+          <label>Fecha de alta</label>
+          <input type="date" id="vehFechaAlta">
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>Neumáticos</label>
+          <input type="text" id="vehNeumaticos" placeholder="ej. R17">
+        </div>
+        <div class="field">
+          <label>Batería</label>
+          <input type="text" id="vehBateria" placeholder="ej. 60 Ah">
+        </div>
+      </div>
+      <div class="field">
+        <label>Aceite</label>
+        <input type="text" id="vehAceite" placeholder="ej. 3L">
+      </div>
+      <div class="field">
+        <label>Notas</label>
+        <textarea id="vehNotas"></textarea>
+      </div>
+      <div class="modal-actions">
+        <button class="btn danger ghost" id="vehDeleteBtn" onclick="gvDeleteVehiculo()" style="display:none;">Eliminar vehículo</button>
+        <button class="btn ghost" onclick="gvCloseModal('vehiculoOverlay')">Cancelar</button>
+        <button class="btn primary" onclick="gvSaveVehiculo()">Guardar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: importar (combinar / reemplazar) -->
+  <div class="overlay" id="importOverlay">
+    <div class="modal">
+      <h3>Ya tienes datos cargados</h3>
+      <p style="color:var(--text-dim); font-size:.88rem;">¿Qué quieres hacer con el archivo importado?</p>
+      <div class="modal-actions" style="justify-content:flex-start; margin-top: 1.2rem;">
+        <button class="btn primary" onclick="gvResolveImport('combinar')">Combinar con lo actual</button>
+        <button class="btn danger" onclick="gvResolveImport('reemplazar')">Reemplazar todo</button>
+        <button class="btn ghost" onclick="gvCloseModal('importOverlay')">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="../assets/js/shared/storage.js"></script>
+  <script src="../assets/js/shared/io.js"></script>
+  <script src="../assets/js/shared/template.js"></script>
+  <script src="./assets/js/garaje.js"></script>
+</body>
+</html>

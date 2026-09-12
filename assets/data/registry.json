@@ -19,6 +19,15 @@
     "tags": ["Web", "Productividad", "Exportar"]
   },
   {
+    "id": "gestion-vida",
+    "title": "Gestión de Vida",
+    "category": "herramientas",
+    "type": "web",
+    "description": "Gestiona tus cosillas de manera comoda (las que a mi me convienen de momento xd)",
+    "path": "./tools/gestion-vida/index.html",
+    "tags": ["Web", "Excel", "Gestión", "Productividad", "Exportar"]
+  },
+  {
     "id": "listenvault",
     "title": "ListenVault",
     "category": "utilidades",
