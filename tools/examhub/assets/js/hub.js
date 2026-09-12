@@ -213,6 +213,8 @@
     var stats = window.ExamStorage.all();
     var hasFailed = Object.keys(stats).some(function (id) { return stats[id].lastWrong; });
     document.getElementById("selectFailed").style.display = hasFailed ? "inline-block" : "none";
+    var exportFailedBtn = document.getElementById("exportFailedBtn");
+    if (exportFailedBtn) exportFailedBtn.style.display = hasFailed ? "inline-block" : "none";
   }
 
   // Cuántas preguntas de test están falladas dentro de la selección actual
@@ -260,6 +262,238 @@
     });
   }
 
+  // ---------- exportar preguntas falladas (texto listo para pegar en una IA) ----------
+
+  // Modal de contraseña reutilizable para el export: a diferencia del modal
+  // de quiz.html, aquí se puede "omitir" un tema si no se tiene la clave a mano.
+  function askExportPassword(label, isRetry) {
+    return new Promise(function (resolve) {
+      var modal = document.getElementById("exportPasswordModal");
+      if (!modal) {
+        resolve(null);
+        return;
+      }
+      var desc = document.getElementById("exportPasswordDesc");
+      var input = document.getElementById("exportPasswordInput");
+      var errorEl = document.getElementById("exportPasswordError");
+      var submitBtn = document.getElementById("exportPasswordSubmitBtn");
+      var skipBtn = document.getElementById("exportPasswordSkipBtn");
+
+      desc.textContent = 'Introduce la contraseña para incluir las falladas de "' + label + '" en la exportación.';
+      errorEl.style.display = isRetry ? "block" : "none";
+      input.value = "";
+      modal.style.display = "flex";
+      setTimeout(function () { input.focus(); }, 0);
+
+      function cleanup() {
+        modal.style.display = "none";
+        submitBtn.removeEventListener("click", onSubmit);
+        skipBtn.removeEventListener("click", onSkip);
+        input.removeEventListener("keydown", onKeydown);
+      }
+      function onSubmit() {
+        var val = input.value;
+        cleanup();
+        resolve(val || null);
+      }
+      function onSkip() {
+        cleanup();
+        resolve(null);
+      }
+      function onKeydown(e) {
+        if (e.key === "Enter") onSubmit();
+      }
+      submitBtn.addEventListener("click", onSubmit);
+      skipBtn.addEventListener("click", onSkip);
+      input.addEventListener("keydown", onKeydown);
+    });
+  }
+
+  // Descifra un tema cifrado para el export. Reintenta la contraseña si es
+  // incorrecta; devuelve null si el usuario decide omitir el tema.
+  async function decryptTemaForExport(tf, lastPasswordRef) {
+    var encTema;
+    try {
+      var res = await fetch(tf.file);
+      if (!res.ok) throw new Error("HTTP " + res.status);
+      encTema = await res.json();
+    } catch (e) {
+      console.error('[ExamHub] No se ha podido descargar/leer el archivo del tema "' + tf.tema + '":', e);
+      alert(
+        'No se ha podido descargar el archivo del tema "' + tf.tema + '" (' + e.message + '). ' +
+          "Se omite este tema. Abre la consola del navegador (F12) para ver el detalle."
+      );
+      return null;
+    }
+
+    var pwd = lastPasswordRef.value;
+    var isRetry = false;
+    while (true) {
+      if (!pwd) {
+        pwd = await askExportPassword(tf.tema, isRetry);
+        if (!pwd) return null; // el usuario ha omitido este tema
+      }
+      try {
+        var data = await window.CryptoLock.decryptTema(encTema, pwd);
+        lastPasswordRef.value = pwd; // reutilizar en el siguiente tema cifrado
+        return data;
+      } catch (e) {
+        console.error('[ExamHub] Fallo al descifrar "' + tf.tema + '" con la contraseña introducida:', e);
+        pwd = null;
+        isRetry = true;
+      }
+    }
+  }
+
+  function buildFailedExportText(blocks) {
+    var byGroup = {};
+    var order = [];
+    blocks.forEach(function (b) {
+      var key = b.asignatura + " — " + b.tema;
+      if (!byGroup[key]) {
+        byGroup[key] = [];
+        order.push(key);
+      }
+      byGroup[key].push(b);
+    });
+
+    var letters = "abcdefgh";
+    var lines = [];
+    lines.push(
+      "Estas son preguntas de test que he fallado repasando. Para cada una, explícame la teoría " +
+        "relacionada y por qué la respuesta marcada como correcta lo es, con un lenguaje claro y sin " +
+        "alargarte más de lo necesario."
+    );
+    lines.push("");
+
+    order.forEach(function (key) {
+      lines.push("## " + key);
+      lines.push("");
+      byGroup[key].forEach(function (b, idx) {
+        lines.push((idx + 1) + ". " + b.enunciado);
+        (b.opciones || []).forEach(function (op, i) {
+          lines.push("   " + (letters[i] || i) + ") " + op.texto + (op.correcta ? "  [CORRECTA]" : ""));
+        });
+        if (b.explicacion) {
+          lines.push("   Explicación del banco de preguntas: " + b.explicacion);
+        }
+        lines.push("");
+      });
+    });
+
+    return lines.join("\n");
+  }
+
+  function downloadFailedExport(blocks) {
+    var text = buildFailedExportText(blocks);
+    var blob = new Blob([text], { type: "text/plain;charset=utf-8" });
+    var url = URL.createObjectURL(blob);
+    var stamp = new Date().toISOString().slice(0, 10);
+    var link = document.createElement("a");
+    link.href = url;
+    link.download = "examhub-falladas-" + stamp + ".txt";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  }
+
+  async function exportFailedQuestions() {
+    var stats = window.ExamStorage.all();
+    // Recolecta, por tema de TODO el catálogo (no solo lo seleccionado en
+    // pantalla), qué índices de pregunta están marcados como fallados.
+    var temaFailures = [];
+    manifest.asignaturas.forEach(function (a) {
+      a.temas.forEach(function (t) {
+        var indices = [];
+        for (var i = 0; i < t.test_count; i++) {
+          var s = stats[questionKey(t.file, "t", i)];
+          if (s && s.lastWrong) indices.push(i);
+        }
+        if (indices.length) {
+          temaFailures.push({
+            asignatura: a.nombre,
+            tema: t.nombre,
+            file: t.file,
+            encrypted: t.encrypted,
+            indices: indices,
+          });
+        }
+      });
+    });
+
+    if (!temaFailures.length) {
+      alert("No tienes preguntas falladas guardadas todavía.");
+      return;
+    }
+
+    var btn = document.getElementById("exportFailedBtn");
+    var originalLabel = btn ? btn.textContent : null;
+    if (btn) {
+      btn.disabled = true;
+      btn.textContent = "Generando…";
+    }
+
+    var lastPassword = { value: null };
+    var blocks = [];
+    var skippedTemas = [];
+
+    for (var i = 0; i < temaFailures.length; i++) {
+      var tf = temaFailures[i];
+      var content = null;
+      try {
+        if (tf.encrypted) {
+          content = await decryptTemaForExport(tf, lastPassword);
+        } else {
+          var res = await fetch(tf.file);
+          if (!res.ok) throw new Error("HTTP " + res.status);
+          content = await res.json();
+        }
+      } catch (e) {
+        content = null;
+      }
+      if (!content) {
+        skippedTemas.push(tf.tema);
+        continue;
+      }
+      tf.indices.forEach(function (idx) {
+        var q = content.test && content.test[idx];
+        if (!q) return;
+        blocks.push({
+          asignatura: tf.asignatura,
+          tema: tf.tema,
+          enunciado: q.enunciado,
+          opciones: q.opciones,
+          explicacion: q.explicacion || "",
+        });
+      });
+    }
+
+    if (btn) {
+      btn.disabled = false;
+      btn.textContent = originalLabel;
+    }
+
+    if (!blocks.length) {
+      alert(
+        "No se ha podido recuperar ninguna pregunta fallada" +
+          (skippedTemas.length ? " (temas omitidos: " + skippedTemas.join(", ") + ")" : "") +
+          "."
+      );
+      return;
+    }
+
+    downloadFailedExport(blocks);
+
+    if (skippedTemas.length) {
+      alert(
+        "Exportado. No se han podido incluir las falladas de: " +
+          skippedTemas.join(", ") +
+          " (sin contraseña correcta)."
+      );
+    }
+  }
+
   function updateClearAllVisibility() {
     var stats = window.ExamStorage.all();
     var hasAny = Object.keys(stats).length > 0;
@@ -269,6 +503,7 @@
 
   function setupProgressTools() {
     var exportBtn = document.getElementById("exportProgressBtn");
+    var exportFailedBtn = document.getElementById("exportFailedBtn");
     var importBtn = document.getElementById("importProgressBtn");
     var importFile = document.getElementById("importProgressFile");
     var clearAllBtn = document.getElementById("clearAllProgressBtn");
@@ -286,6 +521,12 @@
         link.click();
         document.body.removeChild(link);
         URL.revokeObjectURL(url);
+      });
+    }
+
+    if (exportFailedBtn) {
+      exportFailedBtn.addEventListener("click", function () {
+        exportFailedQuestions();
       });
     }
 

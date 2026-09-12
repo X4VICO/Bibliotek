@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/style.css">
+<link rel="icon" type="image/png" href="../../assets/img/bibliotek.png" />
 </head>
 <body>
 <div class="app">
@@ -47,13 +48,15 @@
     <div class="section-label">Progreso guardado (en este navegador)</div>
     <div class="toolbar">
       <button class="chip-btn" id="exportProgressBtn" title="Descarga un archivo .json con todo tu progreso, por si cambias de equipo o navegador">Exportar progreso</button>
+      <button class="chip-btn" id="exportFailedBtn" style="display:none;" title="Descarga un .txt con tus preguntas falladas (enunciado, opciones y explicación) listo para pegar en una IA">Exportar falladas</button>
       <button class="chip-btn" id="importProgressBtn" title="Carga un archivo .json de progreso exportado antes">Importar progreso</button>
       <input type="file" id="importProgressFile" accept="application/json" style="display:none;">
       <button class="chip-btn chip-btn-danger" id="clearAllProgressBtn" style="display:none;" title="Borra todo el progreso guardado en este navegador">Borrar todo el progreso</button>
     </div>
     <p style="font-size:12px; color:var(--text-faint); margin:-6px 0 0;">
       Puedes borrar el progreso de un tema o asignatura concretos con el icono 🗑 que aparece cuando ya tienen preguntas practicadas.
-      No hay cuentas ni servidor: todo se guarda solo en este navegador. Usa "Exportar progreso" para llevártelo a otro equipo.
+      No hay cuentas ni servidor: todo se guarda solo en este navegador. Usa "Exportar progreso" para llevártelo a otro equipo,
+      y "Exportar falladas" para llevarte solo las preguntas que has fallado a una IA y repasar la teoría.
     </p>
 
     <div class="section-label">Modo de sesión</div>
@@ -109,10 +112,25 @@
     </div>
   </div>
 
+  <div class="lock-modal" id="exportPasswordModal" style="display:none;">
+    <div class="lock-modal-card">
+      <svg class="lock-modal-icon" viewBox="0 0 24 24" fill="none"><rect x="5" y="11" width="14" height="9" rx="2" stroke="currentColor" stroke-width="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3" stroke="currentColor" stroke-width="2"/></svg>
+      <h3>Contenido protegido</h3>
+      <p id="exportPasswordDesc">Introduce la contraseña para incluir las falladas de este tema en la exportación.</p>
+      <input type="password" id="exportPasswordInput" placeholder="Contraseña" autocomplete="current-password">
+      <div class="lock-modal-error" id="exportPasswordError" style="display:none;">Contraseña incorrecta — inténtalo de nuevo.</div>
+      <div class="lock-modal-actions">
+        <button class="btn-secondary" id="exportPasswordSkipBtn">Omitir este tema</button>
+        <button class="btn-primary" id="exportPasswordSubmitBtn">Desbloquear</button>
+      </div>
+    </div>
+  </div>
+
   <footer>ExamHub · <a href="../../index.html">Bibliotek Suite</a></footer>
 </div>
 
 <script src="assets/js/storage.js"></script>
+<script src="assets/js/crypto-lock.js"></script>
 <script src="assets/js/hub.js"></script>
 </body>
 </html>
