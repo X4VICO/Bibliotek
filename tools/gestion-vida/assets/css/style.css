@@ -212,8 +212,9 @@ a{ color: inherit; }
   border: 1px solid var(--line); background: var(--panel);
   color: var(--text-dim); cursor:pointer;
 }
-.tab.active{ background: var(--green); border-color: var(--green); color:#04231a; }
+.tab.active{ background: var(--accent, var(--green)); border-color: var(--accent, var(--green)); color:#04231a; }
 .tab.add{ border-style:dashed; color: var(--text-dim); }
+.veh-dot{ display:inline-block; width:8px; height:8px; border-radius:50%; margin-right:.4rem; vertical-align:middle; }
 
 /* ---------- layout ---------- */
 .layout{ display:grid; grid-template-columns: 300px 1fr; gap: 1.4rem; align-items:start; }
@@ -235,6 +236,34 @@ a{ color: inherit; }
 
 /* ---------- chart ---------- */
 .chart-wrap{ position:relative; height: 180px; margin-top: .6rem; }
+.chart-head{ display:flex; justify-content:space-between; align-items:center; gap:.6rem; flex-wrap:wrap; }
+.chart-toggle{ display:flex; gap:.3rem; }
+.chart-toggle button{
+  font-family: var(--font-mono); font-size:.7rem; padding:.25rem .55rem; border-radius:6px;
+  border:1px solid var(--line); background:var(--panel-2); color:var(--text-dim); cursor:pointer;
+}
+.chart-toggle button.active{ background: var(--green); color:#04231a; border-color:var(--green); }
+.chart-nav{ display:flex; align-items:center; gap:.5rem; font-family:var(--font-mono); font-size:.7rem; color:var(--text-dim); }
+.chart-nav button{
+  background:none; border:1px solid var(--line); color:var(--text-dim); border-radius:6px;
+  width:22px; height:22px; cursor:pointer; line-height:1;
+}
+.chart-nav button:disabled{ opacity:.3; cursor:default; }
+
+/* ---------- lista de vehículos desplegable ---------- */
+.veh-total-row{ cursor:pointer; }
+.veh-total-row .arrow{ display:inline-block; margin-right:.35rem; font-size:.7rem; color: var(--text-dim); transition: transform .15s ease; }
+.veh-total-row.expanded .arrow{ transform: rotate(90deg); }
+.veh-mini-ficha{ padding: .2rem 0 .8rem 1.1rem; }
+.veh-mini-ficha .info-row{ font-size: .8rem; }
+
+/* ---------- ordenar tabla ---------- */
+th.sortable{ cursor:pointer; user-select:none; }
+th.sortable .arrow{ display:inline-block; width:1ch; margin-left:.15rem; opacity:.4; }
+th.sortable.active .arrow{ opacity:1; color: var(--green); }
+
+/* ---------- selector de color ---------- */
+.field input[type=color]{ padding: 3px; height: 40px; cursor:pointer; }
 
 /* ---------- table ---------- */
 .table-toolbar{ display:flex; gap:.6rem; margin-bottom: 1rem; flex-wrap:wrap; }
@@ -308,3 +337,35 @@ table.gastos .row-actions button:hover{ color: var(--text); }
 .toast.show{ opacity:1; transform: translateX(-50%) translateY(0); }
 
 footer.gv{ text-align:center; color: var(--text-dim); font-size: .78rem; margin-top: 3rem; }
+
+/* ---------- footer estilo Bibliotek ---------- */
+footer{
+  margin-top: 4rem;
+  padding: 2.2rem 0;
+  background: var(--panel-2);
+  border-top: 1px solid var(--line);
+  color: var(--text-dim);
+  font-size: .85rem;
+}
+.footer-content{
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  align-items: center;
+  font-family: var(--font-mono);
+}
+@media (min-width: 640px){
+  .footer-content{ flex-direction: row; justify-content: space-between; }
+  .footer-feedback, .footer-links{ flex: 1; }
+  .footer-feedback{ text-align: left; }
+  .footer-copy{ text-align: center; flex: 1; }
+  .footer-links{ display: flex; justify-content: flex-end; gap: 1.1rem; }
+}
+.footer-feedback a{ color: var(--text-dim); text-decoration: none; transition: color .2s ease; }
+.footer-feedback a:hover{ color: var(--green); }
+.footer-links{ display: flex; gap: 1.5rem; font-size: 1.2rem; }
+.footer-links a{ color: var(--text-dim); text-decoration: none; transition: color .2s ease; }
+.footer-links a:hover{ color: var(--green); }

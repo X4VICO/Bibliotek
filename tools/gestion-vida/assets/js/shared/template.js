@@ -25,6 +25,7 @@ function gvDownloadFullTemplate() {
         'Batería': '60 Ah',
         'Aceite': '3L',
         'Fecha alta': '2021-06-23',
+        'Color': '#00d084',
         'Notas': 'EJEMPLO (borra esta fila)'
       }]
     },

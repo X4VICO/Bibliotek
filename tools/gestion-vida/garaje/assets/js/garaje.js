@@ -5,6 +5,11 @@ let activeVehicle = 'todos';
 let pendingImportData = null;
 let gvChartInstance = null;
 let toastTimer = null;
+let gvExpanded = new Set();
+let gvSort = { field: 'fecha', dir: 'desc' };
+let gvChartMode = 'mes'; // 'mes' | 'año'
+let gvChartOffset = 0;
+const gvPalette = ['#00d084', '#4f8cff', '#f5a623', '#ef5b5b', '#c084fc', '#22d3ee', '#facc15', '#fb7185'];
 
 // ---------- Helpers ----------
 function gvHtmlEsc(s) {
@@ -45,6 +50,28 @@ function gvAllVehicleNames() {
   return Array.from(set).filter(Boolean);
 }
 
+function gvRound2(n) {
+  return Math.round((Number(n) + Number.EPSILON) * 100) / 100;
+}
+
+function gvVehColor(name) {
+  const v = VEHICULOS.find(x => x.nombre === name);
+  return (v && v.color) ? v.color : '#00d084';
+}
+
+// Da de alta una ficha mínima (con color asignado) a cualquier vehículo que
+// solo exista como texto en los gastos, y asigna color a los que no lo tengan.
+function gvEnsureVehicleColors() {
+  const names = gvAllVehicleNames();
+  let changed = false;
+  names.forEach((n, i) => {
+    let v = VEHICULOS.find(x => x.nombre === n);
+    if (!v) { v = { nombre: n }; VEHICULOS.push(v); changed = true; }
+    if (!v.color) { v.color = gvPalette[i % gvPalette.length]; changed = true; }
+  });
+  if (changed) GV_STORE.set('gv_garaje_vehiculos', VEHICULOS);
+}
+
 // ---------- Persistencia ----------
 function gvSaveState() {
   GV_STORE.set('gv_garaje_gastos', GASTOS);
@@ -62,6 +89,7 @@ function gvStartEmpty() { gvShowApp(); }
 
 // ---------- Render principal ----------
 function gvRenderAll() {
+  gvEnsureVehicleColors();
   gvRenderTabs();
   const filtered = activeVehicle === 'todos' ? GASTOS.slice() : GASTOS.filter(g => g.vehiculo === activeVehicle);
   gvRenderStats(filtered);
@@ -74,18 +102,21 @@ function gvRenderTabs() {
   if (activeVehicle !== 'todos' && !names.includes(activeVehicle)) activeVehicle = 'todos';
   let html = `<button class="tab ${activeVehicle === 'todos' ? 'active' : ''}" data-vehicle="todos">Todos</button>`;
   names.forEach(n => {
-    html += `<button class="tab ${activeVehicle === n ? 'active' : ''}" data-vehicle="${gvAttrEsc(n)}">${gvHtmlEsc(n)}</button>`;
+    const active = activeVehicle === n;
+    const color = gvVehColor(n);
+    const dot = active ? '' : `<span class="veh-dot" style="background:${color}"></span>`;
+    html += `<button class="tab ${active ? 'active' : ''}" data-vehicle="${gvAttrEsc(n)}" style="--accent:${color}">${dot}${gvHtmlEsc(n)}</button>`;
   });
   html += `<button class="tab add" data-action="add-vehicle">+ Vehículo</button>`;
   document.getElementById('vehicleTabs').innerHTML = html;
 }
 
 function gvComputeStats(filtered) {
-  const total = filtered.reduce((s, g) => s + (g.coste || 0), 0);
+  const total = gvRound2(filtered.reduce((s, g) => s + (Number(g.coste) || 0), 0));
   const year = new Date().getFullYear();
-  const totalYear = filtered
+  const totalYear = gvRound2(filtered
     .filter(g => g.fechaInicio && g.fechaInicio.slice(0, 4) === String(year))
-    .reduce((s, g) => s + (g.coste || 0), 0);
+    .reduce((s, g) => s + (Number(g.coste) || 0), 0));
   const today = new Date().toISOString().slice(0, 10);
   const withVenc = filtered.filter(g => g.fechaFinal).sort((a, b) => a.fechaFinal.localeCompare(b.fechaFinal));
   const future = withVenc.filter(g => g.fechaFinal >= today);
@@ -117,40 +148,128 @@ function gvMonthLabel(key) {
   const meses = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
   return `${meses[parseInt(m, 10) - 1]} ${y.slice(2)}`;
 }
-function gvMonthlyData(filtered) {
+
+function gvGroupedTotals(filtered, mode) {
   const map = {};
   filtered.forEach(g => {
     if (!g.fechaInicio) return;
-    const key = g.fechaInicio.slice(0, 7);
-    map[key] = (map[key] || 0) + (g.coste || 0);
+    const key = mode === 'año' ? g.fechaInicio.slice(0, 4) : g.fechaInicio.slice(0, 7);
+    map[key] = gvRound2((map[key] || 0) + (Number(g.coste) || 0));
   });
+  return map;
+}
+
+// Ventana deslizante sobre las claves ordenadas (meses o años), navegable con flechas.
+function gvChartWindow(map, mode, offset) {
   const keys = Object.keys(map).sort();
-  const last = keys.slice(-12);
-  return { labels: last.map(gvMonthLabel), data: last.map(k => Math.round(map[k] * 100) / 100) };
+  const windowSize = mode === 'año' ? 8 : 12;
+  const maxOffset = Math.max(0, keys.length - windowSize);
+  const clampedOffset = Math.min(Math.max(0, offset), maxOffset);
+  const end = keys.length - clampedOffset;
+  const start = Math.max(0, end - windowSize);
+  const windowKeys = keys.slice(start, end);
+  return {
+    labels: windowKeys.map(k => mode === 'año' ? k : gvMonthLabel(k)),
+    data: windowKeys.map(k => map[k]),
+    clampedOffset,
+    canPrev: start > 0,
+    canNext: clampedOffset > 0,
+    rangeLabel: windowKeys.length ? `${windowKeys[0]} → ${windowKeys[windowKeys.length - 1]}` : 'sin datos'
+  };
+}
+
+function gvChartCardHtml() {
+  return `
+    <div class="card">
+      <div class="chart-head">
+        <h3 style="margin:0;">Gasto</h3>
+        <div class="chart-toggle">
+          <button id="chartModeMes" class="${gvChartMode === 'mes' ? 'active' : ''}">Mes</button>
+          <button id="chartModeAnio" class="${gvChartMode === 'año' ? 'active' : ''}">Año</button>
+        </div>
+      </div>
+      <div class="chart-wrap"><canvas id="gastoChart"></canvas></div>
+      <div class="chart-nav" style="margin-top:.6rem; justify-content:center;">
+        <button id="chartPrev" title="Periodo anterior">‹</button>
+        <span id="chartRangeLabel"></span>
+        <button id="chartNext" title="Periodo siguiente">›</button>
+      </div>
+    </div>`;
+}
+
+function gvBindChartControls(filtered) {
+  document.getElementById('chartModeMes').addEventListener('click', () => { gvChartMode = 'mes'; gvChartOffset = 0; gvRenderSideColChartOnly(filtered); });
+  document.getElementById('chartModeAnio').addEventListener('click', () => { gvChartMode = 'año'; gvChartOffset = 0; gvRenderSideColChartOnly(filtered); });
+  document.getElementById('chartPrev').addEventListener('click', () => { gvChartOffset += 1; gvRenderSideColChartOnly(filtered); });
+  document.getElementById('chartNext').addEventListener('click', () => { gvChartOffset = Math.max(0, gvChartOffset - 1); gvRenderSideColChartOnly(filtered); });
+}
+
+// Re-renderiza solo el gráfico y sus controles (sin reconstruir toda la columna lateral).
+function gvRenderSideColChartOnly(filtered) {
+  document.getElementById('chartModeMes').classList.toggle('active', gvChartMode === 'mes');
+  document.getElementById('chartModeAnio').classList.toggle('active', gvChartMode === 'año');
+  gvRenderChart(filtered);
+}
+
+function gvRenderVehTotalsList(names) {
+  const totals = names
+    .map(n => ({ n, total: gvRound2(GASTOS.filter(g => g.vehiculo === n).reduce((s, g) => s + (Number(g.coste) || 0), 0)) }))
+    .sort((a, b) => b.total - a.total);
+  if (!totals.length) {
+    return '<p style="color:var(--text-dim); font-size:.85rem; margin:0;">Añade un vehículo con el botón "+ Vehículo" para empezar.</p>';
+  }
+  return `<div id="vehTotalsList">` + totals.map(t => {
+    const expanded = gvExpanded.has(t.n);
+    const veh = VEHICULOS.find(v => v.nombre === t.n) || { nombre: t.n };
+    return `
+      <div class="veh-total-row ${expanded ? 'expanded' : ''}" data-name="${gvAttrEsc(t.n)}">
+        <div class="info-row">
+          <span class="k"><span class="arrow">▸</span><span class="veh-dot" style="background:${gvVehColor(t.n)}"></span>${gvHtmlEsc(t.n)}</span>
+          <span class="v">${gvFormatMoney(t.total)}</span>
+        </div>
+        ${expanded ? `
+          <div class="veh-mini-ficha">
+            <div class="info-row"><span class="k">Marca / Modelo</span><span class="v">${gvHtmlEsc(veh.marcaModelo || '—')}</span></div>
+            <div class="info-row"><span class="k">Matrícula</span><span class="v">${gvHtmlEsc(veh.matricula || '—')}</span></div>
+            <div class="info-row"><span class="k">Neumáticos</span><span class="v">${gvHtmlEsc(veh.neumaticos || '—')}</span></div>
+            <div class="info-row"><span class="k">Batería</span><span class="v">${gvHtmlEsc(veh.bateria || '—')}</span></div>
+            <div class="info-row"><span class="k">Aceite</span><span class="v">${gvHtmlEsc(veh.aceite || '—')}</span></div>
+            <div class="info-row"><span class="k">De alta desde</span><span class="v">${gvFormatDate(veh.fechaAlta)}</span></div>
+            <div class="card-actions"><button class="btn small ghost" data-action="edit-veh">✎ Editar ficha</button></div>
+          </div>` : ''}
+      </div>`;
+  }).join('') + `</div>`;
+}
+
+function gvOnSideColClick(e) {
+  const editBtn = e.target.closest('[data-action="edit-veh"]');
+  const row = e.target.closest('.veh-total-row');
+  if (editBtn && row) {
+    e.stopPropagation();
+    const veh = VEHICULOS.find(v => v.nombre === row.dataset.name);
+    gvOpenVehiculoModal(veh);
+    return;
+  }
+  if (row) {
+    const name = row.dataset.name;
+    if (gvExpanded.has(name)) gvExpanded.delete(name); else gvExpanded.add(name);
+    gvRenderAll();
+  }
 }
 
 function gvRenderSideCol(filtered) {
   const container = document.getElementById('sideCol');
   if (activeVehicle === 'todos') {
-    const names = gvAllVehicleNames();
-    const totals = names
-      .map(n => ({ n, total: GASTOS.filter(g => g.vehiculo === n).reduce((s, g) => s + (g.coste || 0), 0) }))
-      .sort((a, b) => b.total - a.total);
     container.innerHTML = `
       <div class="card" style="margin-bottom:1rem;">
         <h3>Por vehículo</h3>
-        ${totals.length
-          ? totals.map(t => `<div class="info-row"><span class="k">${gvHtmlEsc(t.n)}</span><span class="v">${gvFormatMoney(t.total)}</span></div>`).join('')
-          : '<p style="color:var(--text-dim); font-size:.85rem; margin:0;">Añade un vehículo con el botón "+ Vehículo" para empezar.</p>'}
+        ${gvRenderVehTotalsList(gvAllVehicleNames())}
       </div>
-      <div class="card">
-        <h3>Gasto mensual</h3>
-        <div class="chart-wrap"><canvas id="gastoChart"></canvas></div>
-      </div>`;
+      ${gvChartCardHtml()}`;
   } else {
     const veh = VEHICULOS.find(v => v.nombre === activeVehicle) || { nombre: activeVehicle };
     container.innerHTML = `
-      <div class="card" style="margin-bottom:1rem;">
+      <div class="card" style="margin-bottom:1rem; border-left: 3px solid ${gvVehColor(veh.nombre)};">
         <h3>${gvHtmlEsc(veh.nombre)}</h3>
         <div class="info-row"><span class="k">Marca / Modelo</span><span class="v">${gvHtmlEsc(veh.marcaModelo || '—')}</span></div>
         <div class="info-row"><span class="k">Matrícula</span><span class="v">${gvHtmlEsc(veh.matricula || '—')}</span></div>
@@ -161,23 +280,29 @@ function gvRenderSideCol(filtered) {
         ${veh.notas ? `<div class="info-row"><span class="k">Notas</span><span class="v">${gvHtmlEsc(veh.notas)}</span></div>` : ''}
         <div class="card-actions"><button class="btn small ghost" id="vehEditBtn">✎ Editar ficha</button></div>
       </div>
-      <div class="card">
-        <h3>Gasto mensual</h3>
-        <div class="chart-wrap"><canvas id="gastoChart"></canvas></div>
-      </div>`;
+      ${gvChartCardHtml()}`;
     document.getElementById('vehEditBtn').addEventListener('click', () => gvOpenVehiculoModal(veh));
   }
+  gvBindChartControls(filtered);
   gvRenderChart(filtered);
 }
 
 function gvRenderChart(filtered) {
   const ctx = document.getElementById('gastoChart');
   if (!ctx) return;
-  const { labels, data } = gvMonthlyData(filtered);
+  const map = gvGroupedTotals(filtered, gvChartMode);
+  const win = gvChartWindow(map, gvChartMode, gvChartOffset);
+  gvChartOffset = win.clampedOffset;
+
+  document.getElementById('chartPrev').disabled = !win.canPrev;
+  document.getElementById('chartNext').disabled = !win.canNext;
+  document.getElementById('chartRangeLabel').textContent = win.labels.length ? `${win.labels[0]} – ${win.labels[win.labels.length - 1]}` : 'sin datos';
+
+  const barColor = activeVehicle === 'todos' ? '#00d084' : gvVehColor(activeVehicle);
   if (gvChartInstance) gvChartInstance.destroy();
   gvChartInstance = new Chart(ctx, {
     type: 'bar',
-    data: { labels, datasets: [{ label: '€', data, backgroundColor: '#00d084', borderRadius: 4, maxBarThickness: 28 }] },
+    data: { labels: win.labels, datasets: [{ label: '€', data: win.data, backgroundColor: barColor, borderRadius: 4, maxBarThickness: 28 }] },
     options: {
       responsive: true, maintainAspectRatio: false,
       plugins: { legend: { display: false } },
@@ -187,6 +312,25 @@ function gvRenderChart(filtered) {
       }
     }
   });
+}
+
+function gvUpdateSortHeaders() {
+  ['fecha', 'coste'].forEach(f => {
+    const th = document.getElementById('th' + f.charAt(0).toUpperCase() + f.slice(1));
+    const arrow = document.getElementById('arrow' + f.charAt(0).toUpperCase() + f.slice(1));
+    if (!th || !arrow) return;
+    if (gvSort.field === f) { th.classList.add('active'); arrow.textContent = gvSort.dir === 'asc' ? '↑' : '↓'; }
+    else { th.classList.remove('active'); arrow.textContent = ''; }
+  });
+}
+
+function gvOnHeaderClick(e) {
+  const th = e.target.closest('.sortable');
+  if (!th) return;
+  const field = th.dataset.field;
+  if (gvSort.field === field) gvSort.dir = gvSort.dir === 'asc' ? 'desc' : 'asc';
+  else { gvSort.field = field; gvSort.dir = 'desc'; }
+  gvRenderTable();
 }
 
 function gvRenderTable() {
@@ -199,7 +343,15 @@ function gvRenderTable() {
       (g.notas || '').toLowerCase().includes(q)
     );
   }
-  rows.sort((a, b) => (b.fechaInicio || '').localeCompare(a.fechaInicio || ''));
+  rows.sort((a, b) => {
+    let av, bv;
+    if (gvSort.field === 'coste') { av = Number(a.coste) || 0; bv = Number(b.coste) || 0; }
+    else { av = a.fechaInicio || ''; bv = b.fechaInicio || ''; }
+    if (av < bv) return gvSort.dir === 'asc' ? -1 : 1;
+    if (av > bv) return gvSort.dir === 'asc' ? 1 : -1;
+    return 0;
+  });
+  gvUpdateSortHeaders();
   const today = new Date().toISOString().slice(0, 10);
 
   document.getElementById('gastosBody').innerHTML = rows.length ? rows.map(g => {
@@ -227,7 +379,7 @@ function gvOnTabsClick(e) {
   const addBtn = e.target.closest('[data-action="add-vehicle"]');
   if (addBtn) { gvOpenVehiculoModal(); return; }
   const tab = e.target.closest('.tab[data-vehicle]');
-  if (tab) { activeVehicle = tab.dataset.vehicle; gvRenderAll(); }
+  if (tab) { activeVehicle = tab.dataset.vehicle; gvChartOffset = 0; gvRenderAll(); }
 }
 
 function gvOnTableClick(e) {
@@ -315,6 +467,7 @@ function gvOpenVehiculoModal(veh) {
   document.getElementById('vehNeumaticos').value = veh ? (veh.neumaticos || '') : '';
   document.getElementById('vehBateria').value = veh ? (veh.bateria || '') : '';
   document.getElementById('vehAceite').value = veh ? (veh.aceite || '') : '';
+  document.getElementById('vehColor').value = (veh && veh.color) ? veh.color : gvPalette[VEHICULOS.length % gvPalette.length];
   document.getElementById('vehNotas').value = veh ? (veh.notas || '') : '';
   document.getElementById('vehDeleteBtn').style.display = veh ? 'inline-flex' : 'none';
   gvOpenModal('vehiculoOverlay');
@@ -332,6 +485,7 @@ function gvSaveVehiculo() {
     neumaticos: document.getElementById('vehNeumaticos').value.trim(),
     bateria: document.getElementById('vehBateria').value.trim(),
     aceite: document.getElementById('vehAceite').value.trim(),
+    color: document.getElementById('vehColor').value,
     notas: document.getElementById('vehNotas').value.trim()
   };
   if (original) {
@@ -405,6 +559,7 @@ function gvProcessFile(file) {
       neumaticos: String(pick(row, ['Neumáticos', 'Neumaticos'])).trim(),
       bateria: String(pick(row, ['Batería', 'Bateria'])).trim(),
       aceite: String(pick(row, ['Aceite'])).trim(),
+      color: String(pick(row, ['Color'])).trim(),
       notas: String(pick(row, ['Notas'])).trim()
     })).filter(v => v.nombre);
 
@@ -452,10 +607,11 @@ function gvExport(format) {
   if (format === 'csv') {
     GV_IO.downloadCSV(gvRowsOrHeader(gastosRows, gastosHeaders), 'garaje-gastos.csv');
   } else {
-    const vehHeaders = ['Vehículo', 'Marca / Modelo', 'Matrícula', 'Neumáticos', 'Batería', 'Aceite', 'Fecha alta', 'Notas'];
+    const vehHeaders = ['Vehículo', 'Marca / Modelo', 'Matrícula', 'Neumáticos', 'Batería', 'Aceite', 'Fecha alta', 'Color', 'Notas'];
     const vehRows = VEHICULOS.map(v => ({
       'Vehículo': v.nombre, 'Marca / Modelo': v.marcaModelo, 'Matrícula': v.matricula,
-      'Neumáticos': v.neumaticos, 'Batería': v.bateria, 'Aceite': v.aceite, 'Fecha alta': v.fechaAlta, 'Notas': v.notas
+      'Neumáticos': v.neumaticos, 'Batería': v.bateria, 'Aceite': v.aceite, 'Fecha alta': v.fechaAlta,
+      'Color': v.color, 'Notas': v.notas
     }));
     GV_IO.downloadWorkbook([
       { name: 'Garaje - Gastos', rows: gvRowsOrHeader(gastosRows, gastosHeaders) },
@@ -498,6 +654,8 @@ function gvInit() {
   document.getElementById('searchInput').addEventListener('input', gvRenderTable);
   document.getElementById('vehicleTabs').addEventListener('click', gvOnTabsClick);
   document.getElementById('gastosBody').addEventListener('click', gvOnTableClick);
+  document.getElementById('sideCol').addEventListener('click', gvOnSideColClick);
+  document.querySelector('#gastosTable thead').addEventListener('click', gvOnHeaderClick);
 
   if (GASTOS.length > 0 || VEHICULOS.length > 0) {
     gvShowApp();
