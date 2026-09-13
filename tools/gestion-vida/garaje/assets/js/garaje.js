@@ -10,6 +10,9 @@ let gvSort = { field: 'fecha', dir: 'desc' };
 let gvChartMode = 'mes'; // 'mes' | 'año'
 let gvChartOffset = 0;
 const gvPalette = ['#00d084', '#4f8cff', '#f5a623', '#ef5b5b', '#c084fc', '#22d3ee', '#facc15', '#fb7185'];
+let gvFileHandle = null;   // FileSystemFileHandle del archivo .xlsx activo (null = sin archivo / navegador sin soporte)
+let gvFileName = null;     // nombre a mostrar en la UI
+let gvDirty = false;       // hay cambios sin guardar en el archivo activo
 
 // ---------- Helpers ----------
 function gvHtmlEsc(s) {
@@ -76,8 +79,85 @@ function gvEnsureVehicleColors() {
 function gvSaveState() {
   GV_STORE.set('gv_garaje_gastos', GASTOS);
   GV_STORE.set('gv_garaje_vehiculos', VEHICULOS);
-  gvToast('Guardado ✓');
+  gvDirty = true;
+  gvRenderFileStatus();
+  gvToast('Guardado en el navegador ✓');
   gvRenderAll();
+}
+
+function gvFileData() {
+  const { gastosHeaders, gastosRows, vehHeaders, vehRows } = gvBuildSheetsRows();
+  const wb = GV_IO.buildWorkbook([
+    { name: 'Garaje - Gastos', rows: gvRowsOrHeader(gastosRows, gastosHeaders) },
+    { name: 'Garaje - Vehículos', rows: gvRowsOrHeader(vehRows, vehHeaders) }
+  ]);
+  return GV_IO.workbookToArrayBuffer(wb);
+}
+
+const GV_XLSX_TYPES = [{ description: 'Libro de Excel', accept: { 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': ['.xlsx'] } }];
+const GV_XLSX_MIME = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+
+function gvRenderFileStatus() {
+  const el = document.getElementById('fileStatus');
+  if (!el) return;
+  if (!gvFileName) {
+    el.textContent = '📄 sin archivo abierto';
+    el.className = 'file-status';
+    return;
+  }
+  el.textContent = gvDirty ? `📄 ${gvFileName} · sin guardar` : `📄 ${gvFileName} · guardado`;
+  el.className = 'file-status' + (gvDirty ? ' dirty' : ' saved');
+}
+
+async function gvOpenFile() {
+  try {
+    const res = await GV_FILE.open({ types: GV_XLSX_TYPES, accept: '.xlsx,.xls' });
+    const buf = await res.file.arrayBuffer();
+    const wb = XLSX.read(buf, { type: 'array', cellDates: true });
+    const { gastos, vehiculos } = gvParseWorkbook(wb);
+    GASTOS = gastos;
+    VEHICULOS = vehiculos;
+    gvFileHandle = res.handle;
+    gvFileName = res.name;
+    gvDirty = false;
+    GV_STORE.set('gv_garaje_gastos', GASTOS);
+    GV_STORE.set('gv_garaje_vehiculos', VEHICULOS);
+    gvShowApp();
+    gvRenderFileStatus();
+    gvToast(`Abierto: ${res.name}`);
+  } catch (err) {
+    if (err && err.name !== 'AbortError') { console.error(err); gvToast('No se pudo abrir el archivo'); }
+  }
+}
+
+async function gvSaveFile() {
+  if (gvFileHandle) {
+    try {
+      await GV_FILE.save(gvFileHandle, gvFileData());
+      gvDirty = false;
+      gvRenderFileStatus();
+      gvToast('Guardado ✓');
+    } catch (err) {
+      console.error(err);
+      gvToast('No se pudo guardar. Prueba "Guardar como"');
+    }
+  } else {
+    await gvSaveFileAs();
+  }
+}
+
+async function gvSaveFileAs() {
+  try {
+    const suggested = gvFileName || 'garaje.xlsx';
+    const res = await GV_FILE.saveAs(gvFileData(), suggested, { types: GV_XLSX_TYPES, mime: GV_XLSX_MIME });
+    gvFileHandle = res.handle;
+    gvFileName = res.name;
+    gvDirty = false;
+    gvRenderFileStatus();
+    gvToast(GV_FILE.supported ? `Guardado como ${res.name} ✓` : 'Archivo descargado ✓');
+  } catch (err) {
+    if (err && err.name !== 'AbortError') { console.error(err); gvToast('No se pudo guardar el archivo'); }
+  }
 }
 
 function gvShowApp() {
@@ -526,43 +606,66 @@ function gvSetupDropzone() {
   dz.addEventListener('drop', e => { const f = e.dataTransfer.files[0]; if (f) gvProcessFile(f); });
 }
 
+// Convierte un Workbook de SheetJS en { gastos:[...], vehiculos:[...] } normalizados.
+function gvParseWorkbook(wb) {
+  const gastosSheetName = wb.SheetNames.find(n => /gasto/i.test(n)) || wb.SheetNames[0];
+  const vehSheetName = wb.SheetNames.find(n => n !== gastosSheetName && /veh[ií]cul/i.test(n));
+  const gastosRows = GV_IO.sheetToRows(wb.Sheets[gastosSheetName]);
+  const vehRows = vehSheetName ? GV_IO.sheetToRows(wb.Sheets[vehSheetName]) : [];
+
+  const pick = (row, keys) => {
+    for (const k of keys) { if (row[k] !== undefined && row[k] !== '') return row[k]; }
+    return '';
+  };
+
+  const gastos = gastosRows.map(row => ({
+    id: GV_STORE.uid(),
+    vehiculo: String(pick(row, ['Vehículo', 'Vehiculo', 'vehiculo'])).trim(),
+    categoria: String(pick(row, ['Categoría', 'Categoria']) || 'Otro').trim(),
+    descripcion: String(pick(row, ['Descripción', 'Descripcion'])).trim(),
+    coste: GV_IO.toNumber(pick(row, ['Coste (€)', 'Coste', 'Costo', 'Precio (€)', 'Precio'])),
+    fechaInicio: GV_IO.excelDateToISO(pick(row, ['Fecha inicio', 'Fecha compra', 'Fecha'])),
+    fechaFinal: GV_IO.excelDateToISO(pick(row, ['Fecha final', 'Vence'])),
+    kilometraje: String(pick(row, ['Kilometraje', 'Km'])).trim(),
+    proveedor: String(pick(row, ['Proveedor / Link', 'Proveedor', 'Productos', 'Vendedor / Tienda'])).trim(),
+    notas: String(pick(row, ['Notas'])).trim()
+  })).filter(g => g.vehiculo || g.descripcion);
+
+  const vehiculos = vehRows.map(row => ({
+    nombre: String(pick(row, ['Vehículo', 'Vehiculo', 'Nombre'])).trim(),
+    marcaModelo: String(pick(row, ['Marca / Modelo', 'Marca/Modelo', 'Marca'])).trim(),
+    matricula: String(pick(row, ['Matrícula', 'Matricula'])).trim(),
+    fechaAlta: GV_IO.excelDateToISO(pick(row, ['Fecha alta', 'Fecha compra'])),
+    neumaticos: String(pick(row, ['Neumáticos', 'Neumaticos'])).trim(),
+    bateria: String(pick(row, ['Batería', 'Bateria'])).trim(),
+    aceite: String(pick(row, ['Aceite'])).trim(),
+    color: String(pick(row, ['Color'])).trim(),
+    notas: String(pick(row, ['Notas'])).trim()
+  })).filter(v => v.nombre);
+
+  return { gastos, vehiculos };
+}
+
+// Construye las filas (con cabeceras) listas para exportar/guardar, a partir del estado actual.
+function gvBuildSheetsRows() {
+  const gastosHeaders = ['Vehículo', 'Categoría', 'Descripción', 'Coste (€)', 'Fecha inicio', 'Fecha final', 'Kilometraje', 'Proveedor / Link', 'Notas'];
+  const gastosRows = GASTOS.map(g => ({
+    'Vehículo': g.vehiculo, 'Categoría': g.categoria, 'Descripción': g.descripcion,
+    'Coste (€)': g.coste, 'Fecha inicio': g.fechaInicio, 'Fecha final': g.fechaFinal,
+    'Kilometraje': g.kilometraje, 'Proveedor / Link': g.proveedor, 'Notas': g.notas
+  }));
+  const vehHeaders = ['Vehículo', 'Marca / Modelo', 'Matrícula', 'Neumáticos', 'Batería', 'Aceite', 'Fecha alta', 'Color', 'Notas'];
+  const vehRows = VEHICULOS.map(v => ({
+    'Vehículo': v.nombre, 'Marca / Modelo': v.marcaModelo, 'Matrícula': v.matricula,
+    'Neumáticos': v.neumaticos, 'Batería': v.bateria, 'Aceite': v.aceite, 'Fecha alta': v.fechaAlta,
+    'Color': v.color, 'Notas': v.notas
+  }));
+  return { gastosHeaders, gastosRows, vehHeaders, vehRows };
+}
+
 function gvProcessFile(file) {
   GV_IO.readWorkbookFromFile(file).then(wb => {
-    const gastosSheetName = wb.SheetNames.find(n => /gasto/i.test(n)) || wb.SheetNames[0];
-    const vehSheetName = wb.SheetNames.find(n => n !== gastosSheetName && /veh[ií]cul/i.test(n));
-    const gastosRows = GV_IO.sheetToRows(wb.Sheets[gastosSheetName]);
-    const vehRows = vehSheetName ? GV_IO.sheetToRows(wb.Sheets[vehSheetName]) : [];
-
-    const pick = (row, keys) => {
-      for (const k of keys) { if (row[k] !== undefined && row[k] !== '') return row[k]; }
-      return '';
-    };
-
-    const newGastos = gastosRows.map(row => ({
-      id: GV_STORE.uid(),
-      vehiculo: String(pick(row, ['Vehículo', 'Vehiculo', 'vehiculo'])).trim(),
-      categoria: String(pick(row, ['Categoría', 'Categoria']) || 'Otro').trim(),
-      descripcion: String(pick(row, ['Descripción', 'Descripcion'])).trim(),
-      coste: GV_IO.toNumber(pick(row, ['Coste (€)', 'Coste', 'Costo', 'Precio (€)', 'Precio'])),
-      fechaInicio: GV_IO.excelDateToISO(pick(row, ['Fecha inicio', 'Fecha compra', 'Fecha'])),
-      fechaFinal: GV_IO.excelDateToISO(pick(row, ['Fecha final', 'Vence'])),
-      kilometraje: String(pick(row, ['Kilometraje', 'Km'])).trim(),
-      proveedor: String(pick(row, ['Proveedor / Link', 'Proveedor', 'Productos', 'Vendedor / Tienda'])).trim(),
-      notas: String(pick(row, ['Notas'])).trim()
-    })).filter(g => g.vehiculo || g.descripcion);
-
-    const newVehiculos = vehRows.map(row => ({
-      nombre: String(pick(row, ['Vehículo', 'Vehiculo', 'Nombre'])).trim(),
-      marcaModelo: String(pick(row, ['Marca / Modelo', 'Marca/Modelo', 'Marca'])).trim(),
-      matricula: String(pick(row, ['Matrícula', 'Matricula'])).trim(),
-      fechaAlta: GV_IO.excelDateToISO(pick(row, ['Fecha alta', 'Fecha compra'])),
-      neumaticos: String(pick(row, ['Neumáticos', 'Neumaticos'])).trim(),
-      bateria: String(pick(row, ['Batería', 'Bateria'])).trim(),
-      aceite: String(pick(row, ['Aceite'])).trim(),
-      color: String(pick(row, ['Color'])).trim(),
-      notas: String(pick(row, ['Notas'])).trim()
-    })).filter(v => v.nombre);
-
+    const { gastos: newGastos, vehiculos: newVehiculos } = gvParseWorkbook(wb);
     if (GASTOS.length > 0 || VEHICULOS.length > 0) {
       pendingImportData = { gastos: newGastos, vehiculos: newVehiculos };
       gvOpenModal('importOverlay');
@@ -595,30 +698,19 @@ function gvResolveImport(mode) {
   gvToast('Datos importados ✓');
 }
 
-// ---------- Exportar ----------
+// ---------- Exportar (.csv suelto, o .xlsx sin recordar el archivo) ----------
 function gvExport(format) {
   if (GASTOS.length === 0 && VEHICULOS.length === 0) { gvToast('No hay datos para exportar'); return; }
-  const gastosHeaders = ['Vehículo', 'Categoría', 'Descripción', 'Coste (€)', 'Fecha inicio', 'Fecha final', 'Kilometraje', 'Proveedor / Link', 'Notas'];
-  const gastosRows = GASTOS.map(g => ({
-    'Vehículo': g.vehiculo, 'Categoría': g.categoria, 'Descripción': g.descripcion,
-    'Coste (€)': g.coste, 'Fecha inicio': g.fechaInicio, 'Fecha final': g.fechaFinal,
-    'Kilometraje': g.kilometraje, 'Proveedor / Link': g.proveedor, 'Notas': g.notas
-  }));
+  const { gastosHeaders, gastosRows, vehHeaders, vehRows } = gvBuildSheetsRows();
   if (format === 'csv') {
     GV_IO.downloadCSV(gvRowsOrHeader(gastosRows, gastosHeaders), 'garaje-gastos.csv');
   } else {
-    const vehHeaders = ['Vehículo', 'Marca / Modelo', 'Matrícula', 'Neumáticos', 'Batería', 'Aceite', 'Fecha alta', 'Color', 'Notas'];
-    const vehRows = VEHICULOS.map(v => ({
-      'Vehículo': v.nombre, 'Marca / Modelo': v.marcaModelo, 'Matrícula': v.matricula,
-      'Neumáticos': v.neumaticos, 'Batería': v.bateria, 'Aceite': v.aceite, 'Fecha alta': v.fechaAlta,
-      'Color': v.color, 'Notas': v.notas
-    }));
     GV_IO.downloadWorkbook([
       { name: 'Garaje - Gastos', rows: gvRowsOrHeader(gastosRows, gastosHeaders) },
       { name: 'Garaje - Vehículos', rows: gvRowsOrHeader(vehRows, vehHeaders) }
     ], 'garaje.xlsx');
   }
-  const menu = document.getElementById('exportMenu');
+  const menu = document.getElementById('fileMenu');
   if (menu) menu.classList.remove('open');
   gvToast('Descargado ✓');
 }
@@ -626,25 +718,43 @@ function gvExport(format) {
 // ---------- Barra de acciones superior ----------
 function gvRenderTopActions() {
   document.getElementById('topActions').innerHTML = `
-    <button class="btn ghost small" id="btnImportTop">📥 Importar</button>
-    <input type="file" id="fileInputTop" accept=".xlsx,.xls,.csv" style="display:none;">
+    <span class="file-status" id="fileStatus">📄 sin archivo abierto</span>
+    <button class="btn primary small" id="btnSaveFile">💾 Guardar</button>
     <div class="menu-wrap">
-      <button class="btn ghost small" id="btnExportTop">⬇ Exportar</button>
-      <div class="menu" id="exportMenu">
-        <button id="btnExportXlsx">Descargar .xlsx</button>
-        <button id="btnExportCsv">Descargar .csv (gastos)</button>
+      <button class="btn ghost small" id="btnFileMenu">Archivo ▾</button>
+      <div class="menu" id="fileMenu">
+        <button id="mOpen">📂 Abrir archivo (.xlsx)</button>
+        <button id="mSaveAs">Guardar como (.xlsx)…</button>
+        <div class="menu-sep"></div>
+        <button id="mImport">📥 Importar y combinar (Excel/CSV)</button>
+        <button id="mExportCsv">⬇ Exportar a .csv (gastos)</button>
+        <div class="menu-sep"></div>
+        <button id="mTemplate">🧾 Descargar plantilla</button>
       </div>
     </div>
-    <button class="btn ghost small" id="btnTemplateTop">🧾 Plantilla</button>
   `;
-  document.getElementById('btnImportTop').addEventListener('click', () => document.getElementById('fileInputTop').click());
-  document.getElementById('fileInputTop').addEventListener('change', e => { const f = e.target.files[0]; if (f) gvProcessFile(f); e.target.value = ''; });
-  document.getElementById('btnExportTop').addEventListener('click', e => { e.stopPropagation(); document.getElementById('exportMenu').classList.toggle('open'); });
-  document.getElementById('btnExportXlsx').addEventListener('click', () => gvExport('xlsx'));
-  document.getElementById('btnExportCsv').addEventListener('click', () => gvExport('csv'));
-  document.getElementById('btnTemplateTop').addEventListener('click', gvDownloadFullTemplate);
+  document.getElementById('btnSaveFile').addEventListener('click', gvSaveFile);
+  document.getElementById('btnFileMenu').addEventListener('click', e => { e.stopPropagation(); document.getElementById('fileMenu').classList.toggle('open'); });
+  document.getElementById('mOpen').addEventListener('click', () => { document.getElementById('fileMenu').classList.remove('open'); gvOpenFile(); });
+  document.getElementById('mSaveAs').addEventListener('click', () => { document.getElementById('fileMenu').classList.remove('open'); gvSaveFileAs(); });
+  document.getElementById('mImport').addEventListener('click', () => {
+    document.getElementById('fileMenu').classList.remove('open');
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = '.xlsx,.xls,.csv';
+    input.onchange = () => { const f = input.files[0]; if (f) gvProcessFile(f); };
+    input.click();
+  });
+  document.getElementById('mExportCsv').addEventListener('click', () => { document.getElementById('fileMenu').classList.remove('open'); gvExport('csv'); });
+  document.getElementById('mTemplate').addEventListener('click', () => { document.getElementById('fileMenu').classList.remove('open'); gvDownloadFullTemplate(); });
+  gvRenderFileStatus();
 }
-document.addEventListener('click', () => { const m = document.getElementById('exportMenu'); if (m) m.classList.remove('open'); });
+document.addEventListener('click', () => { const m = document.getElementById('fileMenu'); if (m) m.classList.remove('open'); });
+
+// Aviso si se intenta cerrar/recargar con cambios sin guardar en el archivo activo.
+window.addEventListener('beforeunload', e => {
+  if (gvDirty && gvFileName) { e.preventDefault(); e.returnValue = ''; }
+});
 
 // ---------- Init ----------
 function gvInit() {

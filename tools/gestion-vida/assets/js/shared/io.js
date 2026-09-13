@@ -48,8 +48,8 @@ const GV_IO = (() => {
     return isNaN(n) ? null : n;
   }
 
-  // sheets: [{ name, rows: [obj, obj...] }]
-  function downloadWorkbook(sheets, filename) {
+  // sheets: [{ name, rows: [obj, obj...] }] -> objeto Workbook de SheetJS (sin descargar)
+  function buildWorkbook(sheets) {
     const wb = XLSX.utils.book_new();
     sheets.forEach(s => {
       const ws = XLSX.utils.json_to_sheet(s.rows);
@@ -58,7 +58,15 @@ const GV_IO = (() => {
       ws['!cols'] = cols.map(c => ({ wch: Math.max(12, c.length + 2) }));
       XLSX.utils.book_append_sheet(wb, ws, s.name.substring(0, 31));
     });
-    XLSX.writeFile(wb, filename);
+    return wb;
+  }
+
+  function workbookToArrayBuffer(wb) {
+    return XLSX.write(wb, { type: 'array', bookType: 'xlsx' });
+  }
+
+  function downloadWorkbook(sheets, filename) {
+    XLSX.writeFile(buildWorkbook(sheets), filename);
   }
 
   function downloadCSV(rows, filename) {
@@ -71,5 +79,5 @@ const GV_IO = (() => {
     URL.revokeObjectURL(url);
   }
 
-  return { readWorkbookFromFile, findSheet, sheetToRows, excelDateToISO, toNumber, downloadWorkbook, downloadCSV };
+  return { readWorkbookFromFile, findSheet, sheetToRows, excelDateToISO, toNumber, buildWorkbook, workbookToArrayBuffer, downloadWorkbook, downloadCSV };
 })();

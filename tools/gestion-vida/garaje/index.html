@@ -26,9 +26,10 @@
     <div id="emptyState" class="dropzone" style="display:none;">
       <div style="font-size:2rem;">📄</div>
       <h3>Todavía no hay datos cargados</h3>
-      <p>Arrastra aquí tu Excel o CSV de gastos, o empieza desde cero.</p>
+      <p>Abre tu archivo de Garaje, o arrastra aquí un Excel/CSV, o empieza desde cero.</p>
       <div style="margin-top:1.2rem; display:flex; gap:.7rem; justify-content:center; flex-wrap:wrap;">
-        <button class="btn primary" onclick="document.getElementById('fileInput').click()">📥 Importar Excel / CSV</button>
+        <button class="btn primary" onclick="gvOpenFile()">📂 Abrir archivo (.xlsx)</button>
+        <button class="btn ghost" onclick="document.getElementById('fileInput').click()">📥 Importar Excel / CSV</button>
         <button class="btn ghost" onclick="gvStartEmpty()">Empezar desde cero</button>
       </div>
       <div class="or">o descarga la <a href="#" onclick="gvDownloadFullTemplate();return false;" style="color:var(--green);">plantilla</a> para rellenarla primero</div>
@@ -52,7 +53,7 @@
               <input type="text" id="searchInput" placeholder="🔍 Buscar por descripción o proveedor...">
             </div>
             <div style="overflow-x:auto;">
-              <table class="gastos" id="gastosTable">
+              <table class="data-table" id="gastosTable">
                 <thead>
                   <tr>
                     <th class="sortable" data-field="fecha" id="thFecha">Fecha <span class="arrow" id="arrowFecha"></span></th>
@@ -222,6 +223,7 @@
 
   <script src="../assets/js/shared/storage.js"></script>
   <script src="../assets/js/shared/io.js"></script>
+  <script src="../assets/js/shared/filehandle.js"></script>
   <script src="../assets/js/shared/template.js"></script>
   <script src="./assets/js/garaje.js"></script>
 </body>

@@ -107,6 +107,14 @@ a{ color: inherit; }
 .btn.danger{ color: var(--red); }
 .btn.small{ padding: .35rem .7rem; font-size: .78rem; }
 
+.file-status{
+  font-family: var(--font-mono); font-size: .72rem; color: var(--text-dim);
+  padding: .35rem .7rem; border: 1px dashed var(--line); border-radius: 999px;
+  white-space: nowrap;
+}
+.file-status.dirty{ color: var(--amber); border-color: rgba(245,166,35,.45); }
+.file-status.saved{ color: var(--green); border-color: rgba(0,208,132,.4); border-style: solid; }
+
 .menu-wrap{ position: relative; display:inline-block; }
 .menu{
   position:absolute; top: calc(100% + 6px); right: 0;
@@ -116,6 +124,7 @@ a{ color: inherit; }
   box-shadow: 0 12px 30px rgba(0,0,0,.35);
 }
 .menu.open{ display:flex; }
+.menu-sep{ height:1px; background: var(--line); margin: .3rem .2rem; }
 .menu button{
   background: none; border: none; color: var(--text);
   text-align:left; padding: .5rem .6rem; border-radius: 6px;
@@ -273,17 +282,17 @@ th.sortable.active .arrow{ opacity:1; color: var(--green); }
   padding: .55rem .8rem; border-radius: 8px; font-family: var(--font-body); font-size: .85rem;
 }
 
-table.gastos{ width:100%; border-collapse: collapse; font-size: .86rem; }
-table.gastos th{
+table.data-table{ width:100%; border-collapse: collapse; font-size: .86rem; }
+table.data-table th{
   text-align:left; color: var(--text-dim); font-weight:500;
   font-size: .72rem; padding: .5rem .6rem; border-bottom: 1px solid var(--line);
 }
-table.gastos td{ padding: .65rem .6rem; border-bottom: 1px solid var(--line); vertical-align: top; }
-table.gastos tr:hover td{ background: rgba(255,255,255,0.02); }
-table.gastos .num{ font-family: var(--font-mono); text-align:right; white-space:nowrap; }
-table.gastos .row-actions{ text-align:right; white-space:nowrap; }
-table.gastos .row-actions button{ background:none; border:none; color: var(--text-dim); cursor:pointer; font-size: .9rem; padding: .2rem .35rem; }
-table.gastos .row-actions button:hover{ color: var(--text); }
+table.data-table td{ padding: .65rem .6rem; border-bottom: 1px solid var(--line); vertical-align: top; }
+table.data-table tr:hover td{ background: rgba(255,255,255,0.02); }
+table.data-table .num{ font-family: var(--font-mono); text-align:right; white-space:nowrap; }
+table.data-table .row-actions{ text-align:right; white-space:nowrap; }
+table.data-table .row-actions button{ background:none; border:none; color: var(--text-dim); cursor:pointer; font-size: .9rem; padding: .2rem .35rem; }
+table.data-table .row-actions button:hover{ color: var(--text); }
 
 .badge{ font-family: var(--font-mono); font-size: .68rem; padding: .15rem .5rem; border-radius: 999px; border:1px solid var(--line); white-space:nowrap; }
 .badge.ok{ color: var(--green); border-color: rgba(0,208,132,.4); }
@@ -337,6 +346,30 @@ table.gastos .row-actions button:hover{ color: var(--text); }
 .toast.show{ opacity:1; transform: translateX(-50%) translateY(0); }
 
 footer.gv{ text-align:center; color: var(--text-dim); font-size: .78rem; margin-top: 3rem; }
+
+/* ---------- README desplegable ---------- */
+.btn-readme{
+  cursor:pointer; padding:.5rem 1.1rem; font-size:.8rem;
+  background: var(--panel); color: var(--text-dim); border: 1px solid var(--line);
+  border-radius: 999px; font-family: var(--font-mono); transition: all .2s ease;
+}
+.btn-readme:hover{ border-color: var(--green); color: var(--green); }
+.btn-readme.active{ background: var(--panel-2); border-color: var(--green); color: var(--green); box-shadow: 0 0 12px rgba(0,208,132,.25); }
+
+.readme-body h1, .readme-body h2, .readme-body h3, .readme-body h4{
+  color: var(--text); font-family: var(--font-display); margin: 1.2rem 0 .6rem; border-bottom: 1px solid var(--line); padding-bottom: .3rem;
+}
+.readme-body h1:first-child, .readme-body h2:first-child{ margin-top: 0; }
+.readme-body p{ color: var(--text-dim); margin-bottom: .8rem; line-height: 1.6; }
+.readme-body ul, .readme-body ol{ margin-left: 1.4rem; margin-bottom: .8rem; color: var(--text-dim); }
+.readme-body li{ margin-bottom: .3rem; }
+.readme-body code{ background: var(--panel-2); color: var(--green); padding: .15rem .4rem; border-radius: 4px; font-family: var(--font-mono); font-size: .85em; border: 1px solid var(--line); }
+.readme-body pre{ background: var(--panel-2); padding: 1rem; border-radius: 8px; border: 1px solid var(--line); overflow-x: auto; margin-bottom: .8rem; }
+.readme-body pre code{ background: transparent; padding: 0; border: none; color: var(--text); }
+.readme-body a{ color: var(--green); text-decoration: underline; }
+.readme-body table{ width: 100%; border-collapse: collapse; margin-bottom: 1rem; font-size: .85rem; }
+.readme-body th, .readme-body td{ border: 1px solid var(--line); padding: .5rem .6rem; text-align: left; color: var(--text-dim); }
+.readme-body th{ color: var(--text); }
 
 /* ---------- footer estilo Bibliotek ---------- */
 footer{
