@@ -107,6 +107,14 @@ a{ color: inherit; }
 .btn.danger{ color: var(--red); }
 .btn.small{ padding: .35rem .7rem; font-size: .78rem; }
 
+.file-status{
+  font-family: var(--font-mono); font-size: .72rem; color: var(--text-dim);
+  padding: .35rem .7rem; border: 1px dashed var(--line); border-radius: 999px;
+  white-space: nowrap;
+}
+.file-status.dirty{ color: var(--amber); border-color: rgba(245,166,35,.45); }
+.file-status.saved{ color: var(--green); border-color: rgba(0,208,132,.4); border-style: solid; }
+
 .menu-wrap{ position: relative; display:inline-block; }
 .menu{
   position:absolute; top: calc(100% + 6px); right: 0;
@@ -116,6 +124,7 @@ a{ color: inherit; }
   box-shadow: 0 12px 30px rgba(0,0,0,.35);
 }
 .menu.open{ display:flex; }
+.menu-sep{ height:1px; background: var(--line); margin: .3rem .2rem; }
 .menu button{
   background: none; border: none; color: var(--text);
   text-align:left; padding: .5rem .6rem; border-radius: 6px;
@@ -212,8 +221,9 @@ a{ color: inherit; }
   border: 1px solid var(--line); background: var(--panel);
   color: var(--text-dim); cursor:pointer;
 }
-.tab.active{ background: var(--green); border-color: var(--green); color:#04231a; }
+.tab.active{ background: var(--accent, var(--green)); border-color: var(--accent, var(--green)); color:#04231a; }
 .tab.add{ border-style:dashed; color: var(--text-dim); }
+.veh-dot, .gv-dot{ display:inline-block; width:8px; height:8px; border-radius:50%; margin-right:.4rem; vertical-align:middle; }
 
 /* ---------- layout ---------- */
 .layout{ display:grid; grid-template-columns: 300px 1fr; gap: 1.4rem; align-items:start; }
@@ -235,6 +245,34 @@ a{ color: inherit; }
 
 /* ---------- chart ---------- */
 .chart-wrap{ position:relative; height: 180px; margin-top: .6rem; }
+.chart-head{ display:flex; justify-content:space-between; align-items:center; gap:.6rem; flex-wrap:wrap; }
+.chart-toggle{ display:flex; gap:.3rem; }
+.chart-toggle button{
+  font-family: var(--font-mono); font-size:.7rem; padding:.25rem .55rem; border-radius:6px;
+  border:1px solid var(--line); background:var(--panel-2); color:var(--text-dim); cursor:pointer;
+}
+.chart-toggle button.active{ background: var(--green); color:#04231a; border-color:var(--green); }
+.chart-nav{ display:flex; align-items:center; gap:.5rem; font-family:var(--font-mono); font-size:.7rem; color:var(--text-dim); }
+.chart-nav button{
+  background:none; border:1px solid var(--line); color:var(--text-dim); border-radius:6px;
+  width:22px; height:22px; cursor:pointer; line-height:1;
+}
+.chart-nav button:disabled{ opacity:.3; cursor:default; }
+
+/* ---------- lista de vehículos desplegable ---------- */
+.veh-total-row, .group-row{ cursor:pointer; }
+.veh-total-row .arrow, .group-row .arrow{ display:inline-block; margin-right:.35rem; font-size:.7rem; color: var(--text-dim); transition: transform .15s ease; }
+.veh-total-row.expanded .arrow, .group-row.expanded .arrow{ transform: rotate(90deg); }
+.veh-mini-ficha, .group-detail{ padding: .2rem 0 .8rem 1.1rem; }
+.veh-mini-ficha .info-row, .group-detail .info-row{ font-size: .8rem; }
+
+/* ---------- ordenar tabla ---------- */
+th.sortable{ cursor:pointer; user-select:none; }
+th.sortable .arrow{ display:inline-block; width:1ch; margin-left:.15rem; opacity:.4; }
+th.sortable.active .arrow{ opacity:1; color: var(--green); }
+
+/* ---------- selector de color ---------- */
+.field input[type=color]{ padding: 3px; height: 40px; cursor:pointer; }
 
 /* ---------- table ---------- */
 .table-toolbar{ display:flex; gap:.6rem; margin-bottom: 1rem; flex-wrap:wrap; }
@@ -244,17 +282,17 @@ a{ color: inherit; }
   padding: .55rem .8rem; border-radius: 8px; font-family: var(--font-body); font-size: .85rem;
 }
 
-table.gastos{ width:100%; border-collapse: collapse; font-size: .86rem; }
-table.gastos th{
+table.data-table{ width:100%; border-collapse: collapse; font-size: .86rem; }
+table.data-table th{
   text-align:left; color: var(--text-dim); font-weight:500;
   font-size: .72rem; padding: .5rem .6rem; border-bottom: 1px solid var(--line);
 }
-table.gastos td{ padding: .65rem .6rem; border-bottom: 1px solid var(--line); vertical-align: top; }
-table.gastos tr:hover td{ background: rgba(255,255,255,0.02); }
-table.gastos .num{ font-family: var(--font-mono); text-align:right; white-space:nowrap; }
-table.gastos .row-actions{ text-align:right; white-space:nowrap; }
-table.gastos .row-actions button{ background:none; border:none; color: var(--text-dim); cursor:pointer; font-size: .9rem; padding: .2rem .35rem; }
-table.gastos .row-actions button:hover{ color: var(--text); }
+table.data-table td{ padding: .65rem .6rem; border-bottom: 1px solid var(--line); vertical-align: top; }
+table.data-table tr:hover td{ background: rgba(255,255,255,0.02); }
+table.data-table .num{ font-family: var(--font-mono); text-align:right; white-space:nowrap; }
+table.data-table .row-actions{ text-align:right; white-space:nowrap; }
+table.data-table .row-actions button{ background:none; border:none; color: var(--text-dim); cursor:pointer; font-size: .9rem; padding: .2rem .35rem; }
+table.data-table .row-actions button:hover{ color: var(--text); }
 
 .badge{ font-family: var(--font-mono); font-size: .68rem; padding: .15rem .5rem; border-radius: 999px; border:1px solid var(--line); white-space:nowrap; }
 .badge.ok{ color: var(--green); border-color: rgba(0,208,132,.4); }
@@ -308,3 +346,59 @@ table.gastos .row-actions button:hover{ color: var(--text); }
 .toast.show{ opacity:1; transform: translateX(-50%) translateY(0); }
 
 footer.gv{ text-align:center; color: var(--text-dim); font-size: .78rem; margin-top: 3rem; }
+
+/* ---------- README desplegable ---------- */
+.btn-readme{
+  cursor:pointer; padding:.5rem 1.1rem; font-size:.8rem;
+  background: var(--panel); color: var(--text-dim); border: 1px solid var(--line);
+  border-radius: 999px; font-family: var(--font-mono); transition: all .2s ease;
+}
+.btn-readme:hover{ border-color: var(--green); color: var(--green); }
+.btn-readme.active{ background: var(--panel-2); border-color: var(--green); color: var(--green); box-shadow: 0 0 12px rgba(0,208,132,.25); }
+
+.readme-body h1, .readme-body h2, .readme-body h3, .readme-body h4{
+  color: var(--text); font-family: var(--font-display); margin: 1.2rem 0 .6rem; border-bottom: 1px solid var(--line); padding-bottom: .3rem;
+}
+.readme-body h1:first-child, .readme-body h2:first-child{ margin-top: 0; }
+.readme-body p{ color: var(--text-dim); margin-bottom: .8rem; line-height: 1.6; }
+.readme-body ul, .readme-body ol{ margin-left: 1.4rem; margin-bottom: .8rem; color: var(--text-dim); }
+.readme-body li{ margin-bottom: .3rem; }
+.readme-body code{ background: var(--panel-2); color: var(--green); padding: .15rem .4rem; border-radius: 4px; font-family: var(--font-mono); font-size: .85em; border: 1px solid var(--line); }
+.readme-body pre{ background: var(--panel-2); padding: 1rem; border-radius: 8px; border: 1px solid var(--line); overflow-x: auto; margin-bottom: .8rem; }
+.readme-body pre code{ background: transparent; padding: 0; border: none; color: var(--text); }
+.readme-body a{ color: var(--green); text-decoration: underline; }
+.readme-body table{ width: 100%; border-collapse: collapse; margin-bottom: 1rem; font-size: .85rem; }
+.readme-body th, .readme-body td{ border: 1px solid var(--line); padding: .5rem .6rem; text-align: left; color: var(--text-dim); }
+.readme-body th{ color: var(--text); }
+
+/* ---------- footer estilo Bibliotek ---------- */
+footer{
+  margin-top: 4rem;
+  padding: 2.2rem 0;
+  background: var(--panel-2);
+  border-top: 1px solid var(--line);
+  color: var(--text-dim);
+  font-size: .85rem;
+}
+.footer-content{
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  align-items: center;
+  font-family: var(--font-mono);
+}
+@media (min-width: 640px){
+  .footer-content{ flex-direction: row; justify-content: space-between; }
+  .footer-feedback, .footer-links{ flex: 1; }
+  .footer-feedback{ text-align: left; }
+  .footer-copy{ text-align: center; flex: 1; }
+  .footer-links{ display: flex; justify-content: flex-end; gap: 1.1rem; }
+}
+.footer-feedback a{ color: var(--text-dim); text-decoration: none; transition: color .2s ease; }
+.footer-feedback a:hover{ color: var(--green); }
+.footer-links{ display: flex; gap: 1.5rem; font-size: 1.2rem; }
+.footer-links a{ color: var(--text-dim); text-decoration: none; transition: color .2s ease; }
+.footer-links a:hover{ color: var(--green); }

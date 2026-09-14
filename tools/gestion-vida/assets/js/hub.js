@@ -19,7 +19,7 @@ const GV_APPS = [
     accent: '#4f8cff',
     countKey: 'gv_inventario_items',
     countLabel: (n) => n === 0 ? 'Sin datos todavía' : `${n} artículo${n === 1 ? '' : 's'}`,
-    ready: false
+    ready: true
   },
   {
     id: 'deudas',
@@ -70,3 +70,29 @@ function gvRenderHub() {
 }
 
 gvRenderHub();
+
+// ---------- README desplegable (igual que en el hub de Bibliotek) ----------
+let gvReadmeLoaded = false;
+async function toggleReadme() {
+  const card = document.getElementById('readmeCard');
+  const btn = document.getElementById('readmeBtn');
+  const isOpen = card.style.display !== 'none';
+  if (isOpen) {
+    card.style.display = 'none';
+    btn.classList.remove('active');
+    return;
+  }
+  card.style.display = 'block';
+  btn.classList.add('active');
+  if (!gvReadmeLoaded) {
+    try {
+      const res = await fetch('./README.md');
+      if (!res.ok) throw new Error('No se encontró README.md');
+      const md = await res.text();
+      document.getElementById('readmeContent').innerHTML = marked.parse(md);
+      gvReadmeLoaded = true;
+    } catch (e) {
+      document.getElementById('readmeContent').textContent = 'No se pudo cargar el README.';
+    }
+  }
+}

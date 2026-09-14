@@ -48,8 +48,8 @@ const GV_IO = (() => {
     return isNaN(n) ? null : n;
   }
 
-  // sheets: [{ name, rows: [obj, obj...] }]
-  function downloadWorkbook(sheets, filename) {
+  // sheets: [{ name, rows: [obj, obj...] }] -> objeto Workbook de SheetJS (sin descargar)
+  function buildWorkbook(sheets) {
     const wb = XLSX.utils.book_new();
     sheets.forEach(s => {
       const ws = XLSX.utils.json_to_sheet(s.rows);
@@ -58,7 +58,15 @@ const GV_IO = (() => {
       ws['!cols'] = cols.map(c => ({ wch: Math.max(12, c.length + 2) }));
       XLSX.utils.book_append_sheet(wb, ws, s.name.substring(0, 31));
     });
-    XLSX.writeFile(wb, filename);
+    return wb;
+  }
+
+  function workbookToArrayBuffer(wb) {
+    return XLSX.write(wb, { type: 'array', bookType: 'xlsx' });
+  }
+
+  function downloadWorkbook(sheets, filename) {
+    XLSX.writeFile(buildWorkbook(sheets), filename);
   }
 
   function downloadCSV(rows, filename) {
@@ -71,5 +79,43 @@ const GV_IO = (() => {
     URL.revokeObjectURL(url);
   }
 
-  return { readWorkbookFromFile, findSheet, sheetToRows, excelDateToISO, toNumber, downloadWorkbook, downloadCSV };
+  // Lee el contenido actual de un FileSystemFileHandle como Workbook (o null si no existe / está vacío / no se puede leer).
+  async function readWorkbookFromHandle(handle) {
+    if (!handle) return null;
+    try {
+      const file = await handle.getFile();
+      if (!file || file.size === 0) return null;
+      const buf = await file.arrayBuffer();
+      return XLSX.read(buf, { type: 'array', cellDates: true });
+    } catch (e) {
+      return null;
+    }
+  }
+
+  // Reconstruye un Workbook conservando TODAS las hojas de "existingWb" salvo las que
+  // pertenecen a esta app (ownSheetNames), y añade las hojas nuevas en su lugar.
+  // Así, guardar desde una app nunca borra las hojas de las demás en un Excel compartido.
+  function mergeAndBuildWorkbook(existingWb, ownSheetNames, newSheets) {
+    const wb = XLSX.utils.book_new();
+    if (existingWb) {
+      existingWb.SheetNames.forEach(name => {
+        if (!ownSheetNames.includes(name)) {
+          XLSX.utils.book_append_sheet(wb, existingWb.Sheets[name], name.substring(0, 31));
+        }
+      });
+    }
+    newSheets.forEach(s => {
+      const ws = XLSX.utils.json_to_sheet(s.rows);
+      const cols = Object.keys(s.rows[0] || {});
+      ws['!cols'] = cols.map(c => ({ wch: Math.max(12, c.length + 2) }));
+      XLSX.utils.book_append_sheet(wb, ws, s.name.substring(0, 31));
+    });
+    return wb;
+  }
+
+  return {
+    readWorkbookFromFile, findSheet, sheetToRows, excelDateToISO, toNumber,
+    buildWorkbook, workbookToArrayBuffer, downloadWorkbook, downloadCSV,
+    readWorkbookFromHandle, mergeAndBuildWorkbook
+  };
 })();

@@ -25,6 +25,7 @@ function gvDownloadFullTemplate() {
         'Batería': '60 Ah',
         'Aceite': '3L',
         'Fecha alta': '2021-06-23',
+        'Color': '#00d084',
         'Notas': 'EJEMPLO (borra esta fila)'
       }]
     },
@@ -39,6 +40,7 @@ function gvDownloadFullTemplate() {
         'Vendedor / Tienda': 'Amazon',
         'Garantía (meses)': 36,
         'Estado': 'Activo',
+        'Fecha baja': '',
         'Observaciones': ''
       }]
     },
