@@ -7,17 +7,28 @@
 <link rel="stylesheet" href="./assets/css/style.css">
 <link rel="icon" type="image/png" href="../../assets/img/bibliotek.png">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 </head>
 <body>
   <div class="wrap">
     <header class="topbar">
       <a class="back-link" href="../../index.html">← Bibliotek</a>
+      <button id="readmeBtn" onclick="toggleReadme()" class="btn-readme">📖 Ver README</button>
     </header>
 
     <div class="title-block" style="margin-bottom:1.6rem;">
       <h1>🧭 Gestión de Vida</h1>
       <p>Un panel para las cosas que quieres llevar controladas: el coche, lo que compras, lo que debes y por dónde has pasado.</p>
+    </div>
+
+    <div id="readmeCard" class="card" style="display:none; margin-bottom:2rem; border-color: var(--green); width:100%;">
+      <div style="border-bottom:1px solid var(--line); padding-bottom:12px; margin-bottom:16px;">
+        <h2 style="color:var(--green); margin:0; font-size:1.2rem; font-family:var(--font-display);">📖 README.md</h2>
+      </div>
+      <div id="readmeContent" class="readme-body" style="max-height:520px; overflow-y:auto; padding-right:10px;">
+        ⏳ Cargando contenido...
+      </div>
     </div>
 
     <div class="hub-grid" id="hubGrid"></div>

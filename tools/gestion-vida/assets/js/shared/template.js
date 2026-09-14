@@ -40,6 +40,7 @@ function gvDownloadFullTemplate() {
         'Vendedor / Tienda': 'Amazon',
         'Garantía (meses)': 36,
         'Estado': 'Activo',
+        'Fecha baja': '',
         'Observaciones': ''
       }]
     },

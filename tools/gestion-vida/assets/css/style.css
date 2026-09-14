@@ -223,7 +223,7 @@ a{ color: inherit; }
 }
 .tab.active{ background: var(--accent, var(--green)); border-color: var(--accent, var(--green)); color:#04231a; }
 .tab.add{ border-style:dashed; color: var(--text-dim); }
-.veh-dot{ display:inline-block; width:8px; height:8px; border-radius:50%; margin-right:.4rem; vertical-align:middle; }
+.veh-dot, .gv-dot{ display:inline-block; width:8px; height:8px; border-radius:50%; margin-right:.4rem; vertical-align:middle; }
 
 /* ---------- layout ---------- */
 .layout{ display:grid; grid-template-columns: 300px 1fr; gap: 1.4rem; align-items:start; }
@@ -260,11 +260,11 @@ a{ color: inherit; }
 .chart-nav button:disabled{ opacity:.3; cursor:default; }
 
 /* ---------- lista de vehículos desplegable ---------- */
-.veh-total-row{ cursor:pointer; }
-.veh-total-row .arrow{ display:inline-block; margin-right:.35rem; font-size:.7rem; color: var(--text-dim); transition: transform .15s ease; }
-.veh-total-row.expanded .arrow{ transform: rotate(90deg); }
-.veh-mini-ficha{ padding: .2rem 0 .8rem 1.1rem; }
-.veh-mini-ficha .info-row{ font-size: .8rem; }
+.veh-total-row, .group-row{ cursor:pointer; }
+.veh-total-row .arrow, .group-row .arrow{ display:inline-block; margin-right:.35rem; font-size:.7rem; color: var(--text-dim); transition: transform .15s ease; }
+.veh-total-row.expanded .arrow, .group-row.expanded .arrow{ transform: rotate(90deg); }
+.veh-mini-ficha, .group-detail{ padding: .2rem 0 .8rem 1.1rem; }
+.veh-mini-ficha .info-row, .group-detail .info-row{ font-size: .8rem; }
 
 /* ---------- ordenar tabla ---------- */
 th.sortable{ cursor:pointer; user-select:none; }

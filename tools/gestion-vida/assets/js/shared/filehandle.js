@@ -43,8 +43,12 @@ const GV_FILE = (() => {
     await writable.close();
   }
 
-  async function saveAs(content, suggestedName, opts = {}) {
+  // getContent: async (handle|null) => contenido a escribir. Recibe el handle ANTES de escribir
+  // para que quien llama pueda leer lo que ya hay en el destino (por ejemplo, para fusionar hojas
+  // en vez de sobrescribir todo el archivo).
+  async function saveAs(getContent, suggestedName, opts = {}) {
     if (!supported) {
+      const content = await getContent(null);
       downloadBlob(content, suggestedName, opts.mime);
       return { handle: null, name: suggestedName };
     }
@@ -52,6 +56,7 @@ const GV_FILE = (() => {
       suggestedName,
       types: opts.types || [{ description: 'Archivo', accept: { '*/*': [] } }]
     });
+    const content = await getContent(handle);
     await save(handle, content);
     return { handle, name: handle.name };
   }
@@ -64,5 +69,68 @@ const GV_FILE = (() => {
     URL.revokeObjectURL(url);
   }
 
-  return { supported, open, save, saveAs, downloadBlob };
+  // ---- Recordar el archivo entre apps (para que "el mismo archivo" siga abierto al
+  // cambiar de sección) usando IndexedDB, que sí admite guardar un FileSystemFileHandle
+  // (localStorage no puede: solo guarda texto). Solo tiene sentido si la API está soportada.
+  const DB_NAME = 'gv-files';
+  const STORE = 'handles';
+  const SHARED_KEY = 'shared-workbook';
+
+  function idbOpen() {
+    return new Promise((resolve, reject) => {
+      const req = indexedDB.open(DB_NAME, 1);
+      req.onupgradeneeded = () => { req.result.createObjectStore(STORE); };
+      req.onsuccess = () => resolve(req.result);
+      req.onerror = () => reject(req.error);
+    });
+  }
+
+  async function rememberHandle(handle) {
+    if (!supported || !handle) return;
+    try {
+      const db = await idbOpen();
+      await new Promise((res, rej) => {
+        const tx = db.transaction(STORE, 'readwrite');
+        tx.objectStore(STORE).put(handle, SHARED_KEY);
+        tx.oncomplete = res;
+        tx.onerror = () => rej(tx.error);
+      });
+    } catch (e) { /* algunos navegadores no permiten guardar handles en IndexedDB */ }
+  }
+
+  async function recallHandle() {
+    if (!supported) return null;
+    try {
+      const db = await idbOpen();
+      return await new Promise((res, rej) => {
+        const tx = db.transaction(STORE, 'readonly');
+        const req = tx.objectStore(STORE).get(SHARED_KEY);
+        req.onsuccess = () => res(req.result || null);
+        req.onerror = () => rej(req.error);
+      });
+    } catch (e) { return null; }
+  }
+
+  async function forgetHandle() {
+    if (!supported) return;
+    try {
+      const db = await idbOpen();
+      const tx = db.transaction(STORE, 'readwrite');
+      tx.objectStore(STORE).delete(SHARED_KEY);
+    } catch (e) { /* nada que olvidar */ }
+  }
+
+  // 'granted' sin pedir nada al usuario (silencioso) | 'prompt' (hace falta un clic real) | 'denied'
+  async function queryPermission(handle, mode = 'readwrite') {
+    try { return await handle.queryPermission({ mode }); } catch (e) { return 'denied'; }
+  }
+  // Requiere que se llame desde un gesto real del usuario (p. ej. dentro de un onclick).
+  async function requestPermission(handle, mode = 'readwrite') {
+    try { return await handle.requestPermission({ mode }); } catch (e) { return 'denied'; }
+  }
+
+  return {
+    supported, open, save, saveAs, downloadBlob,
+    rememberHandle, recallHandle, forgetHandle, queryPermission, requestPermission
+  };
 })();

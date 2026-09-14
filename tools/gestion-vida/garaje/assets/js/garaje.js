@@ -85,9 +85,15 @@ function gvSaveState() {
   gvRenderAll();
 }
 
-function gvFileData() {
+const GV_OWN_SHEETS = ['Garaje - Gastos', 'Garaje - Vehículos'];
+
+// Construye el contenido a escribir fusionando con lo que ya haya en el archivo destino
+// (handle puede ser null: navegador sin soporte, o archivo nuevo). Así nunca se pisan
+// hojas de otras apps (Inventario, Deudas...) si comparten el mismo Excel.
+async function gvBuildMergedBuffer(handle) {
+  const existingWb = await GV_IO.readWorkbookFromHandle(handle);
   const { gastosHeaders, gastosRows, vehHeaders, vehRows } = gvBuildSheetsRows();
-  const wb = GV_IO.buildWorkbook([
+  const wb = GV_IO.mergeAndBuildWorkbook(existingWb, GV_OWN_SHEETS, [
     { name: 'Garaje - Gastos', rows: gvRowsOrHeader(gastosRows, gastosHeaders) },
     { name: 'Garaje - Vehículos', rows: gvRowsOrHeader(vehRows, vehHeaders) }
   ]);
@@ -96,10 +102,20 @@ function gvFileData() {
 
 const GV_XLSX_TYPES = [{ description: 'Libro de Excel', accept: { 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': ['.xlsx'] } }];
 const GV_XLSX_MIME = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+let gvReconnectHandle = null; // handle recordado de otra app, pendiente de un clic para reconectar
 
 function gvRenderFileStatus() {
   const el = document.getElementById('fileStatus');
   if (!el) return;
+  if (gvReconnectHandle && !gvFileName) {
+    el.textContent = `🔗 Reconectar con ${gvReconnectHandle.name}`;
+    el.className = 'file-status dirty';
+    el.style.cursor = 'pointer';
+    el.onclick = gvDoReconnect;
+    return;
+  }
+  el.style.cursor = '';
+  el.onclick = null;
   if (!gvFileName) {
     el.textContent = '📄 sin archivo abierto';
     el.className = 'file-status';
@@ -107,6 +123,44 @@ function gvRenderFileStatus() {
   }
   el.textContent = gvDirty ? `📄 ${gvFileName} · sin guardar` : `📄 ${gvFileName} · guardado`;
   el.className = 'file-status' + (gvDirty ? ' dirty' : ' saved');
+}
+
+async function gvAdoptHandle(handle) {
+  try {
+    const file = await handle.getFile();
+    const buf = await file.arrayBuffer();
+    const wb = XLSX.read(buf, { type: 'array', cellDates: true });
+    const { gastos, vehiculos } = gvParseWorkbook(wb);
+    GASTOS = gastos;
+    VEHICULOS = vehiculos;
+    gvFileHandle = handle;
+    gvFileName = handle.name;
+    gvDirty = false;
+    GV_STORE.set('gv_garaje_gastos', GASTOS);
+    GV_STORE.set('gv_garaje_vehiculos', VEHICULOS);
+    gvShowApp();
+    gvRenderFileStatus();
+    gvToast(`Conectado a: ${handle.name}`);
+  } catch (err) { console.error(err); gvToast('No se pudo conectar con el archivo'); }
+}
+
+async function gvDoReconnect() {
+  const handle = gvReconnectHandle;
+  if (!handle) return;
+  const granted = await GV_FILE.requestPermission(handle, 'readwrite');
+  if (granted === 'granted') { gvReconnectHandle = null; await gvAdoptHandle(handle); }
+  else gvToast('Permiso denegado');
+}
+
+// Al cargar la página: si otra app (Inventario...) dejó un archivo vinculado, lo intenta recuperar.
+// Si el navegador ya concedió permiso en esta sesión, entra directo; si no, deja un botón para un clic.
+async function gvTryReconnect() {
+  if (!GV_FILE.supported || gvFileHandle) return;
+  const handle = await GV_FILE.recallHandle();
+  if (!handle) return;
+  const perm = await GV_FILE.queryPermission(handle, 'readwrite');
+  if (perm === 'granted') { await gvAdoptHandle(handle); }
+  else { gvReconnectHandle = handle; gvRenderFileStatus(); }
 }
 
 async function gvOpenFile() {
@@ -120,6 +174,8 @@ async function gvOpenFile() {
     gvFileHandle = res.handle;
     gvFileName = res.name;
     gvDirty = false;
+    gvReconnectHandle = null;
+    if (res.handle) GV_FILE.rememberHandle(res.handle);
     GV_STORE.set('gv_garaje_gastos', GASTOS);
     GV_STORE.set('gv_garaje_vehiculos', VEHICULOS);
     gvShowApp();
@@ -133,7 +189,8 @@ async function gvOpenFile() {
 async function gvSaveFile() {
   if (gvFileHandle) {
     try {
-      await GV_FILE.save(gvFileHandle, gvFileData());
+      const buf = await gvBuildMergedBuffer(gvFileHandle);
+      await GV_FILE.save(gvFileHandle, buf);
       gvDirty = false;
       gvRenderFileStatus();
       gvToast('Guardado ✓');
@@ -149,15 +206,26 @@ async function gvSaveFile() {
 async function gvSaveFileAs() {
   try {
     const suggested = gvFileName || 'garaje.xlsx';
-    const res = await GV_FILE.saveAs(gvFileData(), suggested, { types: GV_XLSX_TYPES, mime: GV_XLSX_MIME });
+    const res = await GV_FILE.saveAs(handle => gvBuildMergedBuffer(handle), suggested, { types: GV_XLSX_TYPES, mime: GV_XLSX_MIME });
     gvFileHandle = res.handle;
     gvFileName = res.name;
     gvDirty = false;
+    if (res.handle) GV_FILE.rememberHandle(res.handle);
     gvRenderFileStatus();
     gvToast(GV_FILE.supported ? `Guardado como ${res.name} ✓` : 'Archivo descargado ✓');
   } catch (err) {
     if (err && err.name !== 'AbortError') { console.error(err); gvToast('No se pudo guardar el archivo'); }
   }
+}
+
+async function gvForgetFile() {
+  await GV_FILE.forgetHandle();
+  gvFileHandle = null;
+  gvFileName = null;
+  gvReconnectHandle = null;
+  gvDirty = false;
+  gvRenderFileStatus();
+  gvToast('Archivo desvinculado');
 }
 
 function gvShowApp() {
@@ -730,6 +798,8 @@ function gvRenderTopActions() {
         <button id="mExportCsv">⬇ Exportar a .csv (gastos)</button>
         <div class="menu-sep"></div>
         <button id="mTemplate">🧾 Descargar plantilla</button>
+        <div class="menu-sep"></div>
+        <button id="mForget">🔌 Olvidar archivo vinculado</button>
       </div>
     </div>
   `;
@@ -747,6 +817,7 @@ function gvRenderTopActions() {
   });
   document.getElementById('mExportCsv').addEventListener('click', () => { document.getElementById('fileMenu').classList.remove('open'); gvExport('csv'); });
   document.getElementById('mTemplate').addEventListener('click', () => { document.getElementById('fileMenu').classList.remove('open'); gvDownloadFullTemplate(); });
+  document.getElementById('mForget').addEventListener('click', () => { document.getElementById('fileMenu').classList.remove('open'); gvForgetFile(); });
   gvRenderFileStatus();
 }
 document.addEventListener('click', () => { const m = document.getElementById('fileMenu'); if (m) m.classList.remove('open'); });
@@ -772,5 +843,6 @@ function gvInit() {
   } else {
     document.getElementById('emptyState').style.display = 'block';
   }
+  gvTryReconnect();
 }
 document.addEventListener('DOMContentLoaded', gvInit);
