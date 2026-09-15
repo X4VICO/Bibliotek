@@ -274,6 +274,14 @@ th.sortable.active .arrow{ opacity:1; color: var(--green); }
 /* ---------- selector de color ---------- */
 .field input[type=color]{ padding: 3px; height: 40px; cursor:pointer; }
 
+/* ---------- timeline (Vida Laboral) ---------- */
+.timeline{ display:flex; flex-direction:column; gap:.55rem; }
+.timeline-row{ display:grid; grid-template-columns: 160px 1fr; gap:.8rem; align-items:center; }
+.timeline-label{ font-size:.82rem; color: var(--text-dim); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.timeline-track{ position:relative; height: 20px; background: var(--panel-2); border-radius: 6px; overflow:hidden; }
+.timeline-bar{ position:absolute; top:0; bottom:0; border-radius: 6px; min-width: 6px; cursor:default; }
+@media (max-width: 640px){ .timeline-row{ grid-template-columns: 100px 1fr; } }
+
 /* ---------- table ---------- */
 .table-toolbar{ display:flex; gap:.6rem; margin-bottom: 1rem; flex-wrap:wrap; }
 .table-toolbar input[type=text]{
