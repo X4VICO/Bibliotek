@@ -30,7 +30,7 @@ const GV_APPS = [
     accent: '#f5a623',
     countKey: 'gv_deudas_items',
     countLabel: (n) => n === 0 ? 'Sin datos todavía' : `${n} movimiento${n === 1 ? '' : 's'}`,
-    ready: false
+    ready: true
   },
   {
     id: 'laboral',
@@ -41,7 +41,7 @@ const GV_APPS = [
     accent: '#c084fc',
     countKey: 'gv_laboral_items',
     countLabel: (n) => n === 0 ? 'Sin datos todavía' : `${n} experiencia${n === 1 ? '' : 's'}`,
-    ready: false
+    ready: true
   }
 ];
 

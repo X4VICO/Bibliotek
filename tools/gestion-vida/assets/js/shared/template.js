@@ -48,11 +48,13 @@ function gvDownloadFullTemplate() {
       name: 'Deudas',
       rows: [{
         'Asunto': 'EJEMPLO - Préstamo (borra esta fila)',
-        'Deudor': 'Mama',
+        'Persona': 'Mama',
+        'Dirección': 'Me deben',
         'Cantidad (€)': 100,
         'Fecha inicio': '2025-01-01',
-        'Fecha final': '',
+        'Fecha límite': '',
         'Pagado': 'FALSE',
+        'Fecha pago': '',
         'Notas': ''
       }]
     },

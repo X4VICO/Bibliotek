@@ -2,7 +2,7 @@
 
 Suite de apps estáticas (sin backend, sin cuentas) para llevar el control de cosas de la vida real: el garaje, el inventario de compras, las deudas y el historial laboral. Vive dentro de Bibliotek, en `tools/gestion-vida/`.
 
-**Estado:** Garaje ✅ · Inventario ✅ · Deudas 🔜 · Vida Laboral 🔜
+**Estado:** Garaje ✅ · Inventario ✅ · Deudas ✅ · Vida Laboral ✅ — la suite está completa.
 
 ## Cómo funciona
 
@@ -40,9 +40,9 @@ En esos navegadores, la app degrada así, automáticamente:
 
 Nada de esto corrompe datos: simplemente, cada "Guardar" en Firefox/Zen/Safari es equivalente a un "Guardar como" con nombre repetido, así que puede que veas varias copias (`inventario.xlsx`, `inventario (1).xlsx`...) en Descargas. Si quieres el flujo sin descargas repetidas, necesitas un navegador Chromium para esta pestaña — el resto de la app (edición, gráficos, cálculos) funciona igual en cualquiera.
 
-## Categorías, vehículos y otras "etiquetas"
+## Categorías, personas, tipos de contrato y otras "etiquetas"
 
-Ni las categorías de Inventario ni los nombres de vehículo de Garaje son listas cerradas: son texto libre. Escribe uno nuevo al añadir/editar un artículo o un gasto y aparecerá como pestaña nueva automáticamente — no hace falta editar el Excel ni ningún archivo de configuración. Lo que ves sugerido al escribir (Dispositivo, Periférico, Hogar...) es solo un autocompletado, no una restricción.
+En ninguna app son listas cerradas: categorías (Inventario), nombres de vehículo (Garaje), personas (Deudas) y tipo de contrato (Vida Laboral) son todos texto libre. Escribe uno nuevo al añadir/editar un registro y aparecerá como pestaña nueva automáticamente — no hace falta editar el Excel ni ningún archivo de configuración. Lo que ves sugerido al escribir es solo un autocompletado, no una restricción.
 
 ## Estructura de datos
 
@@ -71,6 +71,24 @@ Hoja **"Inventario"** (una fila = un artículo):
 
 `Estado` es `Activo` o `De baja`. `Fecha baja` solo se rellena cuando pasa a "De baja" (se rompió, se vendió, se perdió...) — con esas dos fechas (compra y baja) la app calcula la **duración real** del artículo, que es el objetivo de esta herramienta. Si no rellenas `Fecha baja`, la app no puede calcular cuánto duró, solo cuánto lleva en uso.
 
+### Deudas
+
+Hoja **"Deudas"** (una fila = un movimiento):
+
+| Asunto | Persona | Dirección | Cantidad (€) | Fecha inicio | Fecha límite | Pagado | Fecha pago | Notas |
+|---|---|---|---|---|---|---|---|---|
+
+`Dirección` es `Me deben` o `Yo debo` — se separó de `Persona` a propósito (en el Excel original venían mezclados en una sola columna, tipo "Yo a Mama", lo que hacía imposible agrupar bien por persona). `Pagado` es `TRUE`/`FALSE`; `Fecha pago` solo tiene sentido si `Pagado` es `TRUE`. `Fecha límite` es opcional y es lo que activa los avisos de vencimiento.
+
+### Vida Laboral
+
+Hoja **"Vida Laboral"** (una fila = una experiencia):
+
+| Empresa | Puesto | Fecha inicio | Fecha final | Tipo de contrato | Modalidad | Notas |
+|---|---|---|---|---|---|---|
+
+`Fecha final` vacía significa "en curso" (tu empleo actual). La duración de cada experiencia y el total de tu trayectoria se calculan siempre en la app a partir de las fechas — no se guarda como columna, así se evita que quede desactualizada o rota (tu Excel original tenía un `#NUM!` en el puesto sin fecha fin, por calcularla con fórmula).
+
 ## Ver el CSV "bonito" en Excel
 
 Si exportas en `.csv` en vez de `.xlsx`:
@@ -82,6 +100,6 @@ Si exportas en `.csv` en vez de `.xlsx`:
 
 Si puedes, mejor usa siempre `.xlsx`: ya viene con las hojas separadas y las fechas reconocidas, sin pasos extra.
 
-## Próximas apps
+## Sobre esta suite
 
-`Deudas` y `Vida Laboral` están como tarjetas "Próximamente" en el hub. Se construirán con el mismo patrón que Garaje e Inventario (Abrir/Guardar/Guardar como + fusión de hojas + `localStorage`), reutilizando `assets/js/shared/`.
+Las cuatro apps comparten exactamente el mismo patrón: Abrir/Guardar/Guardar como en `.xlsx`, fusión de hojas para poder compartir un único Excel entre todas, reconexión automática de archivo entre apps, y autoguardado en `localStorage` mientras trabajas. Todo el código común vive en `assets/js/shared/` (`storage.js`, `io.js`, `filehandle.js`, `template.js`) — si en el futuro se añade una quinta app, reutiliza estos mismos módulos.

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vida Laboral · Gestión de Vida</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+<link rel="icon" type="image/png" href="../../../assets/img/bibliotek.png">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+</head>
+<body>
+  <div class="wrap">
+    <header class="topbar">
+      <a class="back-link" href="../index.html">← Gestión de Vida</a>
+      <div class="actions" id="topActions"></div>
+    </header>
+
+    <div class="title-block" style="margin-bottom:1.6rem;">
+      <h1>💼 Vida Laboral</h1>
+      <p>Historial de empresas, puestos y contratos.</p>
+    </div>
+
+    <!-- Estado vacío -->
+    <div id="emptyState" class="dropzone" style="display:none;">
+      <div style="font-size:2rem;">📄</div>
+      <h3>Todavía no hay datos cargados</h3>
+      <p>Abre tu archivo de Vida Laboral, o arrastra aquí un Excel/CSV, o empieza desde cero.</p>
+      <div style="margin-top:1.2rem; display:flex; gap:.7rem; justify-content:center; flex-wrap:wrap;">
+        <button class="btn primary" onclick="gvOpenFile()">📂 Abrir archivo (.xlsx)</button>
+        <button class="btn ghost" onclick="document.getElementById('fileInput').click()">📥 Importar Excel / CSV</button>
+        <button class="btn ghost" onclick="gvStartEmpty()">Empezar desde cero</button>
+      </div>
+      <div class="or">o descarga la <a href="#" onclick="gvDownloadFullTemplate();return false;" style="color:var(--green);">plantilla</a> para rellenarla primero</div>
+      <input type="file" id="fileInput" accept=".xlsx,.xls,.csv">
+    </div>
+
+    <!-- Contenido principal -->
+    <div id="mainContent" style="display:none;">
+      <div class="stats-row" id="statsRow"></div>
+
+      <div class="card" style="margin-bottom:1.4rem;">
+        <h3>Línea de tiempo</h3>
+        <div class="timeline" id="timelineWrap"></div>
+      </div>
+
+      <div class="tabs" id="tipoTabs"></div>
+
+      <div class="layout">
+        <div id="sideCol"></div>
+        <div>
+          <div class="card">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+              <h3 style="margin:0;">Experiencias</h3>
+              <button class="btn primary small" onclick="gvOpenItemModal()">+ Añadir experiencia</button>
+            </div>
+            <div class="table-toolbar">
+              <input type="text" id="searchInput" placeholder="🔍 Buscar por empresa o puesto...">
+            </div>
+            <div style="overflow-x:auto;">
+              <table class="data-table" id="itemsTable">
+                <thead>
+                  <tr>
+                    <th class="sortable" data-field="fecha" id="thFecha">Inicio <span class="arrow" id="arrowFecha"></span></th>
+                    <th>Empresa</th>
+                    <th>Puesto</th>
+                    <th>Contrato</th>
+                    <th class="sortable" data-field="duracion" id="thDuracion">Duración <span class="arrow" id="arrowDuracion"></span></th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody id="itemsBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-content">
+      <div class="footer-feedback">
+        <a href="https://github.com/X4VICO/Bibliotek/issues/new" target="_blank" rel="noopener">📥 Feedback</a>
+      </div>
+      <p class="footer-copy">© XAVICO - Bibliotek</p>
+      <div class="footer-links">
+        <a href="https://github.com/X4VICO" target="_blank" rel="noopener" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+        <a href="https://linkedin.com/in/xavi-conde" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+        <a href="https://bibliotek.gitbook.io/miwiki" target="_blank" rel="noopener" aria-label="GitBook"><i class="fa-solid fa-book"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Modal: experiencia -->
+  <div class="overlay" id="itemOverlay">
+    <div class="modal">
+      <h3 id="itemModalTitle">Añadir experiencia</h3>
+      <input type="hidden" id="itemId">
+      <div class="field">
+        <label>Empresa</label>
+        <input type="text" id="itemEmpresa" placeholder="ej. Decathlon">
+      </div>
+      <div class="field">
+        <label>Puesto</label>
+        <input type="text" id="itemPuesto" placeholder="ej. Vendedor Deportivo">
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>Fecha inicio</label>
+          <input type="date" id="itemFechaInicio">
+        </div>
+        <div class="field">
+          <label>Fecha fin (vacío = en curso)</label>
+          <input type="date" id="itemFechaFin">
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>Tipo de contrato</label>
+          <input type="text" id="itemTipoContrato" list="tipoContratoList" placeholder="ej. Jornada Completa">
+          <datalist id="tipoContratoList">
+            <option value="Jornada Completa"></option>
+            <option value="Jornada Parcial"></option>
+            <option value="Temporal"></option>
+            <option value="Prácticas"></option>
+            <option value="Autónomo"></option>
+          </datalist>
+        </div>
+        <div class="field">
+          <label>Modalidad</label>
+          <select id="itemModalidad">
+            <option>Presencial</option>
+            <option>Remoto</option>
+            <option>Híbrido</option>
+          </select>
+        </div>
+      </div>
+      <div class="field">
+        <label>Notas</label>
+        <textarea id="itemNotas"></textarea>
+      </div>
+      <div class="modal-actions">
+        <button class="btn danger ghost" id="itemDeleteBtn" onclick="gvDeleteItem()" style="display:none;">Eliminar</button>
+        <button class="btn ghost" onclick="gvCloseModal('itemOverlay')">Cancelar</button>
+        <button class="btn primary" onclick="gvSaveItem()">Guardar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: importar (combinar / reemplazar) -->
+  <div class="overlay" id="importOverlay">
+    <div class="modal">
+      <h3>Ya tienes datos cargados</h3>
+      <p style="color:var(--text-dim); font-size:.88rem;">¿Qué quieres hacer con el archivo importado?</p>
+      <div class="modal-actions" style="justify-content:flex-start; margin-top: 1.2rem;">
+        <button class="btn primary" onclick="gvResolveImport('combinar')">Combinar con lo actual</button>
+        <button class="btn danger" onclick="gvResolveImport('reemplazar')">Reemplazar todo</button>
+        <button class="btn ghost" onclick="gvCloseModal('importOverlay')">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="../assets/js/shared/storage.js"></script>
+  <script src="../assets/js/shared/io.js"></script>
+  <script src="../assets/js/shared/filehandle.js"></script>
+  <script src="../assets/js/shared/template.js"></script>
+  <script src="./assets/js/laboral.js"></script>
+</body>
+</html>
