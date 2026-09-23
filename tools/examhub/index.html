@@ -10,6 +10,7 @@
 <link rel="stylesheet" href="assets/css/style.css">
 <link rel="icon" type="image/png" href="../../assets/img/bibliotek.png" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body>
 <div class="app">
@@ -37,6 +38,35 @@
   <div id="loadError" style="display:none;" class="empty-note"></div>
 
   <div id="mainContent" style="display:none;">
+
+    <div class="upload-card">
+      <div class="upload-card-text">
+        <h3>📚 Cargar tus propias preguntas</h3>
+        <p>
+          Sube un archivo <code>.json</code> con tus preguntas (test y/o redacción) y aparecerán
+          agrupadas en <b>Mis preguntas</b>, como una asignatura más — solas en este navegador,
+          sin tocar <code>/data</code> ni el repositorio.
+        </p>
+      </div>
+      <div class="upload-card-actions">
+        <button class="btn-primary" id="customUploadBtn" type="button">
+          Cargar archivo JSON
+        </button>
+        <button class="chip-btn" id="customPromptBtn" type="button">
+          Cómo preparar tus preguntas
+        </button>
+        <button class="chip-btn" id="readmeBtn" type="button">📖 Ver README</button>
+      </div>
+      <input type="file" id="customUploadInput" accept="application/json" style="display:none;">
+    </div>
+
+    <div id="readmeCard" class="readme-card" style="display:none;">
+      <div class="readme-card-head">
+        <h2>📖 README.md</h2>
+      </div>
+      <div id="readmeContent" class="readme-body"></div>
+    </div>
+
     <div class="section-label">Asignaturas y temas</div>
     <div class="toolbar">
       <button class="chip-btn" id="selectAll">Seleccionar todo</button>
@@ -109,6 +139,27 @@
         <button class="btn-primary" id="failedModalRetryBtn" style="width:100%; justify-content:center; margin-bottom:8px;">Repasar solo las falladas (<span id="failedModalCount2">0</span>)</button>
         <button class="btn-secondary" id="failedModalFullBtn" style="width:100%; justify-content:center; margin-bottom:8px;">Empezar con toda la selección</button>
         <button class="btn-secondary" id="failedModalCancelBtn" style="width:100%; justify-content:center;">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="lock-modal" id="customPromptModal" style="display:none;">
+    <div class="lock-modal-card prompt-modal-card">
+      <h3>📚 Cómo preparar tus preguntas</h3>
+      <p style="text-align:left;">
+        1. Copia el prompt de abajo y pégalo en tu IA favorita junto con tus apuntes, un examen o
+        lo que quieras convertir.<br>
+        2. Guarda la respuesta como archivo <code>.json</code> (asegúrate de que la IA solo te
+        devuelve el JSON, sin nada más alrededor).<br>
+        3. Vuelve aquí y pulsa "Cargar archivo JSON".<br><br>
+        Tus preguntas se guardan solo en este navegador (localStorage) — no se suben a ningún
+        servidor ni se comparten con nadie. Puedes borrar cada módulo por separado desde
+        "Mis preguntas" cuando quieras.
+      </p>
+      <pre id="customPromptText" class="prompt-modal-pre"></pre>
+      <div class="lock-modal-actions">
+        <button class="btn-secondary" id="customPromptCloseBtn">Cerrar</button>
+        <button class="btn-primary" id="customPromptCopyBtn">Copiar prompt</button>
       </div>
     </div>
   </div>

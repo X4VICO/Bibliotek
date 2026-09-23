@@ -518,6 +518,52 @@ img{max-width:100%;}
 
 .chip-btn-danger:hover{border-color:var(--red); color:var(--red);}
 
+.subject-delete-all-btn{
+  font-family:var(--font-mono); font-size:11px; color:var(--text-faint);
+  border:1px solid var(--line); padding:5px 9px; border-radius:7px; background:transparent; cursor:pointer;
+  display:flex; align-items:center; gap:4px; justify-content:center; transition:.15s;
+}
+.subject-delete-all-btn svg{width:13px;height:13px;}
+.subject-delete-all-btn:hover{border-color:var(--red); color:var(--red);}
+
+.topic-delete-btn{
+  border:none; background:transparent; color:var(--text-faint); cursor:pointer; padding:2px;
+  display:flex; align-items:center; justify-content:center; border-radius:5px; transition:.15s;
+}
+.topic-delete-btn svg{width:13px;height:13px;}
+.topic-delete-btn:hover{color:var(--red); background:rgba(232,99,122,0.12);}
+
+/* ---------- "Cargar tus preguntas" (Mis preguntas) ---------- */
+.upload-card{
+  border:1px solid var(--line); background:var(--panel); border-radius:14px;
+  padding:20px 22px; margin-bottom:28px; display:flex; flex-wrap:wrap;
+  align-items:center; justify-content:space-between; gap:18px;
+}
+.upload-card-text h3{font-family:var(--font-display); font-size:16px; margin:0 0 6px; font-weight:600;}
+.upload-card-text p{color:var(--text-dim); font-size:13px; margin:0; max-width:520px; line-height:1.5;}
+.upload-card-text code{background:var(--bg-alt); border-radius:4px; padding:1px 5px; font-size:12px;}
+.upload-card-actions{display:flex; flex-wrap:wrap; gap:10px; align-items:center;}
+
+.readme-card{
+  border:1px solid var(--line); background:var(--panel); border-radius:14px;
+  padding:18px 22px; margin-bottom:28px;
+}
+.readme-card-head h2{font-family:var(--font-display); font-size:16px; margin:0 0 12px; color:var(--cyan); font-weight:600;}
+.readme-body{color:var(--text); max-height:480px; overflow-y:auto; padding-right:8px; font-size:13.5px; line-height:1.55;}
+.readme-body code{background:var(--bg-alt); border-radius:4px; padding:1px 5px; font-size:12px;}
+.readme-body pre{background:var(--bg-alt); border-radius:8px; padding:12px; overflow-x:auto;}
+.readme-body h1, .readme-body h2, .readme-body h3{font-family:var(--font-display); margin:20px 0 10px;}
+.readme-body table{border-collapse:collapse; width:100%; margin:10px 0; font-size:12.5px;}
+.readme-body th, .readme-body td{border:1px solid var(--line); padding:6px 8px; text-align:left;}
+
+.prompt-modal-card{max-width:520px; text-align:left;}
+.prompt-modal-card h3{text-align:center;}
+.prompt-modal-pre{
+  background:var(--bg-alt); border:1px solid var(--line); border-radius:10px;
+  padding:14px; font-size:12px; line-height:1.5; color:var(--text-dim);
+  white-space:pre-wrap; max-height:260px; overflow-y:auto; margin:14px 0;
+}
+
 /* ---------- footer estilo Bibliotek ---------- */
 footer{
   margin-top: 4rem;
