@@ -39,6 +39,13 @@
 
     Promise.all(
       config.temas.map(function (t) {
+        // "Mis preguntas": el tema no vive en /data, vive en localStorage de
+        // este navegador (lo guardó hub.js al subir el archivo).
+        if (window.ExamStorage.isCustomFile(t.file)) {
+          return loadCustomTema(t).then(function (data) {
+            return { meta: t, data: data };
+          });
+        }
         return fetch(t.file)
           .then(function (r) {
             if (!r.ok) throw new Error(t.file + ": HTTP " + r.status);
@@ -57,6 +64,21 @@
         document.getElementById("loadError").textContent =
           "No se pudieron cargar los archivos de preguntas (" + err.message + ").";
       });
+  }
+
+  // Lee un módulo de "Mis preguntas" desde localStorage. Puede fallar si se
+  // borró desde otra pestaña o si la sesión se abre en otro dispositivo
+  // (los módulos personalizados nunca salen de este navegador).
+  function loadCustomTema(t) {
+    return new Promise(function (resolve, reject) {
+      var temaId = window.ExamStorage.temaIdFromFile(t.file);
+      var data = temaId ? window.ExamStorage.getCustomModule(temaId) : null;
+      if (!data) {
+        reject(new Error('"' + t.nombre + '" (Mis preguntas) ya no está guardado en este navegador'));
+        return;
+      }
+      resolve(data);
+    });
   }
 
   /* ---------- temas cifrados: pedir contraseña y descifrar en el navegador ---------- */

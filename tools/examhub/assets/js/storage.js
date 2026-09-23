@@ -145,6 +145,70 @@
     save(stats);
   }
 
+  // ---------- "Mis preguntas": temas subidos por el usuario (100% local) ----------
+  // Cada módulo se guarda entero (test + redaccion) bajo su propia clave de
+  // localStorage. Se identifican en el resto de la app con un "file" falso
+  // ("local:<tema_id>") para poder reutilizar tal cual todo el código que ya
+  // esperaba una ruta de archivo de /data (selección, progreso, export...).
+  var CUSTOM_PREFIX = "examhub_custom_module_";
+  var CUSTOM_FILE_PREFIX = "local:";
+
+  function customFileId(temaId) {
+    return CUSTOM_FILE_PREFIX + temaId;
+  }
+
+  function isCustomFile(file) {
+    return typeof file === "string" && file.indexOf(CUSTOM_FILE_PREFIX) === 0;
+  }
+
+  function temaIdFromFile(file) {
+    return isCustomFile(file) ? file.slice(CUSTOM_FILE_PREFIX.length) : null;
+  }
+
+  function saveCustomModule(temaData) {
+    try {
+      localStorage.setItem(CUSTOM_PREFIX + temaData.tema_id, JSON.stringify(temaData));
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  function getCustomModule(temaId) {
+    try {
+      var raw = localStorage.getItem(CUSTOM_PREFIX + temaId);
+      return raw ? JSON.parse(raw) : null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function deleteCustomModule(temaId) {
+    localStorage.removeItem(CUSTOM_PREFIX + temaId);
+    clearTema(customFileId(temaId));
+  }
+
+  function listCustomModules() {
+    var out = [];
+    for (var i = 0; i < localStorage.length; i++) {
+      var key = localStorage.key(i);
+      if (key && key.indexOf(CUSTOM_PREFIX) === 0) {
+        try {
+          var data = JSON.parse(localStorage.getItem(key));
+          if (data && data.tema_id) out.push(data);
+        } catch (e) {
+          /* entrada corrupta: se ignora */
+        }
+      }
+    }
+    out.sort(function (a, b) { return (a.createdAt || 0) - (b.createdAt || 0); });
+    return out;
+  }
+
+  function deleteAllCustomModules() {
+    listCustomModules().forEach(function (m) { deleteCustomModule(m.tema_id); });
+  }
+
   global.ExamStorage = {
     record: record,
     get: get,
@@ -156,5 +220,13 @@
     clearAll: clearAll,
     exportJSON: exportJSON,
     importJSON: importJSON,
+    customFileId: customFileId,
+    isCustomFile: isCustomFile,
+    temaIdFromFile: temaIdFromFile,
+    saveCustomModule: saveCustomModule,
+    getCustomModule: getCustomModule,
+    deleteCustomModule: deleteCustomModule,
+    listCustomModules: listCustomModules,
+    deleteAllCustomModules: deleteAllCustomModules,
   };
 })(window);
